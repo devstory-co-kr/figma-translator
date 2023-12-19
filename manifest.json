@@ -1,0 +1,19 @@
+{
+  "name": "Translator",
+  "id": "1318492589926015701",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "capabilities": [],
+  "enableProposedApi": false,
+  "editorType": [
+    "figma"
+  ],
+  "ui": "ui.html",
+  "networkAccess": {
+    "allowedDomains": [
+      "https://translation.googleapis.com"
+    ],
+    "reasoning": "",
+    "devAllowedDomains": []
+  }
+}
