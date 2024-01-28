@@ -43,8 +43,17 @@
   </div>
 
   <!-- Translate Button -->
-  <button id="translate" style="height: 32px; width: 100%; margin-top: 16px">
-    TRANSLATE
+  <button
+    id="free-translate"
+    style="height: 32px; width: 100%; margin-top: 16px"
+  >
+    Free Translate
+  </button>
+  <button
+    id="paid-translate"
+    style="height: 32px; width: 100%; margin-top: 12px"
+  >
+    Paid Translate
   </button>
 </section>
 
@@ -54,7 +63,8 @@
   let isBusy = false;
   const googleAPIKeyInput = document.getElementById("google-api-key");
   const languageSelect = document.getElementById("language-select");
-  const translateButton = document.getElementById("translate");
+  const paidTranslateButton = document.getElementById("paid-translate");
+  const freeTranslateButton = document.getElementById("free-translate");
 
   window.addEventListener("DOMContentLoaded", () => {
     sendMessage("onDOMContentLoaded");
@@ -88,8 +98,15 @@
         });
       });
       // on translate button clicked
-      translateButton.onclick = async () => {
-        sendMessage("onTranslateButtonPressed");
+      paidTranslateButton.onclick = async () => {
+        sendMessage("onTranslateButtonPressed", {
+          type: "paid",
+        });
+      };
+      freeTranslateButton.onclick = async () => {
+        sendMessage("onTranslateButtonPressed", {
+          type: "free",
+        });
       };
     }
 

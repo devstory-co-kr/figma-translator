@@ -5,8 +5,13 @@ export interface Translator {
 
   bulkTranslate(
     query: string[],
-    targetLang: string
+    targetLang: string,
+    isPaid: boolean
   ): Promise<string[] | undefined>;
 
-  translate(query: string, targetLang: string): Promise<string>;
+  translate(
+    query: string,
+    targetLang: string,
+    isPaid: boolean
+  ): Promise<string>;
 }

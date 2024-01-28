@@ -1,4 +1,5 @@
 import { GoogleTranslator as GoogleTranslate } from "./translator/google_translator";
+import { Translator } from "./translator/translator";
 import { Config } from "./util/config";
 import { InvalidFrameNameException as FrameNameShouldStartWithISO639Exception } from "./util/exceptions";
 import { Language } from "./util/language";
@@ -7,9 +8,9 @@ import { Notification } from "./util/notification";
 
 const name = "google-translator";
 const config = new Config(name, figma);
-const translator = new GoogleTranslate(config);
+const translator: Translator = new GoogleTranslate(config);
 
-figma.showUI(__html__, { width: 300, height: 160 });
+figma.showUI(__html__, { width: 300, height: 200 });
 
 figma.ui.onmessage = async (msg) => {
   if (msg.type === "onDOMContentLoaded") {
@@ -50,7 +51,8 @@ figma.ui.onmessage = async (msg) => {
         return;
       }
 
-      let nTextNode = 0;
+      const isPaid: boolean = msg.data.type === "paid";
+      let nTextNode: number = 0;
       for (const frame of frameList) {
         const targetLang = Language.getTargetLang(frame);
         await searchFor({
@@ -63,7 +65,7 @@ figma.ui.onmessage = async (msg) => {
                 text &&
                 !/^[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\/-\s]+$/i.test(text)
               ) {
-                await translate(node, targetLang, translator);
+                await translate(node, targetLang, translator, isPaid);
                 nTextNode += 1;
               }
             }

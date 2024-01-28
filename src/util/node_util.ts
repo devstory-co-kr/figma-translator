@@ -53,7 +53,8 @@ export function getNodeListByType(
 export async function translate(
   node: SceneNode,
   targetLang: Record<string, string>,
-  translator: Translator
+  translator: Translator,
+  isPaid: boolean
 ) {
   if (node.type === "TEXT") {
     const text = node.characters;
@@ -65,7 +66,8 @@ export async function translate(
         ...segments.map((segment) => figma.loadFontAsync(segment.fontName)),
         translator.bulkTranslate(
           segments.map((segment) => segment.characters),
-          targetLang!.q
+          targetLang!.q,
+          isPaid
         ),
       ]);
       const translatedTextList = results[results.length - 1] ?? [];
@@ -82,7 +84,7 @@ export async function translate(
     } else {
       // mono font
       await figma.loadFontAsync(node.fontName as FontName);
-      node.characters = await translator.translate(text, targetLang!.q);
+      node.characters = await translator.translate(text, targetLang!.q, isPaid);
     }
   }
 }

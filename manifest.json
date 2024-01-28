@@ -11,7 +11,8 @@
   "ui": "ui.html",
   "networkAccess": {
     "allowedDomains": [
-      "https://translation.googleapis.com"
+      "https://translation.googleapis.com",
+      "https://translate.googleapis.com"
     ],
     "reasoning": "",
     "devAllowedDomains": []
