@@ -22,10 +22,9 @@ export class GoogleTranslator implements Translator {
       if (!apiKey) {
         throw "Please enter the Google API key";
       }
+      const q = encodeURIComponent(query);
       const res = await fetch(
-        encodeURI(
-          `https://translation.googleapis.com/language/translate/v2?key=${apiKey}&q=${query}&target=${targetLang}&source=${source}&alt=json&format=text`
-        )
+        `https://translation.googleapis.com/language/translate/v2?key=${apiKey}&q=${q}&target=${targetLang}&source=${source}&alt=json&format=text`
       );
       const json: any = await res.json();
       if (res.status === 200) {
