@@ -39,11 +39,12 @@ export async function searchFor(args: SearchForArgs) {
 
 export function getNodeListByType(
   nodeList: readonly SceneNode[],
-  type: string
+  typeList: string[]
 ): SceneNode[] {
   const results: SceneNode[] = [];
   for (const node of nodeList) {
-    if (node.type === type) {
+    console.log(node.type);
+    if (typeList.includes(node.type)) {
       results.push(node);
     }
   }
