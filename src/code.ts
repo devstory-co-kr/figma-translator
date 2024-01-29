@@ -43,7 +43,7 @@ figma.ui.onmessage = async (msg) => {
       // The first word in the frame name must be the iso639 code.
       const frameList: SceneNode[] = getNodeListByType(
         figma.currentPage.selection,
-        "FRAME"
+        ["FRAME", "INSTANCE"]
       );
 
       if (frameList.length === 0) {
