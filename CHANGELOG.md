@@ -2,6 +2,10 @@
 
 All notable changes to the "Translator" plugin will be documented in this file.
 
+## [1.1.2] - 24.01.30
+### Updated
+- Modified the frame so that "/" and spaces can be used as ISO639 separators.
+
 ## [1.1.1] - 24.01.29
 ### Added
 - Add instance type translation support.

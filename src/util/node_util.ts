@@ -43,7 +43,6 @@ export function getNodeListByType(
 ): SceneNode[] {
   const results: SceneNode[] = [];
   for (const node of nodeList) {
-    console.log(node.type);
     if (typeList.includes(node.type)) {
       results.push(node);
     }

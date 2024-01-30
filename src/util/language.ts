@@ -4,7 +4,7 @@ export class Language {
   static defaultSelectedLanguage = { q: "en", name: "English" };
 
   static getTargetLang(node: SceneNode): Record<string, string> {
-    const firstWord = node.name.split(" ")[0];
+    const firstWord = node.name.split(/[\/\s]+/)[0];
     const targetLang = Language.languages.find(
       (l) => l.q.toLowerCase() === firstWord.toLowerCase()
     );
