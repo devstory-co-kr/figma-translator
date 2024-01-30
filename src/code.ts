@@ -40,7 +40,7 @@ figma.ui.onmessage = async (msg) => {
 
   if (msg.type === "onTranslateButtonPressed") {
     try {
-      // The first word in the frame name must be the iso639 code.
+      // The first word in the frame name must be the ISO639 code.
       const frameList: SceneNode[] = getNodeListByType(
         figma.currentPage.selection,
         ["FRAME", "INSTANCE"]
@@ -76,10 +76,10 @@ figma.ui.onmessage = async (msg) => {
     } catch (e: any) {
       if (e instanceof FrameNameShouldStartWithISO639Exception) {
         Notification.e(
-          "Please enter the iSO639 code as the first word in the frame name.",
+          "Please enter the ISO639 code as the first word in the frame name.",
           {
             button: {
-              text: "Show iSO639 list",
+              text: "Show ISO639 list",
               action: () => {
                 const url = "https://cloud.google.com/translate/docs/languages";
                 const openLinkUIString = `<script>window.open('${url}','_blank');</script>`;
