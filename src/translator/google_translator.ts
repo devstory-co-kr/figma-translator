@@ -49,7 +49,6 @@ export class GoogleTranslator implements Translator {
       const json: any = await res.json();
       if (res.status === 200) {
         const translatedText = json.data.translations[0].translatedText;
-        // console.log(`${query} -> ${translatedText}`);
         return translatedText;
       } else {
         throw json.error;

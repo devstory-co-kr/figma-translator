@@ -62,22 +62,41 @@ export async function translate(
     if (isStyleMixed) {
       // mixed font
       const segments = node.getStyledTextSegments(["fontName"]);
+
+      // sentence end list
+      const textList: string[] = [];
+      const jointList: string[] = [];
+      const endRegex = /\s*$/;
+      for (const segment of segments) {
+        const text = segment.characters;
+        const match = text.match(endRegex);
+        jointList.push(match ? match[0] : "");
+        textList.push(text.replace(endRegex, ""));
+      }
+
       const results = await Promise.all([
         ...segments.map((segment) => figma.loadFontAsync(segment.fontName)),
         translator.bulkTranslate(
-          segments.map((segment) => segment.characters),
+          // remove sentence end list by trim
+          textList,
           targetLang!.q,
           isPaid
         ),
       ]);
       const translatedTextList = results[results.length - 1] ?? [];
-      node.characters = translatedTextList.join("");
+
+      // join sentence
+      node.characters = translatedTextList.reduce((prev, curr, i) => {
+        return prev + (i == 0 ? "" : jointList[i - 1]) + curr;
+      }, "");
+
       for (let i = 0; i < segments.length; i++) {
         const segment = segments[i];
         const start = translatedTextList
           .slice(0, i)
           .reduce((p, c) => p + c.length, 0);
-        const end = start + translatedTextList[i].length;
+        const jointSize = i == 0 ? 0 : jointList[i - 1].length;
+        const end = start + jointSize + translatedTextList[i].length;
         // console.log(i, start, end, translatedTextList[i]);
         node.setRangeFontName(start, end, segment.fontName);
       }
