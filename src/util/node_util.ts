@@ -61,7 +61,20 @@ export async function translate(
     const isStyleMixed = node.fontName === figma.mixed;
     if (isStyleMixed) {
       // mixed font
-      const segments = node.getStyledTextSegments(["fontName"]);
+      const segments = node.getStyledTextSegments([
+        "fontSize",
+        "fontName",
+        "textStyleId",
+        "textDecoration",
+        "textCase",
+        "lineHeight",
+        "letterSpacing",
+        "listOptions",
+        "indentation",
+        "hyperlink",
+        "fills",
+        "fillStyleId",
+      ]);
 
       // sentence end list
       const textList: string[] = [];
@@ -97,8 +110,25 @@ export async function translate(
           .reduce((p, c) => p + c.length, 0);
         const jointSize = i == 0 ? 0 : jointList[i - 1].length;
         const end = start + jointSize + translatedTextList[i].length;
-        // console.log(i, start, end, translatedTextList[i]);
+        // paste style
+        node.setRangeFontSize(start, end, segment.fontSize);
         node.setRangeFontName(start, end, segment.fontName);
+        node.setRangeHyperlink(start, end, segment.hyperlink);
+        node.setRangeListOptions(start, end, segment.listOptions);
+        node.setRangeIndentation(start, end, segment.indentation);
+
+        if (segment.textStyleId) {
+          node.setRangeTextStyleId(start, end, segment.textStyleId);
+        } else {
+          node.setRangeTextDecoration(start, end, segment.textDecoration);
+          node.setRangeTextCase(start, end, segment.textCase);
+          node.setRangeLineHeight(start, end, segment.lineHeight);
+          node.setRangeLetterSpacing(start, end, segment.letterSpacing);
+        }
+
+        segment.fillStyleId
+          ? node.setRangeFillStyleId(start, end, segment.fillStyleId)
+          : node.setRangeFills(start, end, segment.fills);
       }
     } else {
       // mono font
