@@ -2,6 +2,10 @@
 
 All notable changes to the "Translator" plugin will be documented in this file.
 
+## [1.1.4] - 24.01.31
+### Updated
+- Update to paste TextNode style.
+
 ## [1.1.3] - 24.01.31
 ### Fixed
 - Fix the disapearance of line change symbols in translation.
