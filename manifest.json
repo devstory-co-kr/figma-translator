@@ -8,7 +8,10 @@
   "editorType": [
     "figma"
   ],
-  "ui": "ui.html",
+  "ui": {
+    "translate": "html/translate.html",
+    "createTemplate": "html/create_template.html"
+  },
   "networkAccess": {
     "allowedDomains": [
       "https://translation.googleapis.com",
@@ -16,5 +19,22 @@
     ],
     "reasoning": "",
     "devAllowedDomains": []
-  }
+  },
+  "menu": [
+    {
+      "name": "Translate",
+      "command": "translate",
+      "parameters": [
+        {
+          "name": "Source Language",
+          "key": "selectSourceLanguage",
+          "description": "Select the source language to translate."
+        }
+      ]
+    },
+    {
+      "name": "Create Template",
+      "command": "createTemplate"
+    }
+  ]
 }

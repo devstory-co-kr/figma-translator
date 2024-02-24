@@ -1,4 +1,4 @@
-import { Language } from "./language";
+import { TranslateLanguageServiceImpl } from "../components/translator_language/translate_language.service";
 
 interface ConfigData {
   googleAPIKey: string;
@@ -8,7 +8,7 @@ interface ConfigData {
 export class Config {
   private _initData: ConfigData = {
     googleAPIKey: "",
-    fromLang: Language.defaultSelectedLanguage,
+    fromLang: TranslateLanguageServiceImpl.defaultSelectedLanguage,
   };
 
   private _data: ConfigData;

@@ -1,4 +1,4 @@
-import { Translator } from "../translator/translator";
+import { Translator } from "../components/translator/translator";
 
 function* walkTree(
   node: SceneNode,

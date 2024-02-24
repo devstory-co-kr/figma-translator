@@ -1,4 +1,4 @@
-import { Config } from "../util/config";
+import { Config } from "../../util/config";
 import { Translator } from "./translator";
 
 export class GoogleTranslator implements Translator {

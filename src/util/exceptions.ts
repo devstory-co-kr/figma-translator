@@ -5,3 +5,9 @@ export class InvalidFrameNameException extends Error {
     this.node = node;
   }
 }
+
+export class InvalidArgument extends Error {
+  constructor(message: string) {
+    super(message);
+  }
+}

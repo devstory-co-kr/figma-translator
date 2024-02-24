@@ -1,4 +1,4 @@
-import { Config } from "../util/config";
+import { Config } from "../../util/config";
 
 export interface Translator {
   config: Config;

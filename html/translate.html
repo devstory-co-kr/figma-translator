@@ -1,0 +1,136 @@
+<style>
+  :root {
+    --surface-color: white;
+    --text-color: black;
+  }
+  section {
+    color: var(--text-color);
+  }
+
+  button {
+    background-color: var(--surface-color);
+    border-color: var(--text-color);
+    border-width: 1;
+  }
+
+  input {
+    border-color: var(--text-color);
+    border-width: 1;
+  }
+
+  select {
+    border-color: var(--text-color);
+    border-width: 1;
+  }
+  *:focus {
+    outline: none;
+  }
+</style>
+
+<section style="display: flex; flex-direction: column">
+  <!-- Google API Key -->
+  <label for="google-api-key" style="display: flex; flex-direction: column">
+    Google API Key
+    <input type="password" id="google-api-key" placeholder="Google API Key" />
+  </label>
+  <!-- From -->
+  <div
+    id="language-selector-container"
+    style="display: flex; flex-direction: column; margin-top: 12px"
+  >
+    <label for="language-select">From</label>
+    <select id="language-select"></select>
+  </div>
+
+  <!-- Translate Button -->
+  <button
+    id="free-translate"
+    style="height: 32px; width: 100%; margin-top: 16px"
+  >
+    Free Translate
+  </button>
+  <button
+    id="paid-translate"
+    style="height: 32px; width: 100%; margin-top: 12px"
+  >
+    Paid Translate
+  </button>
+</section>
+
+<script>
+  let config = {};
+  let languages = [];
+  let isBusy = false;
+  const googleAPIKeyInput = document.getElementById("google-api-key");
+  const languageSelect = document.getElementById("language-select");
+  const paidTranslateButton = document.getElementById("paid-translate");
+  const freeTranslateButton = document.getElementById("free-translate");
+
+  window.addEventListener("DOMContentLoaded", () => {
+    sendMessage("onDOMContentLoaded");
+  });
+
+  onmessage = (event) => {
+    const msg = event.data.pluginMessage;
+    if (msg.type === "init") {
+      config = msg.data.config;
+      languages = msg.data.languages;
+      init();
+    }
+  };
+
+  function init() {
+    googleAPIKeyInput.value = config.googleAPIKey.trim();
+    function addConfigChangeListener() {
+      // on googleAPIKey input changed
+      googleAPIKeyInput.addEventListener("input", () => {
+        sendMessage("onConfigChanged", {
+          ...config,
+          googleAPIKey: googleAPIKeyInput.value.trim(),
+        });
+      });
+
+      // on language select changed
+      languageSelect.addEventListener("change", () => {
+        sendMessage("onConfigChanged", {
+          ...config,
+          fromLang: languages.find((l) => l.q === languageSelect.value),
+        });
+      });
+      // on translate button clicked
+      paidTranslateButton.onclick = async () => {
+        sendMessage("onTranslateButtonPressed", {
+          type: "paid",
+        });
+      };
+      freeTranslateButton.onclick = async () => {
+        sendMessage("onTranslateButtonPressed", {
+          type: "free",
+        });
+      };
+    }
+
+    function createLanguageSelect() {
+      for (let i = 0; i < languages.length; i++) {
+        let option = document.createElement("option");
+        const q = languages[i].q;
+        const name = languages[i].name;
+        option.value = q;
+        option.text = `${name} (${q})`;
+        option.selected = q === config.fromLang.q;
+        languageSelect.add(option);
+      }
+    }
+
+    createLanguageSelect();
+    addConfigChangeListener();
+  }
+
+  function sendMessage(type, data = {}) {
+    parent.postMessage({ pluginMessage: { type: type, data } }, "*");
+  }
+
+  function notify(text, isError = false) {
+    sendMessage("onNotify", { text, error: isError });
+  }
+</script>
