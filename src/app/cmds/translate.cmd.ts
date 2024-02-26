@@ -1,17 +1,28 @@
-import { Translator } from "../components/translator/translator";
-import { TranslateLanguageServiceImpl } from "../components/translator_language/translate_language.service";
-import { InvalidFrameNameException } from "../util/exceptions";
-import { getNodeListByType, searchFor, translate } from "../util/node_util";
-import { Notification } from "../util/notification";
+import { FigmaService } from "../../components/figma/figma.interface";
+import { TranslatorService } from "../../components/translator/translator.interface";
+import {
+  TranslatorLanguage,
+  TranslatorLanguageService,
+} from "../../components/translator_language/translator_language.interface";
+import { InvalidFrameNameException } from "../../util/exceptions";
+import { Notification } from "../../util/notification";
 import { Cmd } from "./cmd";
 
 export class TranslateCmd implements Cmd {
-  constructor(private translator: Translator) {}
+  constructor(
+    private figmaService: FigmaService,
+    private translatorService: TranslatorService,
+    private translatorLanguageService: TranslatorLanguageService
+  ) {}
 
-  async onRun({ command, parameters }: RunEvent): Promise<void> {
+  public async onRun({
+    sourceLanguage,
+  }: {
+    sourceLanguage: TranslatorLanguage;
+  }): Promise<void> {
     try {
       // The first word in the frame name must be the ISO639 code.
-      const frameList: SceneNode[] = getNodeListByType(
+      const frameList: SceneNode[] = this.figmaService.getNodesByType(
         figma.currentPage.selection,
         ["FRAME", "INSTANCE"]
       );
@@ -23,8 +34,10 @@ export class TranslateCmd implements Cmd {
 
       let nTextNode: number = 0;
       for (const frame of frameList) {
-        const targetLang = TranslateLanguageServiceImpl.getTargetLang(frame);
-        await searchFor({
+        const targetLanguage =
+          this.translatorLanguageService.getLanguageFromLocale(frame.name);
+
+        await this.figmaService.search({
           node: frame,
           skipInvisibleNode: true,
           cb: async (node) => {
@@ -34,7 +47,15 @@ export class TranslateCmd implements Cmd {
                 text &&
                 !/^[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\/-\s]+$/i.test(text)
               ) {
-                await translate(node, targetLang, this.translator, false);
+                this.figmaService.replaceText(node, async (textList) => {
+                  return (
+                    (await this.translatorService.freeTranslate(
+                      textList,
+                      sourceLanguage,
+                      targetLanguage
+                    )) ?? []
+                  );
+                });
                 nTextNode += 1;
               }
             }

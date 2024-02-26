@@ -4,5 +4,5 @@ export enum Cmds {
 }
 
 export interface Cmd {
-  onRun({ command, parameters }: RunEvent): void | Promise<void>;
+  onRun(args: any): void | Promise<void>;
 }

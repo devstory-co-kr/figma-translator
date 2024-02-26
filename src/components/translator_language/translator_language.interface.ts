@@ -1,7 +1,7 @@
-export type GoogleTranslateLanguageCode = string;
+export type GoogleTranslateLocale = string;
 
 export interface TranslatorLanguage {
-  q: GoogleTranslateLanguageCode;
+  locale: GoogleTranslateLocale;
   name: string;
 
   toString(): string;
@@ -18,7 +18,9 @@ export interface TranslatorLanguage {
 
 export interface TranslatorLanguageService {
   supportLanguages: TranslatorLanguage[];
+  getLanguageFromLocale(locale: string): TranslatorLanguage;
 }
+
 export interface TranslatorLanguageRepository {
   supportLanguages: TranslatorLanguage[];
 }

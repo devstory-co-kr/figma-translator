@@ -27,7 +27,7 @@
       "parameters": [
         {
           "name": "Source Language",
-          "key": "selectSourceLanguage",
+          "key": "sourceLanguage",
           "description": "Select the source language to translate."
         }
       ]

@@ -1,5 +1,5 @@
 export enum Params {
-  selectSourceLanguage = "selectSourceLanguage",
+  sourceLanguage = "sourceLanguage",
 }
 
 export interface Param {
