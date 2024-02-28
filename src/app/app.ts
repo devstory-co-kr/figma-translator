@@ -10,6 +10,14 @@ import {
 } from "../components/figma/figma.interface";
 import { FigmaRepositoryImpl } from "../components/figma/figma.repository";
 import { FigmaServiceImpl } from "../components/figma/figma.service";
+import { PlatformLocaleRepository } from "../components/platform_locale/platform_locale.interface";
+import { PlatformLocaleRepositoryImpl } from "../components/platform_locale/platform_locale.repository";
+import {
+  TemplateRepository,
+  TemplateService,
+} from "../components/template/template.interface";
+import { TemplateRepositoryImpl } from "../components/template/template.repository";
+import { TemplateServiceImpl } from "../components/template/template.service";
 import {
   TranslatorRepository,
   TranslatorService,
@@ -24,7 +32,7 @@ import { TranslatorLanguageRepositoryImpl } from "../components/translator_langu
 import { TranslatorLanguageServiceImpl } from "../components/translator_language/translator_language.service";
 import { App } from "./app.interface";
 import { Cmd, Cmds } from "./cmds/cmd";
-import { CreateTemplateCmd } from "./cmds/create_template.cmd";
+import { CreateTemplatesCmd } from "./cmds/create_templates.cmd";
 import { TranslateCmd } from "./cmds/translate.cmd";
 import { Param, Params } from "./params/param";
 import { SourceLanguageParam } from "./params/source_language.param";
@@ -56,6 +64,20 @@ export class FigmaTranslator implements App {
     new TranslatorLanguageServiceImpl(this.translatorLanguageRepository);
 
   /**
+   * PlatformLocale
+   */
+  private platformLocaleRepository: PlatformLocaleRepository =
+    new PlatformLocaleRepositoryImpl(this.translatorLanguageRepository);
+
+  /**
+   * Template
+   */
+  private templateRepository: TemplateRepository = new TemplateRepositoryImpl();
+  private templateService: TemplateService = new TemplateServiceImpl(
+    this.templateRepository
+  );
+
+  /**
    * Figma
    */
   private figmaRepository: FigmaRepository = new FigmaRepositoryImpl();
@@ -81,7 +103,10 @@ export class FigmaTranslator implements App {
       this.translatorService,
       this.translatorLanguageService
     ),
-    [Cmds.createTemplate]: new CreateTemplateCmd(),
+    [Cmds.createTemplates]: new CreateTemplatesCmd(
+      this.figmaService,
+      this.templateService
+    ),
   };
 
   public onMessage(message: any, props: OnMessageProperties): void {

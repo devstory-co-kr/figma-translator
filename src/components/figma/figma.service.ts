@@ -1,7 +1,34 @@
+import { Position, Size } from "../template/template.interface";
 import { FigmaRepository, FigmaService } from "./figma.interface";
 
 export class FigmaServiceImpl implements FigmaService {
   constructor(private figmaRepository: FigmaRepository) {}
+
+  public createFrame({
+    name,
+    size,
+    position,
+  }: {
+    name: string;
+    size: Size;
+    position: Position;
+  }): FrameNode {
+    const frame = figma.createFrame();
+    frame.name = name;
+    frame.resize(size.w, size.h);
+    frame.x = position.x;
+    frame.y = position.y;
+    figma.currentPage.appendChild(frame);
+    return frame;
+  }
+
+  public createComponent(): ComponentNode {
+    throw new Error("Method not implemented.");
+  }
+
+  public createInstance(componentNode: ComponentNode): InstanceNode {
+    throw new Error("Method not implemented.");
+  }
 
   public async replaceText(
     node: TextNode,

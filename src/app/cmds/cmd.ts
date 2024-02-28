@@ -1,6 +1,6 @@
 export enum Cmds {
   translate = "translate",
-  createTemplate = "createTemplate",
+  createTemplates = "createTemplates",
 }
 
 export interface Cmd {
