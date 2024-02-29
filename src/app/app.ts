@@ -10,8 +10,12 @@ import {
 } from "../components/figma/figma.interface";
 import { FigmaRepositoryImpl } from "../components/figma/figma.repository";
 import { FigmaServiceImpl } from "../components/figma/figma.service";
-import { PlatformLocaleRepository } from "../components/platform_locale/platform_locale.interface";
+import {
+  PlatformLocaleRepository,
+  PlatformLocaleService,
+} from "../components/platform_locale/platform_locale.interface";
 import { PlatformLocaleRepositoryImpl } from "../components/platform_locale/platform_locale.repository";
+import { PlatformLocaleServiceImpl } from "../components/platform_locale/platform_locale.service";
 import {
   TemplateRepository,
   TemplateService,
@@ -35,6 +39,7 @@ import { Cmd, Cmds } from "./cmds/cmd";
 import { CreateTemplatesCmd } from "./cmds/create_templates.cmd";
 import { TranslateCmd } from "./cmds/translate.cmd";
 import { Param, Params } from "./params/param";
+import { PlatformParam } from "./params/platform.param";
 import { SourceLanguageParam } from "./params/source_language.param";
 
 export class FigmaTranslator implements App {
@@ -68,6 +73,8 @@ export class FigmaTranslator implements App {
    */
   private platformLocaleRepository: PlatformLocaleRepository =
     new PlatformLocaleRepositoryImpl(this.translatorLanguageRepository);
+  private platformLocaleService: PlatformLocaleService =
+    new PlatformLocaleServiceImpl(this.platformLocaleRepository);
 
   /**
    * Template
@@ -89,6 +96,7 @@ export class FigmaTranslator implements App {
    * Params
    */
   public params: Record<Params, Param> = {
+    [Params.platform]: new PlatformParam(),
     [Params.sourceLanguage]: new SourceLanguageParam(
       this.translatorLanguageService
     ),

@@ -34,7 +34,14 @@
     },
     {
       "name": "Create Templates",
-      "command": "createTemplates"
+      "command": "createTemplates",
+      "parameters": [
+        {
+          "name": "Platform",
+          "key": "platform",
+          "description": "Select the platform on which to create the template."
+        }
+      ]
     }
   ]
 }

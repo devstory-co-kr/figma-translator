@@ -1,6 +1,8 @@
 import { FigmaService } from "../../components/figma/figma.interface";
-import { TemplateService } from "../../components/template/template.interface";
-import { TranslatorLanguage } from "../../components/translator_language/translator_language.interface";
+import {
+  Platform,
+  TemplateService,
+} from "../../components/template/template.interface";
 import { Cmd } from "./cmd";
 
 export class CreateTemplatesCmd implements Cmd {
@@ -9,11 +11,8 @@ export class CreateTemplatesCmd implements Cmd {
     private templateService: TemplateService
   ) {}
 
-  public onRun({
-    sourceLanguage,
-  }: {
-    sourceLanguage: TranslatorLanguage;
-  }): void {
+  public onRun({ platform }: { platform: Platform }): void {
+    console.log(platform);
     this.figmaService.createFrame({
       name: "hahaha!",
       size: { w: 1284, h: 2778 },

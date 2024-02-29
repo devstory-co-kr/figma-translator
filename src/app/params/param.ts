@@ -1,4 +1,5 @@
 export enum Params {
+  platform = "platform",
   sourceLanguage = "sourceLanguage",
 }
 
