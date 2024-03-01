@@ -26,11 +26,11 @@ export class CreateTemplatesCmd implements Cmd {
       height: 400,
       title: "Create Templates",
     });
-    this.figmaService.createFrame({
-      name: "hahaha!",
-      size: { w: 1284, h: 2778 },
-      position: { x: 0, y: 0 },
-    });
+    // this.figmaService.createFrame({
+    //   name: "hahaha!",
+    //   size: { w: 1284, h: 2778 },
+    //   position: { x: 0, y: 0 },
+    // });
   }
 
   public onMessage(message: any, props: OnMessageProperties): void {
