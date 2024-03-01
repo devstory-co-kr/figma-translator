@@ -11,11 +11,11 @@ import {
 import { FigmaRepositoryImpl } from "../components/figma/figma.repository";
 import { FigmaServiceImpl } from "../components/figma/figma.service";
 import {
-  PlatformLocaleRepository,
-  PlatformLocaleService,
-} from "../components/platform_locale/platform_locale.interface";
-import { PlatformLocaleRepositoryImpl } from "../components/platform_locale/platform_locale.repository";
-import { PlatformLocaleServiceImpl } from "../components/platform_locale/platform_locale.service";
+  PlatformRepository,
+  PlatformService,
+} from "../components/platform/platform.interface";
+import { PlatformRepositoryImpl } from "../components/platform/platform.repository";
+import { PlatformServiceImpl } from "../components/platform/platform.service";
 import {
   TemplateRepository,
   TemplateService,
@@ -69,12 +69,14 @@ export class FigmaTranslator implements App {
     new TranslatorLanguageServiceImpl(this.translatorLanguageRepository);
 
   /**
-   * PlatformLocale
+   * Platform
    */
-  private platformLocaleRepository: PlatformLocaleRepository =
-    new PlatformLocaleRepositoryImpl(this.translatorLanguageRepository);
-  private platformLocaleService: PlatformLocaleService =
-    new PlatformLocaleServiceImpl(this.platformLocaleRepository);
+  private platformRepository: PlatformRepository = new PlatformRepositoryImpl(
+    this.translatorLanguageRepository
+  );
+  private platformService: PlatformService = new PlatformServiceImpl(
+    this.platformRepository
+  );
 
   /**
    * Template
@@ -113,92 +115,8 @@ export class FigmaTranslator implements App {
     ),
     [Cmds.createTemplates]: new CreateTemplatesCmd(
       this.figmaService,
-      this.templateService
+      this.templateService,
+      this.platformService
     ),
   };
-
-  public onMessage(message: any, props: OnMessageProperties): void {
-    if (message.type === "onDOMContentLoaded") {
-      // figma.ui.postMessage({
-      //   type: "init",
-      //   data: {
-      //     config: config.data,
-      //     languages: TranslateLanguageServiceImpl.languages,
-      //   },
-      // });
-      return;
-    }
-
-    if (message.type === "onConfigChanged") {
-      // config.update(figma, message.data);
-      return;
-    }
-
-    if (message.type === "onNotify") {
-      // if (message.data.error) {
-      //   Notification.e(message.data.text);
-      // } else {
-      //   Notification.i(message.data.text);
-      // }
-      return;
-    }
-
-    // if (message.type === "onTranslateButtonPressed") {
-    //   try {
-    //     // The first word in the frame name must be the ISO639 code.
-    //     const frameList: SceneNode[] = getNodeListByType(
-    //       figma.currentPage.selection,
-    //       ["FRAME", "INSTANCE"]
-    //     );
-
-    //     if (frameList.length === 0) {
-    //       Notification.i("Please select the frames you want to translate.");
-    //       return;
-    //     }
-
-    //     const isPaid: boolean = message.data.type === "paid";
-    //     let nTextNode: number = 0;
-    //     for (const frame of frameList) {
-    //       const targetLang = TranslateLanguageServiceImpl.getTargetLang(frame);
-    //       await searchFor({
-    //         node: frame,
-    //         skipInvisibleNode: true,
-    //         cb: async (node) => {
-    //           if (node.type === "TEXT") {
-    //             const text = node.characters;
-    //             if (
-    //               text &&
-    //               !/^[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\/-\s]+$/i.test(text)
-    //             ) {
-    //               await translate(node, targetLang, translator, isPaid);
-    //               nTextNode += 1;
-    //             }
-    //           }
-    //         },
-    //       });
-    //     }
-    //     Notification.i(`${nTextNode} texts translated.`);
-    //   } catch (e: any) {
-    //     if (e instanceof InvalidFrameNameException) {
-    //       Notification.e(
-    //         "Please enter the ISO639 code as the first word in the frame name.",
-    //         {
-    //           button: {
-    //             text: "Show ISO639 list",
-    //             action: () => {
-    //               const url = "https://cloud.google.com/translate/docs/languages";
-    //               const openLinkUIString = `<script>window.open('${url}','_blank');</script>`;
-    //               figma.showUI(openLinkUIString, { visible: false });
-    //             },
-    //           },
-    //         }
-    //       );
-    //       figma.viewport.scrollAndZoomIntoView([e.node]);
-    //       return;
-    //     } else {
-    //       Notification.e(e.toString());
-    //     }
-    //   }
-    // }
-  }
 }

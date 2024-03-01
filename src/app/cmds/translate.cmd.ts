@@ -85,4 +85,6 @@ export class TranslateCmd implements Cmd {
       }
     }
   }
+
+  public onMessage(message: any, props: OnMessageProperties): void {}
 }

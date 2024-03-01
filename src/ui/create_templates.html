@@ -1,0 +1,125 @@
+<style>
+  *:focus {
+    outline: none;
+  }
+
+  fieldset {
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    padding: 8px;
+  }
+
+  select {
+    width: 100%;
+    padding: 4px;
+    appearance: none;
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 6px;
+  }
+
+  input {
+    border-radius: 4px;
+    padding: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.8);
+  }
+
+  input[type="checkbox"] {
+    transform: scale(1.3) translateY(-1px);
+  }
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    width: 100%;
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+  }
+</style>
+<html>
+  <body>
+    <!-- Select source platform locale -->
+    <fieldset>
+      <legend>Source</legend>
+      <select id="sourcePlatformLocale">
+        <option value="option1">Option 1</option>
+        <option value="option2">Option 2</option>
+        <option value="option3">Option 3</option>
+      </select>
+    </fieldset>
+
+    <!-- Select target platform locale -->
+    <fieldset style="margin-top: 16px; padding: 8px 8px 0 8px">
+      <legend>Targets</legend>
+
+      <div class="column">
+        <div class="row" style="width: 100%">
+          <!-- Toggle -->
+          <input type="checkbox" style="margin: 8px 8px 8px 4px" />
+          <!-- Search -->
+          <input type="text" style="width: 100%" placeholder="Search" />
+        </div>
+        <hr
+          style="
+            width: 100%;
+            border: 0.5px solid rgba(0, 0, 0, 0.1);
+            margin: 8px 0px 0px 0px;
+          "
+        />
+
+        <!-- Target locales -->
+        <div
+          class="column"
+          style="width: 100%; max-height: 150px; overflow: scroll"
+          id="targetLocalesContainer"
+        ></div>
+      </div>
+    </fieldset>
+  </body>
+</html>
+
+<script>
+  const targetLocalesContainer = document.getElementById(
+    "targetLocalesContainer"
+  );
+  const msgType = {
+    init: "init",
+  };
+
+  let targetLocales = [];
+  window.onmessage = (event) => {
+    const msg = event.data.pluginMessage;
+    switch (msg.type) {
+      case msgType.init:
+        console.log("come", msg);
+        targetLocales = msg.data.targetLocales;
+        for (const l of targetLocales) {
+          const item = `<div class="row" style="align-items: center">
+            <input type="checkbox" value="${l.locale}" name="${l.locale}" id="${l.locale}" />
+            <label for="${l.locale}" style="display: block; width: 100%; padding: 4px">${l.name} (${l.locale})</label>
+          </div>`;
+          targetLocalesContainer.insertAdjacentHTML("beforeend", item);
+        }
+        break;
+    }
+  };
+
+  function sendMessage(type, data) {
+    parent.postMessage(
+      { pluginMessage: { html: "createTemplates", type, data } },
+      "*"
+    );
+  }
+
+  targetLocalesContainer.addEventListener("click", function (event) {
+    console.log(event, event.target, event.target.id);
+    // TODO : 클릭 이벤트 처리 구현 중
+  });
+
+  sendMessage(msgType.init);
+</script>

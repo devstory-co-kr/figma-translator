@@ -1,11 +1,8 @@
 import { Platform } from "../template/template.interface";
 import { TranslatorLanguageRepository } from "../translator_language/translator_language.interface";
-import {
-  PlatformLocale,
-  PlatformLocaleRepository,
-} from "./platform_locale.interface";
+import { PlatformLocale, PlatformRepository } from "./platform.interface";
 
-export class PlatformLocaleRepositoryImpl implements PlatformLocaleRepository {
+export class PlatformRepositoryImpl implements PlatformRepository {
   constructor(
     private translatorLanguageRepository: TranslatorLanguageRepository
   ) {}

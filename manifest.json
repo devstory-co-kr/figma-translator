@@ -9,8 +9,8 @@
     "figma"
   ],
   "ui": {
-    "translate": "html/translate.html",
-    "createTemplate": "html/create_template.html"
+    "translate": "src/ui/translate.html",
+    "createTemplates": "src/ui/create_templates.html"
   },
   "networkAccess": {
     "allowedDomains": [

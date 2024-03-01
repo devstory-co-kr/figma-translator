@@ -1,4 +1,4 @@
-import { PlatformLocale } from "../platform_locale/platform_locale.interface";
+import { PlatformLocale } from "../platform/platform.interface";
 
 export enum Platform {
   ios = "ios",

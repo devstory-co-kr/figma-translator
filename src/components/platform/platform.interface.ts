@@ -7,11 +7,11 @@ export interface PlatformLocale {
   translatorLanguage: TranslatorLanguage;
 }
 
-export interface PlatformLocaleService {
+export interface PlatformService {
   getLocale(platform: Platform): PlatformLocale[];
 }
 
-export interface PlatformLocaleRepository {
+export interface PlatformRepository {
   locales: {
     [platform in Platform]: PlatformLocale[];
   };
