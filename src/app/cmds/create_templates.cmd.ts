@@ -1,9 +1,9 @@
-import { FigmaService } from "../../components/figma/figma.interface";
-import { PlatformService } from "../../components/platform/platform.interface";
+import { FigmaService } from "../components/figma/figma.interface";
+import { PlatformService } from "../components/platform/platform.interface";
 import {
   Platform,
   TemplateService,
-} from "../../components/template/template.interface";
+} from "../components/template/template.interface";
 import { Cmd } from "./cmd";
 
 enum MsgType {

@@ -1,43 +1,43 @@
-import {
-  ConfigRepository,
-  ConfigService,
-} from "../components/config/config.interface";
-import { ConfigRepositoryImpl } from "../components/config/config.repository";
-import { ConfigServiceImpl } from "../components/config/config.service";
-import {
-  FigmaRepository,
-  FigmaService,
-} from "../components/figma/figma.interface";
-import { FigmaRepositoryImpl } from "../components/figma/figma.repository";
-import { FigmaServiceImpl } from "../components/figma/figma.service";
-import {
-  PlatformRepository,
-  PlatformService,
-} from "../components/platform/platform.interface";
-import { PlatformRepositoryImpl } from "../components/platform/platform.repository";
-import { PlatformServiceImpl } from "../components/platform/platform.service";
-import {
-  TemplateRepository,
-  TemplateService,
-} from "../components/template/template.interface";
-import { TemplateRepositoryImpl } from "../components/template/template.repository";
-import { TemplateServiceImpl } from "../components/template/template.service";
-import {
-  TranslatorRepository,
-  TranslatorService,
-} from "../components/translator/translator.interface";
-import { TranslatorRepositoryImpl } from "../components/translator/translator.repository";
-import { TranslatorServiceImpl } from "../components/translator/translator.service";
-import {
-  TranslatorLanguageRepository,
-  TranslatorLanguageService,
-} from "../components/translator_language/translator_language.interface";
-import { TranslatorLanguageRepositoryImpl } from "../components/translator_language/translator_language.repository";
-import { TranslatorLanguageServiceImpl } from "../components/translator_language/translator_language.service";
 import { App } from "./app.interface";
 import { Cmd, Cmds } from "./cmds/cmd";
 import { CreateTemplatesCmd } from "./cmds/create_templates.cmd";
 import { TranslateCmd } from "./cmds/translate.cmd";
+import {
+  ConfigRepository,
+  ConfigService,
+} from "./components/config/config.interface";
+import { ConfigRepositoryImpl } from "./components/config/config.repository";
+import { ConfigServiceImpl } from "./components/config/config.service";
+import {
+  FigmaRepository,
+  FigmaService,
+} from "./components/figma/figma.interface";
+import { FigmaRepositoryImpl } from "./components/figma/figma.repository";
+import { FigmaServiceImpl } from "./components/figma/figma.service";
+import {
+  PlatformRepository,
+  PlatformService,
+} from "./components/platform/platform.interface";
+import { PlatformRepositoryImpl } from "./components/platform/platform.repository";
+import { PlatformServiceImpl } from "./components/platform/platform.service";
+import {
+  TemplateRepository,
+  TemplateService,
+} from "./components/template/template.interface";
+import { TemplateRepositoryImpl } from "./components/template/template.repository";
+import { TemplateServiceImpl } from "./components/template/template.service";
+import {
+  TranslatorRepository,
+  TranslatorService,
+} from "./components/translator/translator.interface";
+import { TranslatorRepositoryImpl } from "./components/translator/translator.repository";
+import { TranslatorServiceImpl } from "./components/translator/translator.service";
+import {
+  TranslatorLanguageRepository,
+  TranslatorLanguageService,
+} from "./components/translator_language/translator_language.interface";
+import { TranslatorLanguageRepositoryImpl } from "./components/translator_language/translator_language.repository";
+import { TranslatorLanguageServiceImpl } from "./components/translator_language/translator_language.service";
 import { Param, Params } from "./params/param";
 import { PlatformParam } from "./params/platform.param";
 import { SourceLanguageParam } from "./params/source_language.param";

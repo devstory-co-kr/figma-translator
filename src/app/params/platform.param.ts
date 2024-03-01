@@ -1,4 +1,4 @@
-import { Platform } from "../../components/template/template.interface";
+import { Platform } from "../components/template/template.interface";
 import { Param } from "./param";
 
 export class PlatformParam implements Param {

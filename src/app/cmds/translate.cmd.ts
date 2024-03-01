@@ -1,11 +1,11 @@
-import { FigmaService } from "../../components/figma/figma.interface";
-import { TranslatorService } from "../../components/translator/translator.interface";
+import { InvalidFrameNameException } from "../../util/exceptions";
+import { Notification } from "../../util/notification";
+import { FigmaService } from "../components/figma/figma.interface";
+import { TranslatorService } from "../components/translator/translator.interface";
 import {
   TranslatorLanguage,
   TranslatorLanguageService,
-} from "../../components/translator_language/translator_language.interface";
-import { InvalidFrameNameException } from "../../util/exceptions";
-import { Notification } from "../../util/notification";
+} from "../components/translator_language/translator_language.interface";
 import { Cmd } from "./cmd";
 
 export class TranslateCmd implements Cmd {

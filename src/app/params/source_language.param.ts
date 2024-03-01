@@ -1,5 +1,5 @@
-import { TranslatorLanguageService } from "../../components/translator_language/translator_language.interface";
 import { Strings } from "../../util/strings";
+import { TranslatorLanguageService } from "../components/translator_language/translator_language.interface";
 import { Param } from "./param";
 
 export class SourceLanguageParam implements Param {
