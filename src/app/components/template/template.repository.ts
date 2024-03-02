@@ -7,10 +7,10 @@ import {
 
 export class TemplateRepositoryImpl implements TemplateRepository {
   public templates: { [platform in Platform]: Template[] } = {
-    [Platform.ios]: [
+    [Platform.iOS]: [
       {
         name: "iPhone5.5",
-        platform: Platform.ios,
+        platform: Platform.iOS,
         type: TemplateType.mobile,
         frame: {
           size: {
@@ -24,7 +24,7 @@ export class TemplateRepositoryImpl implements TemplateRepository {
       },
       {
         name: "iPhone6.5",
-        platform: Platform.ios,
+        platform: Platform.iOS,
         type: TemplateType.mobile,
         frame: {
           size: {
@@ -38,7 +38,7 @@ export class TemplateRepositoryImpl implements TemplateRepository {
       },
       {
         name: "iPad 12.9 2GEN",
-        platform: Platform.ios,
+        platform: Platform.iOS,
         type: TemplateType.tablet,
         frame: {
           size: {
@@ -52,7 +52,7 @@ export class TemplateRepositoryImpl implements TemplateRepository {
       },
       {
         name: "iPad 12.9 3GEN",
-        platform: Platform.ios,
+        platform: Platform.iOS,
         type: TemplateType.tablet,
         frame: {
           size: {
@@ -65,10 +65,10 @@ export class TemplateRepositoryImpl implements TemplateRepository {
         },
       },
     ],
-    [Platform.android]: [
+    [Platform.Android]: [
       {
         name: "Grapic",
-        platform: Platform.android,
+        platform: Platform.Android,
         type: TemplateType.grapic,
         frame: {
           size: {
@@ -82,7 +82,7 @@ export class TemplateRepositoryImpl implements TemplateRepository {
       },
       {
         name: "Mobile",
-        platform: Platform.android,
+        platform: Platform.Android,
         type: TemplateType.mobile,
         frame: {
           size: {
@@ -96,7 +96,7 @@ export class TemplateRepositoryImpl implements TemplateRepository {
       },
       {
         name: "Tablet 7-inch",
-        platform: Platform.android,
+        platform: Platform.Android,
         type: TemplateType.tablet,
         frame: {
           size: {
@@ -110,7 +110,7 @@ export class TemplateRepositoryImpl implements TemplateRepository {
       },
       {
         name: "Tablet 10-inch",
-        platform: Platform.android,
+        platform: Platform.Android,
         type: TemplateType.tablet,
         frame: {
           size: {

@@ -3,39 +3,35 @@
     <!-- Select source platform locale -->
     <fieldset>
       <legend>Source</legend>
-      <select id="sourcePlatformLocale">
-        <option value="option1">Option 1</option>
-        <option value="option2">Option 2</option>
-        <option value="option3">Option 31</option>
-      </select>
+      <select id="sourceLocaleSelect"></select>
     </fieldset>
 
     <!-- Select target platform locale -->
-    <fieldset style="margin-top: 16px; padding: 8px 8px 0 8px">
-      <legend>Targets</legend>
+    <fieldset class="targetLocales">
+      <legend class="targetTitle">Targets</legend>
 
       <div class="column">
-        <div class="row" style="width: 100%">
+        <div class="row">
           <!-- Toggle -->
-          <input type="checkbox" style="margin: 8px 8px 8px 4px" />
+          <input id="targetLocaleToggle" type="checkbox" checked />
           <!-- Search -->
-          <input type="text" style="width: 100%" placeholder="Search" />
+          <div class="targetSearchContainer">
+            <input
+              id="targetLocaleSearch"
+              type="text"
+              style="width: 100%"
+              placeholder="Search"
+            />
+            <button id="targetSearchClearButton">×</button>
+          </div>
         </div>
-        <hr
-          style="
-            width: 100%;
-            border: 0.5px solid rgba(0, 0, 0, 0.1);
-            margin: 8px 0px 0px 0px;
-          "
-        />
+        <hr />
 
         <!-- Target locales -->
-        <div
-          class="column"
-          style="width: 100%; max-height: 150px; overflow: scroll"
-          id="targetLocalesContainer"
-        ></div>
+        <div class="column" id="targetLocalesContainer"></div>
       </div>
     </fieldset>
+
+    <button id="createTemplatesButton">Create Templates</button>
   </body>
 </html>

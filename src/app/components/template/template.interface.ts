@@ -1,8 +1,8 @@
 import { PlatformLocale } from "../platform/platform.interface";
 
 export enum Platform {
-  ios = "ios",
-  android = "android",
+  iOS = "iOS",
+  Android = "Android",
 }
 
 export enum TemplateType {

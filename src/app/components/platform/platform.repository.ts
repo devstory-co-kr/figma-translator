@@ -9,7 +9,7 @@ export class PlatformRepositoryImpl implements PlatformRepository {
   public locales: {
     [platform in Platform]: PlatformLocale[];
   } = {
-    [Platform.ios]: [
+    [Platform.iOS]: [
       {
         name: "Arabic",
         locale: "ar-SA",
@@ -207,7 +207,7 @@ export class PlatformRepositoryImpl implements PlatformRepository {
         translatorLanguage: this.translatorLanguageRepository.vietnamese,
       },
     ],
-    [Platform.android]: [
+    [Platform.Android]: [
       {
         name: "Afrikaans",
         locale: "af",

@@ -1,3 +1,4 @@
+import { Notification } from "../../util/notification";
 import { FigmaService } from "../components/figma/figma.interface";
 import { PlatformService } from "../components/platform/platform.interface";
 import {
@@ -8,6 +9,7 @@ import { Cmd } from "./cmd";
 
 enum MsgType {
   init = "init",
+  createTemplates = "createTemplates",
 }
 
 export class CreateTemplatesCmd implements Cmd {
@@ -23,8 +25,8 @@ export class CreateTemplatesCmd implements Cmd {
     this.platformParam = platform;
     figma.showUI(__uiFiles__.createTemplates, {
       width: 300,
-      height: 400,
-      title: "Create Templates",
+      height: 356,
+      title: `Create ${platform} Templates`,
     });
     // this.figmaService.createFrame({
     //   name: "hahaha!",
@@ -37,22 +39,25 @@ export class CreateTemplatesCmd implements Cmd {
     if (!this.platformParam) {
       return;
     }
-    console.log(
-      "i'm create template mcd",
-      message,
-      props,
-      this.platformParam,
-      <MsgType>message.type
-    );
+    const platform = this.platformParam;
     switch (<MsgType>message.type) {
       case MsgType.init:
-        console.log("here!");
         figma.ui.postMessage({
           type: MsgType.init,
           data: {
-            targetLocales: this.platformService.getLocale(this.platformParam),
+            platform,
+            locales: this.platformService.getLocale(platform),
           },
         });
+        break;
+      case MsgType.createTemplates:
+        console.log("come! ", message);
+        const { sourceLocale, targetLocales } = message.data;
+        if (targetLocales.length === 0) {
+          Notification.i("Please select at least one target language.");
+          return;
+        }
+        console.log(sourceLocale, targetLocales);
         break;
     }
   }
