@@ -21,8 +21,13 @@ export type Position = {
   y: number;
 };
 
+export type Box = {
+  topLeft: Position;
+  bottomRight: Position;
+};
+
 export type Frame = {
-  frameName: (platformLocale: PlatformLocale, count: number) => string;
+  getName: (platformLocale: PlatformLocale, count: number) => string;
   maxCount: number;
   size: Size;
 };

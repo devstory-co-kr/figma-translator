@@ -1,3 +1,4 @@
+import { Position, Size } from "../template/template.interface";
 import { FigmaRepository } from "./figma.interface";
 
 export class FigmaRepositoryImpl implements FigmaRepository {
@@ -99,5 +100,23 @@ export class FigmaRepositoryImpl implements FigmaRepository {
         yield* this.walkTree(child, skipInvisibleNode);
       }
     }
+  }
+
+  public createFrame({
+    name,
+    size,
+    position,
+  }: {
+    name: string;
+    size: Size;
+    position: Position;
+  }): FrameNode {
+    const frame = figma.createFrame();
+    frame.name = name;
+    frame.resize(size.w, size.h);
+    frame.x = position.x;
+    frame.y = position.y;
+    figma.currentPage.appendChild(frame);
+    return frame;
   }
 }

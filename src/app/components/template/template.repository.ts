@@ -17,8 +17,8 @@ export class TemplateRepositoryImpl implements TemplateRepository {
             w: 1242,
             h: 2208,
           },
-          frameName: (platfomLocale, count) =>
-            `${platfomLocale}/${count}_APP_IPHONE_55_${count}.png`,
+          getName: (platfomLocale, count) =>
+            `${platfomLocale.locale}/${count}_APP_IPHONE_55_${count}`,
           maxCount: 10,
         },
       },
@@ -31,8 +31,8 @@ export class TemplateRepositoryImpl implements TemplateRepository {
             w: 1284,
             h: 2778,
           },
-          frameName: (platfomLocale, count) =>
-            `${platfomLocale}/${count}_APP_IPHONE_65_${count}.png`,
+          getName: (platfomLocale, count) =>
+            `${platfomLocale.locale}/${count}_APP_IPHONE_65_${count}`,
           maxCount: 10,
         },
       },
@@ -45,8 +45,8 @@ export class TemplateRepositoryImpl implements TemplateRepository {
             w: 2048,
             h: 2732,
           },
-          frameName: (platfomLocale, count) =>
-            `${platfomLocale}/${count}_APP_IPAD_PRO_129_${count}.png`,
+          getName: (platfomLocale, count) =>
+            `${platfomLocale.locale}/${count}_APP_IPAD_PRO_129_${count}`,
           maxCount: 10,
         },
       },
@@ -59,8 +59,8 @@ export class TemplateRepositoryImpl implements TemplateRepository {
             w: 2048,
             h: 2732,
           },
-          frameName: (platfomLocale, count) =>
-            `${platfomLocale}/${count}_APP_IPAD_PRO_3GEN_129_${count}.png`,
+          getName: (platfomLocale, count) =>
+            `${platfomLocale.locale}/${count}_APP_IPAD_PRO_3GEN_129_${count}`,
           maxCount: 10,
         },
       },
@@ -75,8 +75,8 @@ export class TemplateRepositoryImpl implements TemplateRepository {
             w: 1024,
             h: 500,
           },
-          frameName: (platfomLocale, count) =>
-            `${platfomLocale.locale}/images/featureGraphic.png`,
+          getName: (platfomLocale, count) =>
+            `${platfomLocale.locale}/images/featureGraphic`,
           maxCount: 8,
         },
       },
@@ -89,8 +89,8 @@ export class TemplateRepositoryImpl implements TemplateRepository {
             w: 1242,
             h: 2208,
           },
-          frameName: (platfomLocale, count) =>
-            `${platfomLocale}/images/phoneScreenshots/${count}_${platfomLocale}`,
+          getName: (platfomLocale, count) =>
+            `${platfomLocale.locale}/images/phoneScreenshots/${count}_${platfomLocale.locale}`,
           maxCount: 8,
         },
       },
@@ -103,8 +103,8 @@ export class TemplateRepositoryImpl implements TemplateRepository {
             w: 2048,
             h: 2732,
           },
-          frameName: (platfomLocale, count) =>
-            `${platfomLocale}/images/sevenInchScreenshots/${count}_${platfomLocale}`,
+          getName: (platfomLocale, count) =>
+            `${platfomLocale.locale}/images/sevenInchScreenshots/${count}_${platfomLocale.locale}`,
           maxCount: 8,
         },
       },
@@ -117,8 +117,8 @@ export class TemplateRepositoryImpl implements TemplateRepository {
             w: 2048,
             h: 2732,
           },
-          frameName: (platfomLocale, count) =>
-            `${platfomLocale}/images/tenInchScreenshots/${count}_${platfomLocale}`,
+          getName: (platfomLocale, count) =>
+            `${platfomLocale.locale}/images/tenInchScreenshots/${count}_${platfomLocale.locale}`,
           maxCount: 8,
         },
       },

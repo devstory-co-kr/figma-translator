@@ -1,4 +1,23 @@
-import { Position, Size } from "../template/template.interface";
+import {
+  Box,
+  Frame,
+  Position,
+  Size,
+  Template,
+} from "../template/template.interface";
+
+export type FrameInfo = {
+  frame: Frame;
+  index: number;
+  node: FrameNode;
+};
+
+export type CreateFramesResult =
+  | {
+      box: Box;
+      frames: FrameInfo[];
+    }
+  | undefined;
 
 export interface FigmaService {
   search(args: {
@@ -17,17 +36,35 @@ export interface FigmaService {
     cb: (textList: string[]) => Promise<string[]>
   ): Promise<void>;
 
-  createFrame({
-    name,
-    size,
+  createFrames({
+    getName,
+    templates,
     position,
+    xGap,
+    yGap,
+    component,
   }: {
-    name: string;
-    size: Size;
+    getName: (template: Template, frame: Frame, index: number) => string;
+    templates: Template[];
     position: Position;
-  }): FrameNode;
-  createComponent(): ComponentNode;
-  createInstance(componentNode: ComponentNode): InstanceNode;
+    xGap: number;
+    yGap: number;
+    component?: ComponentNode;
+  }): CreateFramesResult;
+
+  createComponent(node: SceneNode): ComponentNode;
+
+  createInstance({
+    component,
+    position,
+    name,
+  }: {
+    component: ComponentNode;
+    position: Position;
+    name: string;
+  }): InstanceNode;
+
+  alignToTopLeft(nodes: SceneNode[]): void;
 }
 
 export interface FigmaRepository {
@@ -52,4 +89,14 @@ export interface FigmaRepository {
     textList: string[];
     jointList: string[];
   }): void;
+
+  createFrame({
+    name,
+    size,
+    position,
+  }: {
+    name: string;
+    size: Size;
+    position: Position;
+  }): FrameNode;
 }

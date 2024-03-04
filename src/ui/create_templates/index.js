@@ -2,7 +2,6 @@ import "../core/base.css";
 import Channel from "../core/channel.js";
 import "./index.css";
 import CreateTemplatesButton from "./js/create_templates_button.js";
-import SourceLocale from "./js/source_locale.js";
 import TargetLocales from "./js/target_locales.js";
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -38,12 +37,12 @@ class CreateTemplates {
       locales,
     };
     this.widgets = {
-      sourceLocale: new SourceLocale(locales),
+      // sourceLocale: new SourceLocale(locales),
       targetLocales: new TargetLocales(locales),
       createTemplatesButton: new CreateTemplatesButton(platform, () =>
         // Send createTemplates
         this.channel.sendMessage(this.channel.types.createTemplates, {
-          sourceLocale: this.widgets.sourceLocale.state.sourceLocale,
+          // sourceLocale: this.widgets.sourceLocale.state.sourceLocale,
           targetLocales: this.widgets.targetLocales.state
             .filter((l) => l.isChecked)
             .map((l) => l.targetLocale),
