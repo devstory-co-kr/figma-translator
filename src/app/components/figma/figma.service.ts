@@ -63,15 +63,7 @@ export class FigmaServiceImpl implements FigmaService {
   }
 
   public createComponent(node: SceneNode): ComponentNode {
-    const component = figma.createComponent();
-    component.name = node.name;
-    component.resize(node.width, node.height);
-    component.x = node.x;
-    component.y = node.y;
-    component.appendChild(node);
-    node.x = 0;
-    node.y = 0;
-    return component;
+    return figma.createComponentFromNode(node);
   }
 
   public createInstance({
