@@ -59,7 +59,7 @@ export interface FigmaService {
     name: string;
   }): InstanceNode;
 
-  alignToTopLeft(nodes: SceneNode[]): void;
+  move(nodes: SceneNode[], position: Position): void;
 
   getBox(nodes: SceneNode[]): Box;
 }

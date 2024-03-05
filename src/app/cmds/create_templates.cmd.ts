@@ -166,7 +166,9 @@ export class CreateTemplatesCmd implements Cmd {
     const componentNodes = components.map((c) => c.node);
 
     // Align to top left
-    this.figmaService.alignToTopLeft([...componentNodes, ...instances]);
+    const viewport = figma.viewport.bounds;
+    const viewportPosition: Position = { x: viewport.x, y: viewport.y };
+    this.figmaService.move([...componentNodes, ...instances], viewportPosition);
 
     // Scroll and zoom into component
     figma.viewport.scrollAndZoomIntoView(componentNodes);

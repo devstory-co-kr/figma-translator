@@ -158,17 +158,14 @@ export class FigmaServiceImpl implements FigmaService {
     return results;
   }
 
-  public alignToTopLeft(nodes: SceneNode[]): void {
+  public move(nodes: SceneNode[], position: Position): void {
     if (nodes.length === 0) {
       return;
     }
 
     const group = figma.group(nodes, figma.currentPage);
-    // canvas max size -65000 ~ 65000
-    const topLeftX = -65000;
-    const topLeftY = -65000;
-    group.x = topLeftX;
-    group.y = topLeftY;
+    group.x = position.x;
+    group.y = position.y;
     figma.ungroup(group);
   }
 
@@ -180,8 +177,6 @@ export class FigmaServiceImpl implements FigmaService {
       width: group.width,
       height: group.height,
     };
-    console.log(group);
-    console.log(box);
     figma.ungroup(group);
     return box;
   }
