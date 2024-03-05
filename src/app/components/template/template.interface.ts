@@ -27,9 +27,9 @@ export type Box = {
 };
 
 export type Frame = {
-  getName: (platformLocale: PlatformLocale, count: number) => string;
-  maxCount: number;
   size: Size;
+  name: string;
+  maxCount: number;
 };
 
 export type Template = {
@@ -41,9 +41,17 @@ export type Template = {
 
 export interface TemplateService {
   getTemplates(platform: Platform): Template[];
+
+  getFrameName(
+    locale: PlatformLocale,
+    frame: Frame,
+    index: number
+  ): string;
 }
 
 export interface TemplateRepository {
+  count: string;
+  locale: string;
   templates: {
     [platform in Platform]: Template[];
   };

@@ -1,14 +1,8 @@
 <html>
   <body>
-    <!-- Select source platform locale -->
-    <!-- <fieldset>
-      <legend>Source</legend>
-      <select id="sourceLocaleSelect"></select>
-    </fieldset> -->
-
-    <!-- Select target platform locale -->
+    <!-- Target locales -->
     <fieldset class="targetLocales">
-      <legend class="targetTitle">Targets</legend>
+      <legend id="targetTitle">Targets</legend>
 
       <div class="column">
         <div class="row">
@@ -32,6 +26,13 @@
       </div>
     </fieldset>
 
+    <!-- Devices -->
+    <fieldset class="devices">
+      <legend id="devicesTitle">Devices</legend>
+      <div class="column" id="devicesContainer"></div>
+    </fieldset>
+
+    <!-- Create Templates Button -->
     <button id="createTemplatesButton">Create Templates</button>
   </body>
 </html>

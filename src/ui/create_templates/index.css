@@ -15,9 +15,10 @@ hr {
 
 #targetLocalesContainer {
   width: 100%;
-  height: 220px;
+  height: 100px;
   overflow: scroll;
   padding-top: 4px;
+  padding-right: 8px;
   font-size: 12px;
 }
 
@@ -52,4 +53,15 @@ hr {
 #createTemplatesButton {
   width: 100%;
   height: 38px;
+}
+
+.devices {
+  padding: 0 8px;
+}
+
+#devicesContainer {
+  width: 100%;
+  height: 150px;
+  overflow: scroll;
+  padding-right: 12px;
 }

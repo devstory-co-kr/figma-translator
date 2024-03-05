@@ -6,10 +6,12 @@ import {
 } from "./template.interface";
 
 export class TemplateRepositoryImpl implements TemplateRepository {
+  public count: string = "count";
+  public locale: string = "locale";
   public templates: { [platform in Platform]: Template[] } = {
     [Platform.iOS]: [
       {
-        name: "iPhone5.5",
+        name: "iPhone 5.5",
         platform: Platform.iOS,
         type: TemplateType.mobile,
         frame: {
@@ -17,13 +19,12 @@ export class TemplateRepositoryImpl implements TemplateRepository {
             w: 1242,
             h: 2208,
           },
-          getName: (platfomLocale, count) =>
-            `${platfomLocale.locale}/${count}_APP_IPHONE_55_${count}`,
+          name: `ios/${this.locale}/${this.count}_APP_IPHONE_55_${this.count}`,
           maxCount: 10,
         },
       },
       {
-        name: "iPhone6.5",
+        name: "iPhone 6.5",
         platform: Platform.iOS,
         type: TemplateType.mobile,
         frame: {
@@ -31,8 +32,7 @@ export class TemplateRepositoryImpl implements TemplateRepository {
             w: 1284,
             h: 2778,
           },
-          getName: (platfomLocale, count) =>
-            `${platfomLocale.locale}/${count}_APP_IPHONE_65_${count}`,
+          name: `ios/${this.locale}/${this.count}_APP_IPHONE_65_${this.count}`,
           maxCount: 10,
         },
       },
@@ -45,8 +45,7 @@ export class TemplateRepositoryImpl implements TemplateRepository {
             w: 2048,
             h: 2732,
           },
-          getName: (platfomLocale, count) =>
-            `${platfomLocale.locale}/${count}_APP_IPAD_PRO_129_${count}`,
+          name: `ios/${this.locale}/${this.count}_APP_IPAD_PRO_129_${this.count}`,
           maxCount: 10,
         },
       },
@@ -59,8 +58,7 @@ export class TemplateRepositoryImpl implements TemplateRepository {
             w: 2048,
             h: 2732,
           },
-          getName: (platfomLocale, count) =>
-            `${platfomLocale.locale}/${count}_APP_IPAD_PRO_3GEN_129_${count}`,
+          name: `ios/${this.locale}/${this.count}_APP_IPAD_PRO_3GEN_129_${this.count}`,
           maxCount: 10,
         },
       },
@@ -75,9 +73,8 @@ export class TemplateRepositoryImpl implements TemplateRepository {
             w: 1024,
             h: 500,
           },
-          getName: (platfomLocale, count) =>
-            `${platfomLocale.locale}/images/featureGraphic`,
-          maxCount: 8,
+          name: `android/${this.locale}/images/featureGraphic`,
+          maxCount: 1,
         },
       },
       {
@@ -89,8 +86,7 @@ export class TemplateRepositoryImpl implements TemplateRepository {
             w: 1242,
             h: 2208,
           },
-          getName: (platfomLocale, count) =>
-            `${platfomLocale.locale}/images/phoneScreenshots/${count}_${platfomLocale.locale}`,
+          name: `android/${this.locale}/images/phoneScreenshots/${this.count}_${this.locale}`,
           maxCount: 8,
         },
       },
@@ -103,8 +99,7 @@ export class TemplateRepositoryImpl implements TemplateRepository {
             w: 2048,
             h: 2732,
           },
-          getName: (platfomLocale, count) =>
-            `${platfomLocale.locale}/images/sevenInchScreenshots/${count}_${platfomLocale.locale}`,
+          name: `android/${this.locale}/images/sevenInchScreenshots/${this.count}_${this.locale}`,
           maxCount: 8,
         },
       },
@@ -117,8 +112,7 @@ export class TemplateRepositoryImpl implements TemplateRepository {
             w: 2048,
             h: 2732,
           },
-          getName: (platfomLocale, count) =>
-            `${platfomLocale.locale}/images/tenInchScreenshots/${count}_${platfomLocale.locale}`,
+          name: `android/${this.locale}/images/tenInchScreenshots/${this.count}_${this.locale}`,
           maxCount: 8,
         },
       },

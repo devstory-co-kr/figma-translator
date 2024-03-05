@@ -90,16 +90,16 @@ export class FigmaServiceImpl implements FigmaService {
     return component;
   }
 
-  createInstance({
-    component,
+  public createInstance({
+    componentNode,
     position,
     name,
   }: {
-    component: ComponentNode;
+    componentNode: ComponentNode;
     position: Position;
     name: string;
   }): InstanceNode {
-    const instance = component.createInstance();
+    const instance = componentNode.createInstance();
     instance.name = name;
     instance.x = position.x;
     instance.y = position.y;

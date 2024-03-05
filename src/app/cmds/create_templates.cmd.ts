@@ -8,6 +8,7 @@ import {
   Frame,
   Platform,
   Position,
+  Template,
   TemplateService,
 } from "../components/template/template.interface";
 import { Cmd } from "./cmd";
@@ -24,46 +25,55 @@ export class CreateTemplatesCmd implements Cmd {
     private platformService: PlatformService
   ) {}
 
-  platformParam?: Platform;
+  platform?: Platform;
+  templates: Template[] = [];
 
   public onRun({ platform }: { platform: Platform }): void {
-    this.platformParam = platform;
+    this.platform = platform;
+    this.templates = this.templateService.getTemplates(platform);
     figma.showUI(__uiFiles__.createTemplates, {
       width: 300,
-      height: 356,
+      height: 420,
       title: `Create ${platform} Templates`,
     });
   }
 
   public onMessage(message: any, props: OnMessageProperties): void {
-    if (!this.platformParam) {
+    if (!this.platform) {
       return;
     }
-    const platform = this.platformParam;
     switch (<MsgType>message.type) {
       case MsgType.init:
         figma.ui.postMessage({
           type: MsgType.init,
           data: {
-            platform,
-            locales: this.platformService.getLocale(platform),
+            platform: this.platform,
+            devices: this.templates,
+            locales: this.platformService.getLocale(this.platform),
           },
         });
         break;
       case MsgType.createTemplates:
-        const { targetLocales } = message.data;
-        this.createFrames(platform, targetLocales);
+        const { targetLocales, devices } = message.data;
+        console.log("zz", devices);
+        this.createFrames(this.platform, targetLocales, devices);
         break;
     }
   }
 
-  private createFrames(platform: Platform, targetLocales: PlatformLocale[]) {
+  private createFrames(
+    platform: Platform,
+    targetLocales: PlatformLocale[],
+    devices: {
+      template: Template;
+      count: number;
+    }[]
+  ) {
     if (targetLocales.length === 0) {
       Notification.i("Please select at least one target language.");
       return;
     }
 
-    const templates = this.templateService.getTemplates(platform);
     const position: Position = {
       x: 0,
       y: 0,
@@ -73,7 +83,7 @@ export class CreateTemplatesCmd implements Cmd {
     const createFrameResult = this.figmaService.createFrames({
       getName: (template, frame, index) =>
         `${platform.toLocaleLowerCase()} / ${template.name} - ${index}`,
-      templates,
+      templates: this.templates,
       xGap: 32,
       yGap: 64,
       position,
@@ -111,16 +121,14 @@ export class CreateTemplatesCmd implements Cmd {
         y: box.topLeft.y + row * (boxHeight + instanceYGap),
       };
       for (const component of components) {
+        const { frame, node: componentNode, index } = component;
         const instance = this.figmaService.createInstance({
-          component: component.node,
+          componentNode,
           position: {
-            x: startPos.x + component.node.x,
-            y: startPos.y + component.node.y,
+            x: startPos.x + componentNode.x,
+            y: startPos.y + componentNode.y,
           },
-          name: `${platform.toLocaleLowerCase()}/${component.frame.getName(
-            targetLocale,
-            component.index
-          )}`,
+          name: this.templateService.getFrameName(targetLocale, frame, index),
         });
         instances.push(instance);
       }

@@ -55,11 +55,11 @@ export interface FigmaService {
   createComponent(node: SceneNode): ComponentNode;
 
   createInstance({
-    component,
+    componentNode,
     position,
     name,
   }: {
-    component: ComponentNode;
+    componentNode: ComponentNode;
     position: Position;
     name: string;
   }): InstanceNode;
