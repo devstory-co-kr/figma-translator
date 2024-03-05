@@ -1,5 +1,5 @@
+import { Platform } from "../../params/platform.param";
 import {
-  Platform,
   Template,
   TemplateRepository,
   TemplateType,

@@ -1,7 +1,7 @@
+import { Platform } from "../../params/platform.param";
 import { PlatformLocale } from "../platform/platform.interface";
 import {
   Frame,
-  Platform,
   Template,
   TemplateRepository,
   TemplateService,

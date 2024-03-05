@@ -1,4 +1,4 @@
-import { Platform } from "../template/template.interface";
+import { Platform } from "../../params/platform.param";
 import { TranslatorLanguageRepository } from "../translator_language/translator_language.interface";
 import { PlatformLocale, PlatformRepository } from "./platform.interface";
 

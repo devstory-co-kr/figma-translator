@@ -1,9 +1,5 @@
+import { Platform } from "../../params/platform.param";
 import { PlatformLocale } from "../platform/platform.interface";
-
-export enum Platform {
-  Android = "Android",
-  iOS = "iOS",
-}
 
 export enum TemplateType {
   grapic,

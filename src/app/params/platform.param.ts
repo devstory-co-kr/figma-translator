@@ -1,5 +1,9 @@
-import { Platform } from "../components/template/template.interface";
 import { Param } from "./param";
+
+export enum Platform {
+  Android = "Android",
+  iOS = "iOS",
+}
 
 export class PlatformParam implements Param {
   constructor() {}

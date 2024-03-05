@@ -7,12 +7,12 @@ import {
 import {
   Box,
   Frame,
-  Platform,
   Position,
   Template,
   TemplateService,
 } from "../components/template/template.interface";
 import { TextDirection } from "../components/translator_language/translator_language.interface";
+import { Platform } from "../params/platform.param";
 import { Cmd } from "./cmd";
 
 enum MsgType {
