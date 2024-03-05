@@ -41,6 +41,7 @@ import { TranslatorLanguageServiceImpl } from "./components/translator_language/
 import { Param, Params } from "./params/param";
 import { PlatformParam } from "./params/platform.param";
 import { SourceLanguageParam } from "./params/source_language.param";
+import { TemplateScaleParam } from "./params/template_scale.param";
 import { TextDirectionParam } from "./params/text_direction.param";
 
 export class FigmaTranslator implements App {
@@ -104,6 +105,7 @@ export class FigmaTranslator implements App {
       this.translatorLanguageService
     ),
     [Params.textDirection]: new TextDirectionParam(),
+    [Params.templateScale]: new TemplateScaleParam(),
   };
 
   /**

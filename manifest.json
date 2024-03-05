@@ -44,6 +44,11 @@
           "name": "Text Direction",
           "key": "textDirection",
           "description": "Select the text direction on which to create the template."
+        },
+        {
+          "name": "Template Scale",
+          "key": "templateScale",
+          "description": "Select the template scale."
         }
       ]
     }

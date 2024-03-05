@@ -29,27 +29,31 @@ export class CreateTemplatesCmd implements Cmd {
 
   platform?: Platform;
   textDirection?: TextDirection;
+  templateScale?: number;
   templates: Template[] = [];
 
   public onRun({
     platform,
     textDirection,
+    templateScale,
   }: {
     platform: Platform;
     textDirection: TextDirection;
+    templateScale: number;
   }): void {
     this.platform = platform;
     this.textDirection = textDirection;
+    this.templateScale = templateScale;
     this.templates = this.templateService.getTemplates(platform);
     figma.showUI(__uiFiles__.createTemplates, {
       width: 300,
       height: 420,
-      title: `Create ${platform} Templates`,
+      title: `${platform} / ${textDirection} / x${templateScale} Templates`,
     });
   }
 
   public onMessage(message: any, props: OnMessageProperties): void {
-    if (!this.platform || !this.textDirection) {
+    if (!this.platform || !this.textDirection || !this.templateScale) {
       return;
     }
     switch (<MsgType>message.type) {
@@ -72,6 +76,7 @@ export class CreateTemplatesCmd implements Cmd {
         this.createFrames(
           this.platform,
           this.textDirection,
+          this.templateScale,
           targetLocales,
           templates
         );
@@ -82,6 +87,7 @@ export class CreateTemplatesCmd implements Cmd {
   private createFrames(
     platform: Platform,
     textDirection: TextDirection,
+    templateScale: number,
     targetLocales: PlatformLocale[],
     templates: {
       template: Template;
@@ -116,6 +122,7 @@ export class CreateTemplatesCmd implements Cmd {
         xGap: 32,
         yGap: 64,
         position,
+        scale: templateScale,
       }) ?? [];
     if (componentFrames.length === 0) {
       return;

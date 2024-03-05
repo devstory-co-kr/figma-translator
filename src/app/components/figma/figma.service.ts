@@ -1,4 +1,11 @@
-import { Box, Frame, Position, Template } from "../template/template.interface";
+import { TemplateScale } from "../../params/template_scale.param";
+import {
+  Box,
+  Frame,
+  Position,
+  Size,
+  Template,
+} from "../template/template.interface";
 import { FigmaRepository, FigmaService, FrameInfo } from "./figma.interface";
 
 export class FigmaServiceImpl implements FigmaService {
@@ -9,7 +16,7 @@ export class FigmaServiceImpl implements FigmaService {
     position,
     xGap,
     yGap,
-    component,
+    scale,
   }: {
     templates: {
       getName: (frame: Frame, index: number) => string;
@@ -19,7 +26,7 @@ export class FigmaServiceImpl implements FigmaService {
     position: Position;
     xGap: number;
     yGap: number;
-    component?: ComponentNode;
+    scale: number;
   }): FrameInfo[] | undefined {
     const startPos: Position = position;
     const frames: FrameInfo[] = [];
@@ -27,16 +34,20 @@ export class FigmaServiceImpl implements FigmaService {
     for (let i = 0; i < templates.length; i++) {
       const { template, count, getName } = templates[i];
       const { frame } = template;
+      const scaledSize: Size = {
+        w: frame.size.w * scale,
+        h: frame.size.h * scale,
+      };
 
       // Create frame
       for (let index = 0; index < count; index++) {
         const framePos: Position = {
-          x: startPos.x + index * (frame.size.w + xGap),
+          x: startPos.x + index * (scaledSize.w + xGap),
           y: startPos.y,
         };
         const frameNode = this.figmaRepository.createFrame({
           name: getName(frame, index),
-          size: frame.size,
+          size: scaledSize,
           position: framePos,
         });
 
@@ -45,14 +56,8 @@ export class FigmaServiceImpl implements FigmaService {
           index,
           node: frameNode,
         });
-
-        // Update box
-        const frameBottomLeft: Position = {
-          x: framePos.x + frame.size.w,
-          y: framePos.y + frame.size.h,
-        };
       }
-      startPos.y += frame.size.h + yGap;
+      startPos.y += scaledSize.h + yGap;
     }
 
     if (frames.length === 0) {

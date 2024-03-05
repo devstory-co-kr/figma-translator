@@ -34,7 +34,7 @@ export interface FigmaService {
     position,
     xGap,
     yGap,
-    component,
+    scale,
   }: {
     templates: {
       getName: (frame: Frame, index: number) => string;
@@ -44,7 +44,7 @@ export interface FigmaService {
     position: Position;
     xGap: number;
     yGap: number;
-    component?: ComponentNode;
+    scale: number;
   }): FrameInfo[] | undefined;
 
   createComponent(node: SceneNode): ComponentNode;
