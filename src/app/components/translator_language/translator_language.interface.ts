@@ -1,6 +1,11 @@
 export type GoogleTranslateLocale = string;
+export enum TextDirection {
+  LTR = "LTR",
+  RTL = "RTL",
+}
 
 export interface TranslatorLanguage {
+  textDirection: TextDirection;
   locale: GoogleTranslateLocale;
   name: string;
 
