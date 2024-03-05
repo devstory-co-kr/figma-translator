@@ -1,8 +1,8 @@
 import { PlatformLocale } from "../platform/platform.interface";
 
 export enum Platform {
-  iOS = "iOS",
   Android = "Android",
+  iOS = "iOS",
 }
 
 export enum TemplateType {
@@ -22,8 +22,10 @@ export type Position = {
 };
 
 export type Box = {
-  topLeft: Position;
-  bottomRight: Position;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
 };
 
 export type Frame = {
@@ -42,11 +44,7 @@ export type Template = {
 export interface TemplateService {
   getTemplates(platform: Platform): Template[];
 
-  getFrameName(
-    locale: PlatformLocale,
-    frame: Frame,
-    index: number
-  ): string;
+  getFrameName(locale: PlatformLocale, frame: Frame, index: number): string;
 }
 
 export interface TemplateRepository {

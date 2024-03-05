@@ -5,12 +5,14 @@ import {
   PlatformService,
 } from "../components/platform/platform.interface";
 import {
+  Box,
   Frame,
   Platform,
   Position,
   Template,
   TemplateService,
 } from "../components/template/template.interface";
+import { TextDirection } from "../components/translator_language/translator_language.interface";
 import { Cmd } from "./cmd";
 
 enum MsgType {
@@ -26,10 +28,18 @@ export class CreateTemplatesCmd implements Cmd {
   ) {}
 
   platform?: Platform;
+  textDirection?: TextDirection;
   templates: Template[] = [];
 
-  public onRun({ platform }: { platform: Platform }): void {
+  public onRun({
+    platform,
+    textDirection,
+  }: {
+    platform: Platform;
+    textDirection: TextDirection;
+  }): void {
     this.platform = platform;
+    this.textDirection = textDirection;
     this.templates = this.templateService.getTemplates(platform);
     figma.showUI(__uiFiles__.createTemplates, {
       width: 300,
@@ -39,7 +49,7 @@ export class CreateTemplatesCmd implements Cmd {
   }
 
   public onMessage(message: any, props: OnMessageProperties): void {
-    if (!this.platform) {
+    if (!this.platform || !this.textDirection) {
       return;
     }
     switch (<MsgType>message.type) {
@@ -48,29 +58,42 @@ export class CreateTemplatesCmd implements Cmd {
           type: MsgType.init,
           data: {
             platform: this.platform,
-            devices: this.templates,
-            locales: this.platformService.getLocale(this.platform),
+            templates: this.templates,
+            locales: this.platformService
+              .getLocale(this.platform)
+              .filter(
+                (l) => l.translatorLanguage.textDirection === this.textDirection
+              ),
           },
         });
         break;
       case MsgType.createTemplates:
-        const { targetLocales, devices } = message.data;
-        console.log("zz", devices);
-        this.createFrames(this.platform, targetLocales, devices);
+        const { targetLocales, templates } = message.data;
+        this.createFrames(
+          this.platform,
+          this.textDirection,
+          targetLocales,
+          templates
+        );
         break;
     }
   }
 
   private createFrames(
     platform: Platform,
+    textDirection: TextDirection,
     targetLocales: PlatformLocale[],
-    devices: {
+    templates: {
       template: Template;
       count: number;
     }[]
   ) {
     if (targetLocales.length === 0) {
       Notification.i("Please select at least one target language.");
+      return;
+    }
+    if (templates.length === 0) {
+      Notification.i("Please select at least one template.");
       return;
     }
 
@@ -80,25 +103,33 @@ export class CreateTemplatesCmd implements Cmd {
     };
 
     // Create component
-    const createFrameResult = this.figmaService.createFrames({
-      getName: (template, frame, index) =>
-        `${platform.toLocaleLowerCase()} / ${template.name} - ${index}`,
-      templates: this.templates,
-      xGap: 32,
-      yGap: 64,
-      position,
-    });
-    if (!createFrameResult) {
+    const componentFrames =
+      this.figmaService.createFrames({
+        templates: templates.map((e) => ({
+          ...e,
+          getName: (frame, index) => {
+            return `${platform.toLocaleLowerCase()} / ${textDirection} / ${
+              e.template.name
+            } - ${index}`;
+          },
+        })),
+        xGap: 32,
+        yGap: 64,
+        position,
+      }) ?? [];
+    if (componentFrames.length === 0) {
       return;
     }
 
     // Set to component
-    const box = createFrameResult.box;
+    const box: Box = this.figmaService.getBox(
+      componentFrames.map((e) => e.node)
+    );
     const components: {
       frame: Frame;
       index: number;
       node: ComponentNode;
-    }[] = createFrameResult.frames.map((frame) => {
+    }[] = componentFrames.map((frame) => {
       return {
         ...frame,
         node: this.figmaService.createComponent(frame.node),
@@ -107,8 +138,6 @@ export class CreateTemplatesCmd implements Cmd {
 
     // Create instance
     const instances: InstanceNode[] = [];
-    const boxWidth = box.bottomRight.x - box.topLeft.x;
-    const boxHeight = box.bottomRight.y - box.topLeft.y;
     const instanceXGap = 500;
     const instanceYGap = 500;
     const n = Math.ceil(Math.sqrt(targetLocales.length));
@@ -117,8 +146,8 @@ export class CreateTemplatesCmd implements Cmd {
       const row = Math.floor(i / n);
       const targetLocale = targetLocales[i];
       const startPos: Position = {
-        x: box.bottomRight.x + col * (boxWidth + instanceXGap) + instanceXGap,
-        y: box.topLeft.y + row * (boxHeight + instanceYGap),
+        x: box.x + box.width + col * (box.width + instanceXGap) + instanceXGap,
+        y: box.y + row * (box.height + instanceYGap),
       };
       for (const component of components) {
         const { frame, node: componentNode, index } = component;

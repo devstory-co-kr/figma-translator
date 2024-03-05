@@ -55,11 +55,11 @@ hr {
   height: 38px;
 }
 
-.devices {
+.templates {
   padding: 0 8px;
 }
 
-#devicesContainer {
+#templatesContainer {
   width: 100%;
   height: 150px;
   overflow: scroll;

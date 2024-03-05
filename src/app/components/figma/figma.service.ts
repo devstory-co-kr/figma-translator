@@ -1,48 +1,41 @@
 import { Box, Frame, Position, Template } from "../template/template.interface";
-import {
-  CreateFramesResult,
-  FigmaRepository,
-  FigmaService,
-  FrameInfo,
-} from "./figma.interface";
+import { FigmaRepository, FigmaService, FrameInfo } from "./figma.interface";
 
 export class FigmaServiceImpl implements FigmaService {
   constructor(private figmaRepository: FigmaRepository) {}
 
   public createFrames({
-    getName,
     templates,
     position,
     xGap,
     yGap,
     component,
   }: {
-    getName: (template: Template, frame: Frame, index: number) => string;
-    templates: Template[];
+    templates: {
+      getName: (frame: Frame, index: number) => string;
+      template: Template;
+      count: number;
+    }[];
     position: Position;
     xGap: number;
     yGap: number;
     component?: ComponentNode;
-  }): CreateFramesResult {
+  }): FrameInfo[] | undefined {
     const startPos: Position = position;
     const frames: FrameInfo[] = [];
-    const box: Box = {
-      topLeft: { ...position },
-      bottomRight: { ...position },
-    };
 
     for (let i = 0; i < templates.length; i++) {
-      const template = templates[i];
+      const { template, count, getName } = templates[i];
       const { frame } = template;
 
       // Create frame
-      for (let index = 0; index < frame.maxCount; index++) {
+      for (let index = 0; index < count; index++) {
         const framePos: Position = {
           x: startPos.x + index * (frame.size.w + xGap),
           y: startPos.y,
         };
         const frameNode = this.figmaRepository.createFrame({
-          name: getName(template, frame, index),
+          name: getName(frame, index),
           size: frame.size,
           position: framePos,
         });
@@ -58,12 +51,6 @@ export class FigmaServiceImpl implements FigmaService {
           x: framePos.x + frame.size.w,
           y: framePos.y + frame.size.h,
         };
-        if (
-          box.bottomRight.x <= frameBottomLeft.x &&
-          box.bottomRight.y <= frameBottomLeft.y
-        ) {
-          box.bottomRight = { ...frameBottomLeft };
-        }
       }
       startPos.y += frame.size.h + yGap;
     }
@@ -72,10 +59,7 @@ export class FigmaServiceImpl implements FigmaService {
       return undefined;
     }
 
-    return <CreateFramesResult>{
-      box,
-      frames,
-    };
+    return frames;
   }
 
   public createComponent(node: SceneNode): ComponentNode {
@@ -186,5 +170,19 @@ export class FigmaServiceImpl implements FigmaService {
     group.x = topLeftX;
     group.y = topLeftY;
     figma.ungroup(group);
+  }
+
+  public getBox(nodes: SceneNode[]): Box {
+    const group = figma.group(nodes, figma.currentPage);
+    const box: Box = {
+      x: group.x,
+      y: group.y,
+      width: group.width,
+      height: group.height,
+    };
+    console.log(group);
+    console.log(box);
+    figma.ungroup(group);
+    return box;
   }
 }

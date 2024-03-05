@@ -12,13 +12,6 @@ export type FrameInfo = {
   node: FrameNode;
 };
 
-export type CreateFramesResult =
-  | {
-      box: Box;
-      frames: FrameInfo[];
-    }
-  | undefined;
-
 export interface FigmaService {
   search(args: {
     node: SceneNode;
@@ -37,20 +30,22 @@ export interface FigmaService {
   ): Promise<void>;
 
   createFrames({
-    getName,
     templates,
     position,
     xGap,
     yGap,
     component,
   }: {
-    getName: (template: Template, frame: Frame, index: number) => string;
-    templates: Template[];
+    templates: {
+      getName: (frame: Frame, index: number) => string;
+      template: Template;
+      count: number;
+    }[];
     position: Position;
     xGap: number;
     yGap: number;
     component?: ComponentNode;
-  }): CreateFramesResult;
+  }): FrameInfo[] | undefined;
 
   createComponent(node: SceneNode): ComponentNode;
 
@@ -65,6 +60,8 @@ export interface FigmaService {
   }): InstanceNode;
 
   alignToTopLeft(nodes: SceneNode[]): void;
+
+  getBox(nodes: SceneNode[]): Box;
 }
 
 export interface FigmaRepository {

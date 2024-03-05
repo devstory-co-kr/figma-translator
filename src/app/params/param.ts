@@ -1,6 +1,7 @@
 export enum Params {
   platform = "platform",
   sourceLanguage = "sourceLanguage",
+  textDirection = "textDirection",
 }
 
 export interface Param {

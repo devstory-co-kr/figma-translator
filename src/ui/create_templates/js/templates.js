@@ -1,7 +1,7 @@
-export default class Devices {
+export default class Templates {
   html = {
-    title: document.getElementById("devicesTitle"),
-    container: document.getElementById("devicesContainer"),
+    title: document.getElementById("templatesTitle"),
+    container: document.getElementById("templatesContainer"),
   };
 
   _state;
@@ -13,11 +13,11 @@ export default class Devices {
     this.render();
   }
 
-  constructor(devices) {
-    this.state = devices.map((device) => ({
-      device,
+  constructor(templates) {
+    this.state = templates.map((template) => ({
+      template,
       isChecked: true,
-      count: device.frame.maxCount,
+      count: template.frame.maxCount,
     }));
   }
 
@@ -27,11 +27,11 @@ export default class Devices {
       this.html.container.removeChild(this.html.container.firstChild);
     }
 
-    // Add devices
+    // Add templates
     let nChecked = 0;
     for (const s of this.state) {
-      const { device, isChecked, count } = s;
-      const { name, frame } = device;
+      const { template, isChecked, count } = s;
+      const { name, frame } = template;
       const size = `${frame.size.w}x${frame.size.h}`;
       const checked = isChecked ? "checked" : "";
       if (checked) nChecked++;
@@ -69,7 +69,7 @@ export default class Devices {
     this.html.title.innerText = "";
     this.html.title.insertAdjacentHTML(
       "beforeend",
-      `Devices <span style="color: grey; font-weight: normal; font-size: 12px;"> (${nChecked}/${this.state.length})</span>`
+      `Templates <span style="color: grey; font-weight: normal; font-size: 12px;"> (${nChecked}/${this.state.length})</span>`
     );
   }
 }

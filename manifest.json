@@ -39,6 +39,11 @@
           "name": "Platform",
           "key": "platform",
           "description": "Select the platform on which to create the template."
+        },
+        {
+          "name": "Text Direction",
+          "key": "textDirection",
+          "description": "Select the text direction on which to create the template."
         }
       ]
     }

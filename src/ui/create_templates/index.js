@@ -2,8 +2,8 @@ import "../core/base.css";
 import Channel from "../core/channel.js";
 import "./index.css";
 import CreateTemplatesButton from "./js/create_templates_button.js";
-import Devices from "./js/devices.js";
 import TargetLocales from "./js/target_locales.js";
+import Templates from "./js/templates.js";
 
 window.addEventListener("DOMContentLoaded", () => {
   const channel = new Channel({
@@ -16,11 +16,11 @@ window.addEventListener("DOMContentLoaded", () => {
   channel.onMessage((type, data) => {
     switch (type) {
       case channel.types.init:
-        const { platform, devices, locales } = data;
+        const { platform, templates, locales } = data;
         createTemplates = new CreateTemplates(
           channel,
           platform,
-          devices,
+          templates,
           locales
         );
         break;
@@ -36,15 +36,15 @@ class CreateTemplates {
   channel;
   widgets;
 
-  constructor(channel, platform, devices, locales) {
+  constructor(channel, platform, templates, locales) {
     this.channel = channel;
     this.state = {
       platform,
-      devices,
+      templates,
       locales,
     };
     this.widgets = {
-      devices: new Devices(devices),
+      templates: new Templates(templates),
       targetLocales: new TargetLocales(locales),
       createTemplatesButton: new CreateTemplatesButton(platform, () =>
         // Send createTemplates
@@ -52,10 +52,10 @@ class CreateTemplates {
           targetLocales: this.widgets.targetLocales.state
             .filter((l) => l.isChecked)
             .map((l) => l.targetLocale),
-          devices: this.widgets.devices.state
+          templates: this.widgets.templates.state
             .filter((d) => d.isChecked)
             .map((d) => ({
-              template: d.device,
+              template: d.template,
               count: d.count,
             })),
         })
