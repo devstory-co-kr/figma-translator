@@ -46,7 +46,7 @@ export class CreateTemplatesCmd implements Cmd {
     this.templateScale = templateScale;
     this.templates = this.templateService.getTemplates(platform);
     figma.showUI(__uiFiles__.createTemplates, {
-      width: 300,
+      width: 250,
       height: 420,
       title: `${platform} / ${textDirection} / x${templateScale} Templates`,
     });
@@ -64,7 +64,7 @@ export class CreateTemplatesCmd implements Cmd {
             platform: this.platform,
             templates: this.templates,
             locales: this.platformService
-              .getLocale(this.platform)
+              .getLocales(this.platform)
               .filter(
                 (l) => l.translatorLanguage.textDirection === this.textDirection
               ),
@@ -114,9 +114,7 @@ export class CreateTemplatesCmd implements Cmd {
         templates: templates.map((e) => ({
           ...e,
           getName: (frame, index) => {
-            return `${platform.toLocaleLowerCase()} / ${textDirection} / ${
-              e.template.name
-            } - ${index}`;
+            return `${platform} / ${textDirection} / ${e.template.name} - ${index}`;
           },
         })),
         xGap: 32,

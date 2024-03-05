@@ -45,53 +45,34 @@ import { TemplateScaleParam } from "./params/template_scale.param";
 import { TextDirectionParam } from "./params/text_direction.param";
 
 export class FigmaTranslator implements App {
-  /**
-   * Config
-   */
   private configRepository: ConfigRepository = new ConfigRepositoryImpl();
+  private translatorRepository: TranslatorRepository =
+    new TranslatorRepositoryImpl();
+  private translatorLanguageRepository: TranslatorLanguageRepository =
+    new TranslatorLanguageRepositoryImpl();
+  private platformRepository: PlatformRepository = new PlatformRepositoryImpl(
+    this.translatorLanguageRepository
+  );
+  private templateRepository: TemplateRepository = new TemplateRepositoryImpl();
+  private figmaRepository: FigmaRepository = new FigmaRepositoryImpl();
+
   private configService: ConfigService = new ConfigServiceImpl(
     this.configRepository
   );
-
-  /**
-   * Translator
-   */
-  private translatorRepository: TranslatorRepository =
-    new TranslatorRepositoryImpl();
   private translatorService: TranslatorService = new TranslatorServiceImpl(
     this.translatorRepository
-  );
-
-  /**
-   * TranslatorLanguage
-   */
-  private translatorLanguageRepository: TranslatorLanguageRepository =
-    new TranslatorLanguageRepositoryImpl();
-  private translatorLanguageService: TranslatorLanguageService =
-    new TranslatorLanguageServiceImpl(this.translatorLanguageRepository);
-
-  /**
-   * Platform
-   */
-  private platformRepository: PlatformRepository = new PlatformRepositoryImpl(
-    this.translatorLanguageRepository
   );
   private platformService: PlatformService = new PlatformServiceImpl(
     this.platformRepository
   );
-
-  /**
-   * Template
-   */
-  private templateRepository: TemplateRepository = new TemplateRepositoryImpl();
+  private translatorLanguageService: TranslatorLanguageService =
+    new TranslatorLanguageServiceImpl(
+      this.platformService,
+      this.translatorLanguageRepository
+    );
   private templateService: TemplateService = new TemplateServiceImpl(
     this.templateRepository
   );
-
-  /**
-   * Figma
-   */
-  private figmaRepository: FigmaRepository = new FigmaRepositoryImpl();
   private figmaService: FigmaService = new FigmaServiceImpl(
     this.figmaRepository
   );

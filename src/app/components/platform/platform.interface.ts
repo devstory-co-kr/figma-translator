@@ -8,7 +8,10 @@ export interface PlatformLocale {
 }
 
 export interface PlatformService {
-  getLocale(platform: Platform): PlatformLocale[];
+  getAllLocales(): {
+    [platform in Platform]: PlatformLocale[];
+  };
+  getLocales(platform: Platform): PlatformLocale[];
 }
 
 export interface PlatformRepository {

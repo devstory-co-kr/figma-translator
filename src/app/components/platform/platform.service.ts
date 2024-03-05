@@ -8,7 +8,13 @@ import {
 export class PlatformServiceImpl implements PlatformService {
   constructor(private platformRepository: PlatformRepository) {}
 
-  public getLocale(platform: Platform): PlatformLocale[] {
+  public getAllLocales(): {
+    [platform in Platform]: PlatformLocale[];
+  } {
+    return this.platformRepository.locales;
+  }
+
+  public getLocales(platform: Platform): PlatformLocale[] {
     return this.platformRepository.locales[platform];
   }
 }
