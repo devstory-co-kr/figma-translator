@@ -6,7 +6,7 @@
 html, body {
   height: 100%;
   width: 100%;
-  font-size: 14px;
+  font-size: 12px;
   padding: 0;
   margin: 0;
 }
@@ -48,7 +48,6 @@ button {
 select {
   width: 100%;
   padding: 4px 6px;
-  appearance: none;
   background-color: transparent;
   cursor: pointer;
   border-radius: 6px;
@@ -59,7 +58,7 @@ input {
   border-radius: 4px;
   padding: 6px;
   border: var(--input-border);
-  font-size: 12px;
+  font-size: 1rem;
 }
 
 input[type="checkbox"] {

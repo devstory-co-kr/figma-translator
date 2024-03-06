@@ -3,6 +3,7 @@ import Channel from "../core/channel.js";
 import "./index.css";
 import CreateTemplatesButton from "./js/create_templates_button.js";
 import TargetLocales from "./js/target_locales.js";
+import TemplateScale from "./js/template_scale.js";
 import Templates from "./js/templates.js";
 import TextDirection from "./js/text_direction.js";
 
@@ -17,12 +18,18 @@ window.addEventListener("DOMContentLoaded", () => {
   channel.onMessage((type, data) => {
     switch (type) {
       case channel.types.init:
-        const { platform, platformTemplates, textDirection, platformLocales } =
-          data;
+        const {
+          platform,
+          platformTemplates,
+          templateScale,
+          textDirection,
+          platformLocales,
+        } = data;
         createTemplates = new CreateTemplates(
           channel,
           platform,
           textDirection,
+          templateScale,
           platformLocales,
           platformTemplates
         );
@@ -50,6 +57,7 @@ class CreateTemplates {
     channel,
     platform,
     textDirection,
+    templateScale,
     platformLocales,
     platformTemplates
   ) {
@@ -58,6 +66,7 @@ class CreateTemplates {
       platform,
       templates: platformTemplates[platform],
       textDirection,
+      templateScale,
       getLocales: () =>
         platformLocales[platform].filter(
           (l) => l.translatorLanguage.textDirection === this.state.textDirection
@@ -81,11 +90,14 @@ class CreateTemplates {
         }
       ),
       targetLocales: new TargetLocales(this.state.getLocales()),
+      templateScale: new TemplateScale(this.state.templateScale),
       createTemplatesButton: new CreateTemplatesButton(
         this.state.platform,
         () =>
           // On create templates button pressed
           this.channel.sendMessage(this.channel.types.createTemplates, {
+            textDirection: this.widgets.textDirection.state.textDirection,
+            templateScale: this.widgets.templateScale.state.scale,
             targetLocales: this.widgets.targetLocales.state
               .filter((l) => l.isChecked)
               .map((l) => l.targetLocale),

@@ -21,6 +21,6 @@ export default class CreateTemplatesButton {
   }
 
   render() {
-    this.button.innerText = `Create ${this.state.platform} Templates`;
+    this.button.innerText = `Create Templates`;
   }
 }

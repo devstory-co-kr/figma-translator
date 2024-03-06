@@ -46,7 +46,7 @@ export class CreateTemplatesCmd implements Cmd {
     figma.showUI(__uiFiles__.createTemplates, {
       width: 250,
       height: 500,
-      title: `${platform} / ${textDirection} / x${templateScale} Templates`,
+      title: `Create Templates`,
     });
   }
 
@@ -55,23 +55,27 @@ export class CreateTemplatesCmd implements Cmd {
       return;
     }
     switch (<MsgType>message.type) {
+      // Init
       case MsgType.init:
         figma.ui.postMessage({
           type: MsgType.init,
           data: {
             platform: this.platform,
             textDirection: this.textDirection,
+            templateScale: this.templateScale,
             platformLocales: this.platformService.getAllLocales(),
             platformTemplates: this.templateService.getAllTemplates(),
           },
         });
         break;
+      //  Create Template
       case MsgType.createTemplates:
-        const { targetLocales, templates } = message.data;
+        const { targetLocales, textDirection, templateScale, templates } = message.data;
+        console.log(message.data);
         this.createFrames(
           this.platform,
-          this.textDirection,
-          this.templateScale,
+          textDirection,
+          templateScale,
           targetLocales,
           templates
         );

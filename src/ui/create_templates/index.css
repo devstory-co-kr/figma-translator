@@ -14,7 +14,6 @@ main {
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
-  font-size: 12px;
 }
 
 .targetSearchContainer {
@@ -41,10 +40,25 @@ main {
   transition: opacity 0.3s ease;
 }
 
-#createTemplatesButton {
-  width: calc(100% - 16px);
-  height: 38px;
+footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   margin: 8px;
+}
+
+#templateScale {
+  width: 70px;
+  height: 38px;
+  margin-right: 4px;
+  font-size: 1rem;
+  border: 1px solid rgba(var(--primary-color, 1));
+  color: rgb(var(--primary-color));
+}
+
+#createTemplatesButton {
+  flex-grow: 1;
+  height: 38px;
 }
 
 #templates {
