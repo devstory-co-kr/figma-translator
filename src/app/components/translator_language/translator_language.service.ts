@@ -19,7 +19,7 @@ export class TranslatorLanguageServiceImpl
   ) {
     // Add GoogleTranslateLocale
     for (const language of this.supportLanguages) {
-      const locale = language.locale.toLowerCase();
+      const locale = language.locale.toLowerCase().trim();
       this.localeToTranslatorLanguage[locale] = language;
     }
 
@@ -41,7 +41,7 @@ export class TranslatorLanguageServiceImpl
 
   public getLanguageFromLocale(localeStr: string): TranslatorLanguage {
     for (const l of localeStr.split("/")) {
-      const locale = l.toLowerCase();
+      const locale = l.toLowerCase().trim();
       const translatorLanguage = this.localeToTranslatorLanguage[locale];
       if (translatorLanguage) {
         return translatorLanguage;
