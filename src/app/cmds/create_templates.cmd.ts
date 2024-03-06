@@ -77,7 +77,6 @@ export class CreateTemplatesCmd implements Cmd {
           targetLocales,
           templates,
         } = message.data;
-        console.log(message.data);
         this.createFrames({
           platform,
           textDirection,

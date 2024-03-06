@@ -2,40 +2,18 @@ import { App } from "./app.interface";
 import { Cmd, Cmds } from "./cmds/cmd";
 import { CreateTemplatesCmd } from "./cmds/create_templates.cmd";
 import { TranslateCmd } from "./cmds/translate.cmd";
-import {
-  ConfigRepository,
-  ConfigService,
-} from "./components/config/config.interface";
 import { ConfigRepositoryImpl } from "./components/config/config.repository";
 import { ConfigServiceImpl } from "./components/config/config.service";
-import {
-  FigmaRepository,
-  FigmaService,
-} from "./components/figma/figma.interface";
 import { FigmaRepositoryImpl } from "./components/figma/figma.repository";
 import { FigmaServiceImpl } from "./components/figma/figma.service";
-import {
-  PlatformRepository,
-  PlatformService,
-} from "./components/platform/platform.interface";
 import { PlatformRepositoryImpl } from "./components/platform/platform.repository";
 import { PlatformServiceImpl } from "./components/platform/platform.service";
-import {
-  TemplateRepository,
-  TemplateService,
-} from "./components/template/template.interface";
 import { TemplateRepositoryImpl } from "./components/template/template.repository";
 import { TemplateServiceImpl } from "./components/template/template.service";
-import {
-  TranslatorRepository,
-  TranslatorService,
-} from "./components/translator/translator.interface";
+import { TranslatorCacheRepositoryImpl } from "./components/translator/cache/translator_cache.repository";
+import { TranslatorCacheServiceImpl } from "./components/translator/cache/translator_cache.service";
 import { TranslatorRepositoryImpl } from "./components/translator/translator.repository";
 import { TranslatorServiceImpl } from "./components/translator/translator.service";
-import {
-  TranslatorLanguageRepository,
-  TranslatorLanguageService,
-} from "./components/translator_language/translator_language.interface";
 import { TranslatorLanguageRepositoryImpl } from "./components/translator_language/translator_language.repository";
 import { TranslatorLanguageServiceImpl } from "./components/translator_language/translator_language.service";
 import { Param, Params } from "./params/param";
@@ -45,37 +23,37 @@ import { TemplateScaleParam } from "./params/template_scale.param";
 import { TextDirectionParam } from "./params/text_direction.param";
 
 export class FigmaTranslator implements App {
-  private configRepository: ConfigRepository = new ConfigRepositoryImpl();
-  private translatorRepository: TranslatorRepository =
-    new TranslatorRepositoryImpl();
-  private translatorLanguageRepository: TranslatorLanguageRepository =
-    new TranslatorLanguageRepositoryImpl();
-  private platformRepository: PlatformRepository = new PlatformRepositoryImpl(
+  /**
+   * Repository
+   */
+  private configRepository = new ConfigRepositoryImpl();
+  private translatorCacheRepository = new TranslatorCacheRepositoryImpl();
+  private translatorRepository = new TranslatorRepositoryImpl();
+  private translatorLanguageRepository = new TranslatorLanguageRepositoryImpl();
+  private platformRepository = new PlatformRepositoryImpl(
     this.translatorLanguageRepository
   );
-  private templateRepository: TemplateRepository = new TemplateRepositoryImpl();
-  private figmaRepository: FigmaRepository = new FigmaRepositoryImpl();
+  private templateRepository = new TemplateRepositoryImpl();
+  private figmaRepository = new FigmaRepositoryImpl();
 
-  private configService: ConfigService = new ConfigServiceImpl(
-    this.configRepository
+  /**
+   * Service
+   */
+  private configService = new ConfigServiceImpl(this.configRepository);
+  private translatorCacheService = new TranslatorCacheServiceImpl(
+    this.translatorCacheRepository
   );
-  private translatorService: TranslatorService = new TranslatorServiceImpl(
-    this.translatorRepository
+  private translatorService = new TranslatorServiceImpl(
+    this.translatorRepository,
+    this.translatorCacheService
   );
-  private platformService: PlatformService = new PlatformServiceImpl(
-    this.platformRepository
+  private platformService = new PlatformServiceImpl(this.platformRepository);
+  private translatorLanguageService = new TranslatorLanguageServiceImpl(
+    this.platformService,
+    this.translatorLanguageRepository
   );
-  private translatorLanguageService: TranslatorLanguageService =
-    new TranslatorLanguageServiceImpl(
-      this.platformService,
-      this.translatorLanguageRepository
-    );
-  private templateService: TemplateService = new TemplateServiceImpl(
-    this.templateRepository
-  );
-  private figmaService: FigmaService = new FigmaServiceImpl(
-    this.figmaRepository
-  );
+  private templateService = new TemplateServiceImpl(this.templateRepository);
+  private figmaService = new FigmaServiceImpl(this.figmaRepository);
 
   /**
    * Params
