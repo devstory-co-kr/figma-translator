@@ -1,38 +1,46 @@
 <html>
   <body>
-    <!-- Target locales -->
-    <fieldset class="targetLocales">
-      <legend id="targetTitle">Targets</legend>
+    <main>
+      <!-- Templates -->
+      <fieldset class="templates">
+        <legend id="templatesTitle">Templates</legend>
+        <div class="column" id="templatesContainer"></div>
+      </fieldset>
 
-      <div class="column">
-        <div class="row">
-          <!-- Toggle -->
-          <input id="targetLocaleToggle" type="checkbox" checked />
-          <!-- Search -->
-          <div class="targetSearchContainer">
-            <input
-              id="targetLocaleSearch"
-              type="text"
-              style="width: 100%"
-              placeholder="Search"
-            />
-            <button id="targetSearchClearButton">×</button>
+      <hr />
+
+      <!-- Target locales -->
+      <fieldset class="targetLocales" style="position: relative">
+        <legend id="targetTitle" style="position: sticky">Targets</legend>
+
+        <div class="column">
+          <div class="row" style="padding: 4px 8px 0; box-sizing: border-box">
+            <!-- Toggle -->
+            <input id="targetLocaleToggle" type="checkbox" checked />
+            <!-- Search -->
+            <div class="targetSearchContainer">
+              <input
+                id="targetLocaleSearch"
+                type="text"
+                style="width: 100%"
+                placeholder="Search"
+              />
+              <button id="targetSearchClearButton">×</button>
+            </div>
           </div>
+          <hr style="margin: 8px 0 0 0" />
+
+          <!-- Target locales -->
+          <div class="column" id="targetLocalesContainer"></div>
         </div>
-        <hr />
+      </fieldset>
+    </main>
 
-        <!-- Target locales -->
-        <div class="column" id="targetLocalesContainer"></div>
-      </div>
-    </fieldset>
+    <hr style="margin: 0" />
 
-    <!-- Templates -->
-    <fieldset class="templates">
-      <legend id="templatesTitle">Templates</legend>
-      <div class="column" id="templatesContainer"></div>
-    </fieldset>
-
-    <!-- Create Templates Button -->
-    <button id="createTemplatesButton">Create Templates</button>
+    <footer>
+      <!-- Create Templates Button -->
+      <button id="createTemplatesButton">Create Templates</button>
+    </footer>
   </body>
 </html>

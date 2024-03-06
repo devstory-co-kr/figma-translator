@@ -38,6 +38,8 @@ export type Template = {
 };
 
 export interface TemplateService {
+  getAllTemplates(): { [platform in Platform]: Template[] };
+
   getTemplates(platform: Platform): Template[];
 
   getFrameName(locale: PlatformLocale, frame: Frame, index: number): string;

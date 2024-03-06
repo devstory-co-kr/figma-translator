@@ -10,6 +10,10 @@ import {
 export class TemplateServiceImpl implements TemplateService {
   constructor(private templateRepository: TemplateRepository) {}
 
+  public getAllTemplates(): { [platform in Platform]: Template[] } {
+    return this.templateRepository.templates;
+  }
+
   public getTemplates(platform: Platform): Template[] {
     return this.templateRepository.templates[platform];
   }

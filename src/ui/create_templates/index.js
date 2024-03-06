@@ -16,12 +16,14 @@ window.addEventListener("DOMContentLoaded", () => {
   channel.onMessage((type, data) => {
     switch (type) {
       case channel.types.init:
-        const { platform, templates, locales } = data;
+        const { platform, platformTemplates, textDirection, platformLocales } =
+          data;
         createTemplates = new CreateTemplates(
           channel,
           platform,
-          templates,
-          locales
+          textDirection,
+          platformLocales,
+          platformTemplates
         );
         break;
     }
@@ -36,29 +38,46 @@ class CreateTemplates {
   channel;
   widgets;
 
-  constructor(channel, platform, templates, locales) {
+  constructor(
+    channel,
+    platform,
+    textDirection,
+    platformLocales,
+    platformTemplates
+  ) {
     this.channel = channel;
     this.state = {
       platform,
-      templates,
-      locales,
+      templates: platformTemplates[platform],
+      textDirection,
+      locales: platformLocales[platform].filter(
+        (l) => l.translatorLanguage.textDirection === textDirection
+      ),
+      platformLocales,
+      platformTemplates,
     };
+    this.render();
+  }
+
+  render() {
     this.widgets = {
-      templates: new Templates(templates),
-      targetLocales: new TargetLocales(locales),
-      createTemplatesButton: new CreateTemplatesButton(platform, () =>
-        // Send createTemplates
-        this.channel.sendMessage(this.channel.types.createTemplates, {
-          targetLocales: this.widgets.targetLocales.state
-            .filter((l) => l.isChecked)
-            .map((l) => l.targetLocale),
-          templates: this.widgets.templates.state
-            .filter((d) => d.isChecked)
-            .map((d) => ({
-              template: d.template,
-              count: d.count,
-            })),
-        })
+      templates: new Templates(this.state.templates),
+      targetLocales: new TargetLocales(this.state.locales),
+      createTemplatesButton: new CreateTemplatesButton(
+        this.state.platform,
+        () =>
+          // Send createTemplates
+          this.channel.sendMessage(this.channel.types.createTemplates, {
+            targetLocales: this.widgets.targetLocales.state
+              .filter((l) => l.isChecked)
+              .map((l) => l.targetLocale),
+            templates: this.widgets.templates.state
+              .filter((d) => d.isChecked)
+              .map((d) => ({
+                template: d.template,
+                count: d.count,
+              })),
+          })
       ),
     };
   }

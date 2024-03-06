@@ -30,7 +30,6 @@ export class CreateTemplatesCmd implements Cmd {
   platform?: Platform;
   textDirection?: TextDirection;
   templateScale?: number;
-  templates: Template[] = [];
 
   public onRun({
     platform,
@@ -44,7 +43,6 @@ export class CreateTemplatesCmd implements Cmd {
     this.platform = platform;
     this.textDirection = textDirection;
     this.templateScale = templateScale;
-    this.templates = this.templateService.getTemplates(platform);
     figma.showUI(__uiFiles__.createTemplates, {
       width: 250,
       height: 420,
@@ -62,12 +60,9 @@ export class CreateTemplatesCmd implements Cmd {
           type: MsgType.init,
           data: {
             platform: this.platform,
-            templates: this.templates,
-            locales: this.platformService
-              .getLocales(this.platform)
-              .filter(
-                (l) => l.translatorLanguage.textDirection === this.textDirection
-              ),
+            textDirection: this.textDirection,
+            platformLocales: this.platformService.getAllLocales(),
+            platformTemplates: this.templateService.getAllTemplates(),
           },
         });
         break;
