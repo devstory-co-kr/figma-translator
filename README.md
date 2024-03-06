@@ -1,34 +1,27 @@
-# Figma Translator Plugin
-This is a figma plugin that translates all strings in the selected frame using Google Translator.
+# Figma Translator
+This is a plugin that creates translation and store templates.
 
-## Requirements
+## Features
+- `Translate` : Translates all strings in the selected frame using Google Translator.
+- `Create Templates` : Create android and ios store templates.
 
-Since this extension program uses Google Translator, please refer to the [link](https://cloud.google.com/translate/docs/setup) and proceed with the API setting and API Key issuance process.
+## Commands
+### Translate
+https://github.com/devstory-co-kr/figma-translator/assets/26322627/e2015e61-c7f0-4309-8003-5464b3d2ef3e
+- It uses Google Translator and has an internal caching function implemented.
+- Free translators have hourly limitations.
+- Figma plugin provides up to 1MB of storage space, so if the cache is full, empty the cache using the `Delete Translate Cache` command.
 
-## How to use
-1. Obtain and add a [Google API key](https://cloud.google.com/translate/docs/setup).
-2. In the plugin, set the source language you want to translate to “From”.
-3. Enter the [ISO639 code](https://cloud.google.com/translate/docs/languages) of the language you want to translate as the first word of the name of the frame.
-4. Select all the frames you want to translate and click the “TRANSLATE” button.
-
-![figma translator v1 0 0 demo](https://github.com/nero-angela/figma-translator/assets/26322627/5f7983a6-fba4-481d-bb10-a608bc24418b)
-
-
-
-
-
-## Support Devices Template
-### App Store
-Only required screenshots are supported. Please refer to the [link](https://developer.apple.com/help/app-store-connect/reference/screenshot-specifications/) for more details.
-- iPhone (10)
-  - 6.5 : 1284 x 2778
-  - 5.5 : 1242 x 2208
-- iPad (10)
-  - 12.9 3nd generation : 2048 x 2732
-  - 12.9 2nd generation : 2048 x 2732
-
-### Play Store
-<!-- - Grapic Image : 1024 x 500 (1) -->
-- Phone : 1242 x 2208 (8)
-- Tablet 7inch : 2048 x 2732 (8)
-- Tablet 10inch : 2048 x 2732 (8)
+### Create templates
+https://github.com/devstory-co-kr/figma-translator/assets/26322627/04b662b6-9caa-4e06-8d98-34d7746d7aff
+- The frame name is created according to the folder structure supported by fastlane.
+- After exporting the template, you can easily place it in the fastlane folder using the [`rsync`](https://www.geeksforgeeks.org/rsync-command-in-linux-with-examples/) command.
+- Support Templates
+  - iOS
+    - iPhone 5.5 : `1242 x 2208`
+    - iPad 12.9 2nd generation : `2048 x 2732`
+  - Android
+    - Grapic Image : `1024 x 500`
+    - Phone : `1242 x 2208`
+    - Tablet 7inch : `2048 x 2732`
+    - Tablet 10inch : `2048 x 2732`
