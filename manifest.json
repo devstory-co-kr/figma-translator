@@ -5,10 +5,13 @@
   "main": "dist/code.js",
   "capabilities": [],
   "enableProposedApi": false,
+  "documentAccess": "dynamic-page",
   "editorType": [
     "figma"
   ],
-  "ui": "ui.html",
+  "ui": {
+    "createTemplates": "dist/ui/create_templates.html"
+  },
   "networkAccess": {
     "allowedDomains": [
       "https://translation.googleapis.com",
@@ -16,5 +19,33 @@
     ],
     "reasoning": "",
     "devAllowedDomains": []
-  }
+  },
+  "menu": [
+    {
+      "name": "Translate",
+      "command": "translate",
+      "parameters": [
+        {
+          "name": "Source Language",
+          "key": "sourceLanguage",
+          "description": "Select the source language to translate."
+        }
+      ]
+    },
+    {
+      "name": "Create Templates",
+      "command": "createTemplates",
+      "parameters": [
+        {
+          "name": "Platform",
+          "key": "platform",
+          "description": "Select the platform on which to create the template."
+        }
+      ]
+    },
+    {
+      "name": "Delete Translation Cache",
+      "command": "deleteTranslationCache"
+    }
+  ]
 }

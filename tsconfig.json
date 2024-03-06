@@ -11,5 +11,5 @@
     "allowJs": true,
     "moduleResolution": "node"
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "src/ui/create_templates/index.js", "src/ui/core/component.js"]
 }

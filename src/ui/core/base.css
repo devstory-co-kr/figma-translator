@@ -1,0 +1,79 @@
+:root {
+  --primary-color: 0, 111, 249;
+  --input-border: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  font-size: 12px;
+  padding: 0;
+  margin: 0;
+}
+
+*:focus {
+  outline: none;
+  box-shadow: 0 0 5px 2px rgba(var(--primary-color), 0.25);
+}
+
+hr {
+  width: 100%;
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  margin: 4px 0px;
+}
+
+fieldset {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 0;
+  margin: 8px;
+}
+
+fieldset legend {
+  font-weight: bold;
+}
+
+button {
+  background-color: transparent;
+  border: 1px solid rgb(var(--primary-color), 1);
+  border-radius: 4px;
+  color: rgb(var(--primary-color));
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+select {
+  width: 100%;
+  padding: 4px 6px;
+  background-color: transparent;
+  cursor: pointer;
+  border-radius: 6px;
+  border: var(--input-border);
+}
+
+input {
+  border-radius: 4px;
+  padding: 6px;
+  border: var(--input-border);
+  font-size: 1rem;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.0) translateY(-1px);
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  width: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
