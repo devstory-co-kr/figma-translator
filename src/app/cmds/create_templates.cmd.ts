@@ -13,6 +13,7 @@ import {
 } from "../components/template/template.interface";
 import { TextDirection } from "../components/translator_language/translator_language.interface";
 import { Platform } from "../params/platform.param";
+import { TemplateScale } from "../params/template_scale.param";
 import { Cmd } from "./cmd";
 
 enum MsgType {
@@ -28,21 +29,9 @@ export class CreateTemplatesCmd implements Cmd {
   ) {}
 
   platform?: Platform;
-  textDirection?: TextDirection;
-  templateScale?: number;
 
-  public async onRun({
-    platform,
-    textDirection,
-    templateScale,
-  }: {
-    platform: Platform;
-    textDirection: TextDirection;
-    templateScale: number;
-  }): Promise<void> {
+  public async onRun({ platform }: { platform: Platform }): Promise<void> {
     this.platform = platform;
-    this.textDirection = textDirection;
-    this.templateScale = templateScale;
     figma.showUI(__uiFiles__.createTemplates, {
       width: 250,
       height: 500,
@@ -51,7 +40,7 @@ export class CreateTemplatesCmd implements Cmd {
   }
 
   public onMessage(message: any, props: OnMessageProperties): void {
-    if (!this.platform || !this.textDirection || !this.templateScale) {
+    if (!this.platform) {
       return;
     }
     switch (<MsgType>message.type) {
@@ -61,8 +50,8 @@ export class CreateTemplatesCmd implements Cmd {
           type: MsgType.init,
           data: {
             platform: this.platform,
-            textDirection: this.textDirection,
-            templateScale: this.templateScale,
+            textDirection: TextDirection.LTR,
+            templateScale: TemplateScale.x1,
             platformLocales: this.platformService.getAllLocales(),
             platformTemplates: this.templateService.getAllTemplates(),
           },
