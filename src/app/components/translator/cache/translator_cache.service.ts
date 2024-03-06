@@ -7,7 +7,7 @@ import { TranslatorCacheKey } from "./translator_cache_key";
 export class TranslatorCacheServiceImpl implements TranslatorCacheService {
   constructor(private translatorCacheRepository: TranslatorCacheRepository) {}
 
-  public clear(): Promise<void> {
+  public clear(): Promise<number> {
     return this.translatorCacheRepository.clear();
   }
 

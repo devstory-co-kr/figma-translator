@@ -4,13 +4,14 @@ import { TranslatorCacheKey } from "./translator_cache_key";
 export class TranslatorCacheRepositoryImpl
   implements TranslatorCacheRepository
 {
-  public async clear(): Promise<void> {
+  public async clear(): Promise<number> {
     const keys = await figma.clientStorage.keysAsync();
     await Promise.all(
       keys.map((key) => {
         return figma.clientStorage.deleteAsync(key);
       })
     );
+    return keys.length;
   }
 
   public async set(key: TranslatorCacheKey, text: string): Promise<void> {

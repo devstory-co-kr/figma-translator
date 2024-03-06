@@ -51,6 +51,10 @@
           "description": "Select the template scale."
         }
       ]
+    },
+    {
+      "name": "Delete Translation Cache",
+      "command": "deleteTranslationCache"
     }
   ]
 }

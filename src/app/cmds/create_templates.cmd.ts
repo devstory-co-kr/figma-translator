@@ -31,7 +31,7 @@ export class CreateTemplatesCmd implements Cmd {
   textDirection?: TextDirection;
   templateScale?: number;
 
-  public onRun({
+  public async onRun({
     platform,
     textDirection,
     templateScale,
@@ -39,7 +39,7 @@ export class CreateTemplatesCmd implements Cmd {
     platform: Platform;
     textDirection: TextDirection;
     templateScale: number;
-  }): void {
+  }): Promise<void> {
     this.platform = platform;
     this.textDirection = textDirection;
     this.templateScale = templateScale;
