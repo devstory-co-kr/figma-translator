@@ -17,16 +17,12 @@ export default class TargetLocales {
   }
 
   initState(locales) {
-    this.state = locales.map((locale) => {
-      return {
-        targetLocale: locale,
-        isChecked: true,
-        isVisible: true,
-      };
-    });
+    this.state = locales;
   }
 
-  constructor(locales) {
+  onTargetLocalesChanged;
+  constructor(locales, onTargetLocalesChanged) {
+    this.onTargetLocalesChanged = onTargetLocalesChanged;
     this.initState(locales);
 
     // Clear
@@ -90,6 +86,7 @@ export default class TargetLocales {
       itemWrapper.addEventListener("click", (event) => {
         if (event.target.type === "checkbox") {
           s.isChecked = event.target.checked;
+          this.onTargetLocalesChanged(this.state);
           this.render();
         }
       });

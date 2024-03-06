@@ -65,14 +65,26 @@ class CreateTemplates {
     this.channel = channel;
 
     this.widgets = {
-      platfom: new Platform(platform, (changedPlatform) => {
+      platform: new Platform(platform, (changedPlatform) => {
         // On platform changed
         this.state = {
           ...this.state,
           platform: changedPlatform,
         };
       }),
-      templates: new Templates(platformTemplates[platform]),
+      templates: new Templates(
+        this.getTemplates(platformTemplates, platform),
+        (changedTemplates) => {
+          // On templates changed
+          this.state = {
+            ...this.state,
+            templates: {
+              ...this.state.templates,
+              [this.state.platform]: changedTemplates,
+            },
+          };
+        }
+      ),
       textDirection: new TextDirection(
         textDirection,
         (changedTextDirection) => {
@@ -84,20 +96,38 @@ class CreateTemplates {
         }
       ),
       targetLocales: new TargetLocales(
-        platformLocales[platform].filter(
-          (l) => l.translatorLanguage.textDirection === textDirection
-        )
+        this.getTargetLocales(platformLocales, platform, textDirection),
+        (changedTargetLocales) => {
+          // On target locales changed
+          this.state = {
+            ...this.state,
+            targetLocales: {
+              ...this.state.targetLocales,
+              [this.state.textDirection]: changedTargetLocales,
+            },
+          };
+        }
       ),
-      templateScale: new TemplateScale(templateScale),
+      templateScale: new TemplateScale(
+        templateScale,
+        (changedTemplateScale) => {
+          // on template scale changed
+          this.state = {
+            ...this.state,
+            templateScale: changedTemplateScale,
+          };
+        }
+      ),
       createTemplatesButton: new CreateTemplatesButton(platform, () =>
         // On create templates button pressed
         this.channel.sendMessage(this.channel.types.createTemplates, {
-          textDirection: this.widgets.textDirection.state.textDirection,
-          templateScale: this.widgets.templateScale.state.scale,
-          targetLocales: this.widgets.targetLocales.state
+          platform: this.state.platform,
+          textDirection: this.state.textDirection,
+          templateScale: this.state.templateScale,
+          targetLocales: this.state.targetLocales[this.state.textDirection]
             .filter((l) => l.isChecked)
             .map((l) => l.targetLocale),
-          templates: this.widgets.templates.state
+          templates: this.state.templates[this.state.platform]
             .filter((d) => d.isChecked)
             .map((d) => ({
               template: d.template,
@@ -109,20 +139,59 @@ class CreateTemplates {
 
     this.state = {
       platform,
-      getTemplates: () => platformTemplates[this.state.platform],
+      templates: {
+        [this.widgets.platform.android]: this.getTemplates(
+          platformTemplates,
+          this.widgets.platform.android
+        ),
+        [this.widgets.platform.ios]: this.getTemplates(
+          platformTemplates,
+          this.widgets.platform.ios
+        ),
+      },
       textDirection,
       templateScale,
-      getLocales: () =>
-        platformLocales[platform].filter(
-          (l) => l.translatorLanguage.textDirection === this.state.textDirection
+      targetLocales: {
+        [this.widgets.textDirection.LTR]: this.getTargetLocales(
+          platformLocales,
+          platform,
+          this.widgets.textDirection.LTR
         ),
+        [this.widgets.textDirection.RTL]: this.getTargetLocales(
+          platformLocales,
+          platform,
+          this.widgets.textDirection.RTL
+        ),
+      },
       platformLocales,
       platformTemplates,
     };
   }
 
   render() {
-    this.widgets.templates.initState(this.state.getTemplates());
-    this.widgets.targetLocales.initState(this.state.getLocales());
+    this.widgets.templates.initState(this.state.templates[this.state.platform]);
+    this.widgets.targetLocales.initState(
+      this.state.targetLocales[this.state.textDirection]
+    );
+  }
+
+  getTemplates(platformTemplates, platform) {
+    return platformTemplates[platform].map((template) => ({
+      template,
+      isChecked: true,
+      count: template.frame.maxCount,
+    }));
+  }
+
+  getTargetLocales(platformLocales, platform, textDirection) {
+    return platformLocales[platform]
+      .filter((l) => l.translatorLanguage.textDirection === textDirection)
+      .map((locale) => {
+        return {
+          targetLocale: locale,
+          isChecked: true,
+          isVisible: true,
+        };
+      });
   }
 }

@@ -10,25 +10,25 @@
           style="padding: 8px; align-items: center"
         >
           <!-- Android -->
-          <div style="flex-grow: 1">
+          <div style="flex-grow: 1; display: flex; align-items: center">
             <input
               type="radio"
               name="platform"
               id="platformAndroid"
               value="Android"
-              style="margin-right: 8px"
+              style="margin: 8px"
             />
             <label for="platformAndroid">Android</label>
           </div>
 
           <!-- iOS -->
-          <div style="flex-grow: 1">
+          <div style="flex-grow: 1; display: flex; align-items: center">
             <input
               type="radio"
               name="platform"
               id="platformIos"
               value="iOS"
-              style="margin-right: 8px"
+              style="margin: 8px"
             />
             <label for="platformIos">iOS</label>
           </div>
@@ -37,7 +37,14 @@
 
       <!-- Templates -->
       <fieldset id="templates">
-        <legend id="templatesTitle">Templates</legend>
+        <legend id="templatesTitle">
+          <input
+            id="targetLocaleToggle"
+            type="checkbox"
+            checked
+            style="margin: 9px 8px 8px 4px"
+          />Templates
+        </legend>
         <div class="column" id="templatesContainer"></div>
       </fieldset>
 
@@ -50,25 +57,25 @@
           style="padding: 8px; align-items: center"
         >
           <!-- LTR -->
-          <div style="flex-grow: 1">
+          <div style="flex-grow: 1; display: flex; align-items: center">
             <input
               type="radio"
               name="textDirection"
               id="textDirectionLTR"
               value="LTR"
-              style="margin-right: 8px"
+              style="margin: 8px"
             />
             <label for="textDirectionLTR">LTR</label>
           </div>
 
           <!-- RTL -->
-          <div style="flex-grow: 1">
+          <div style="flex-grow: 1; display: flex; align-items: center">
             <input
               type="radio"
               name="textDirection"
               id="textDirectionRTL"
               value="RTL"
-              style="margin-right: 8px"
+              style="margin: 8px"
             />
             <label for="textDirectionRTL">RTL</label>
           </div>

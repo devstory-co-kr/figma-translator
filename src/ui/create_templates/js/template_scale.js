@@ -12,19 +12,20 @@ export default class TemplateScale {
     this.render();
   }
 
-  constructor(scale) {
+  constructor(templateScale, onTemplateScaleChanged) {
     this.state = {
-      scale,
+      templateScale,
     };
 
     this.html.select.addEventListener("change", () => {
       this.state = {
-        scale: this.html.select.value,
+        templateScale: this.html.select.value,
       };
+      onTemplateScaleChanged(this.state.templateScale);
     });
   }
 
   render() {
-    this.html.select.value = this.state.scale;
+    this.html.select.value = this.state.templateScale;
   }
 }

@@ -13,16 +13,14 @@ export default class Templates {
     this.render();
   }
 
-  constructor(templates) {
+  onStateChanged;
+  constructor(templates, onStateChanged) {
     this.initState(templates);
+    this.onStateChanged = onStateChanged;
   }
 
   initState(templates) {
-    this.state = templates.map((template) => ({
-      template,
-      isChecked: true,
-      count: template.frame.maxCount,
-    }));
+    this.state = templates;
   }
 
   render() {
@@ -47,7 +45,7 @@ export default class Templates {
             <span style="color: grey; font-size: 11px;">${size}</span>
           </label>
           <div class="row quantity" style="align-items: center; justify-content: end;">
-            <input type="number" step="1" min="1" max="${frame.maxCount}" value="${count}" onkeydown="return false" style="height: 30px;">
+            <input type="number" step="1" min="1" max="${frame.maxCount}" value="${count}" style="height: 30px;">
           </div>
         </div>
       </div>`;
@@ -57,12 +55,22 @@ export default class Templates {
       itemWrapper.addEventListener("click", (event) => {
         if (event.target.type === "checkbox") {
           s.isChecked = event.target.checked;
+          this.onStateChanged(this.state);
           this.render();
         }
       });
-      itemWrapper.addEventListener("input", (event) => {
+      itemWrapper.addEventListener("change", (event) => {
         if (event.target.type === "number") {
-          s.count = event.target.value;
+          let value = event.target.value;
+          if (value > frame.maxCount) {
+            value = frame.maxCount;
+            event.target.value = value;
+          } else if (value < 1) {
+            value = 1;
+            event.target.value = value;
+          }
+          s.count = value;
+          this.onStateChanged(this.state);
           this.render();
         }
       });

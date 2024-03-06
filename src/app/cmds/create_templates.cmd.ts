@@ -70,29 +70,41 @@ export class CreateTemplatesCmd implements Cmd {
         break;
       //  Create Template
       case MsgType.createTemplates:
-        const { targetLocales, textDirection, templateScale, templates } = message.data;
-        console.log(message.data);
-        this.createFrames(
-          this.platform,
+        const {
+          platform,
           textDirection,
           templateScale,
           targetLocales,
-          templates
-        );
+          templates,
+        } = message.data;
+        console.log(message.data);
+        this.createFrames({
+          platform,
+          textDirection,
+          templateScale,
+          targetLocales,
+          templates,
+        });
         break;
     }
   }
 
-  private createFrames(
-    platform: Platform,
-    textDirection: TextDirection,
-    templateScale: number,
-    targetLocales: PlatformLocale[],
+  private createFrames({
+    platform,
+    textDirection,
+    templateScale,
+    targetLocales,
+    templates,
+  }: {
+    platform: Platform;
+    textDirection: TextDirection;
+    templateScale: number;
+    targetLocales: PlatformLocale[];
     templates: {
       template: Template;
       count: number;
-    }[]
-  ) {
+    }[];
+  }) {
     if (targetLocales.length === 0) {
       Notification.i("Please select at least one target language.");
       return;
