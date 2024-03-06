@@ -2,6 +2,14 @@
 
 All notable changes to the "Translator" plugin will be documented in this file.
 
+## [1.2.0] - 24.03.06
+### Added
+- Add `Create Templates` command.
+- Add `Delete Translation Cache` command.
+
+### Updated
+- Update `Translate` command to use parameters.
+
 ## [1.1.4] - 24.01.31
 ### Updated
 - Update to paste TextNode style.

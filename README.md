@@ -8,6 +8,7 @@ This is a plugin that creates translation and store templates.
 ## Commands
 ### Translate
 https://github.com/devstory-co-kr/figma-translator/assets/26322627/e2015e61-c7f0-4309-8003-5464b3d2ef3e
+- To be translated, the frame name must contain a [language code](https://gist.github.com/nero-angela/89d61a06e3089076f2e85b189dfe393a).
 - It uses Google Translator and has an internal caching function implemented.
 - Free translators have hourly limitations.
 - Figma plugin provides up to 1MB of storage space, so if the cache is full, empty the cache using the `Delete Translate Cache` command.
@@ -19,7 +20,9 @@ https://github.com/devstory-co-kr/figma-translator/assets/26322627/04b662b6-9caa
 - Support Templates
   - iOS
     - iPhone 5.5 : `1242 x 2208`
+    - iPhone 6.5 : `1284 x 2778`
     - iPad 12.9 2nd generation : `2048 x 2732`
+    - iPad 12.9 3nd generation : `2048 x 2732`
   - Android
     - Grapic Image : `1024 x 500`
     - Phone : `1242 x 2208`
