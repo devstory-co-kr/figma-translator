@@ -2,6 +2,7 @@ import "../core/base.css";
 import Channel from "../core/channel.js";
 import "./index.css";
 import CreateTemplatesButton from "./js/create_templates_button.js";
+import Platform from "./js/platform.js";
 import TargetLocales from "./js/target_locales.js";
 import TemplateScale from "./js/template_scale.js";
 import Templates from "./js/templates.js";
@@ -62,9 +63,53 @@ class CreateTemplates {
     platformTemplates
   ) {
     this.channel = channel;
+
+    this.widgets = {
+      platfom: new Platform(platform, (changedPlatform) => {
+        // On platform changed
+        this.state = {
+          ...this.state,
+          platform: changedPlatform,
+        };
+      }),
+      templates: new Templates(platformTemplates[platform]),
+      textDirection: new TextDirection(
+        textDirection,
+        (changedTextDirection) => {
+          // On text direction changed
+          this.state = {
+            ...this.state,
+            textDirection: changedTextDirection,
+          };
+        }
+      ),
+      targetLocales: new TargetLocales(
+        platformLocales[platform].filter(
+          (l) => l.translatorLanguage.textDirection === textDirection
+        )
+      ),
+      templateScale: new TemplateScale(templateScale),
+      createTemplatesButton: new CreateTemplatesButton(platform, () =>
+        // On create templates button pressed
+        this.channel.sendMessage(this.channel.types.createTemplates, {
+          textDirection: this.widgets.textDirection.state.textDirection,
+          templateScale: this.widgets.templateScale.state.scale,
+          targetLocales: this.widgets.targetLocales.state
+            .filter((l) => l.isChecked)
+            .map((l) => l.targetLocale),
+          templates: this.widgets.templates.state
+            .filter((d) => d.isChecked)
+            .map((d) => ({
+              template: d.template,
+              count: d.count,
+            })),
+        })
+      ),
+    };
+
     this.state = {
       platform,
-      templates: platformTemplates[platform],
+      getTemplates: () => platformTemplates[this.state.platform],
       textDirection,
       templateScale,
       getLocales: () =>
@@ -77,38 +122,7 @@ class CreateTemplates {
   }
 
   render() {
-    this.widgets = {
-      templates: new Templates(this.state.templates),
-      textDirection: new TextDirection(
-        this.state.textDirection,
-        (textDirection) => {
-          // On text direction changed
-          this.state = {
-            ...this.state,
-            textDirection,
-          };
-        }
-      ),
-      targetLocales: new TargetLocales(this.state.getLocales()),
-      templateScale: new TemplateScale(this.state.templateScale),
-      createTemplatesButton: new CreateTemplatesButton(
-        this.state.platform,
-        () =>
-          // On create templates button pressed
-          this.channel.sendMessage(this.channel.types.createTemplates, {
-            textDirection: this.widgets.textDirection.state.textDirection,
-            templateScale: this.widgets.templateScale.state.scale,
-            targetLocales: this.widgets.targetLocales.state
-              .filter((l) => l.isChecked)
-              .map((l) => l.targetLocale),
-            templates: this.widgets.templates.state
-              .filter((d) => d.isChecked)
-              .map((d) => ({
-                template: d.template,
-                count: d.count,
-              })),
-          })
-      ),
-    };
+    this.widgets.templates.initState(this.state.getTemplates());
+    this.widgets.targetLocales.initState(this.state.getLocales());
   }
 }

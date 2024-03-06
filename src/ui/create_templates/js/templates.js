@@ -14,6 +14,10 @@ export default class Templates {
   }
 
   constructor(templates) {
+    this.initState(templates);
+  }
+
+  initState(templates) {
     this.state = templates.map((template) => ({
       template,
       isChecked: true,

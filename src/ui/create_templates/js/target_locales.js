@@ -16,7 +16,7 @@ export default class TargetLocales {
     this.render();
   }
 
-  constructor(locales) {
+  initState(locales) {
     this.state = locales.map((locale) => {
       return {
         targetLocale: locale,
@@ -24,6 +24,10 @@ export default class TargetLocales {
         isVisible: true,
       };
     });
+  }
+
+  constructor(locales) {
+    this.initState(locales);
 
     // Clear
     this.html.searchClearButton.addEventListener("click", (event) => {

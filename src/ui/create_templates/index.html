@@ -1,6 +1,40 @@
 <html>
   <body>
     <main>
+      <!-- Platform -->
+      <fieldset id="platform">
+        <legend id="platformTitle">Platform</legend>
+        <div
+          class="row"
+          id="platformContainer"
+          style="padding: 8px; align-items: center"
+        >
+          <!-- Android -->
+          <div style="flex-grow: 1">
+            <input
+              type="radio"
+              name="platform"
+              id="platformAndroid"
+              value="Android"
+              style="margin-right: 8px"
+            />
+            <label for="platformAndroid">Android</label>
+          </div>
+
+          <!-- iOS -->
+          <div style="flex-grow: 1">
+            <input
+              type="radio"
+              name="platform"
+              id="platformIos"
+              value="iOS"
+              style="margin-right: 8px"
+            />
+            <label for="platformIos">iOS</label>
+          </div>
+        </div>
+      </fieldset>
+
       <!-- Templates -->
       <fieldset id="templates">
         <legend id="templatesTitle">Templates</legend>
