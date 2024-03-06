@@ -1,6 +1,6 @@
 export default class TargetLocales {
   html = {
-    title: document.getElementById("targetTitle"),
+    title: document.getElementById("targetLocalesTitle"),
     searchInput: document.getElementById("targetLocaleSearch"),
     toggleCheckbox: document.getElementById("targetLocaleToggle"),
     container: document.getElementById("targetLocalesContainer"),
@@ -45,6 +45,8 @@ export default class TargetLocales {
     });
 
     // Search
+    this.html.searchInput.value = "";
+    this.html.searchClearButton.style.opacity = 0;
     this.html.searchInput.addEventListener("input", (event) => {
       const value = event.target.value;
       this.html.searchClearButton.style.opacity = value ? 1 : 0;
@@ -94,7 +96,7 @@ export default class TargetLocales {
     this.html.title.innerText = "";
     this.html.title.insertAdjacentHTML(
       "beforeend",
-      `Targets <span style="color: grey; font-weight: normal; font-size: 12px;"> (${nChecked}/${this.state.length})</span>`
+      `Locales <span style="color: grey; font-weight: normal; font-size: 12px;"> (${nChecked}/${this.state.length})</span>`
     );
   }
 }

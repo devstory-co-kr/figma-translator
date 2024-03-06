@@ -45,7 +45,7 @@ export class CreateTemplatesCmd implements Cmd {
     this.templateScale = templateScale;
     figma.showUI(__uiFiles__.createTemplates, {
       width: 250,
-      height: 420,
+      height: 500,
       title: `${platform} / ${textDirection} / x${templateScale} Templates`,
     });
   }

@@ -2,21 +2,58 @@
   <body>
     <main>
       <!-- Templates -->
-      <fieldset class="templates">
+      <fieldset id="templates">
         <legend id="templatesTitle">Templates</legend>
         <div class="column" id="templatesContainer"></div>
       </fieldset>
 
-      <hr />
+      <!-- TextDirection -->
+      <fieldset id="textDirection">
+        <legend id="textDirectionTitle">Text Direction</legend>
+        <div
+          class="row"
+          id="textDirectionContainer"
+          style="padding: 8px; align-items: center"
+        >
+          <!-- LTR -->
+          <div style="flex-grow: 1">
+            <input
+              type="radio"
+              name="textDirection"
+              id="textDirectionLTR"
+              value="LTR"
+              style="margin-right: 8px"
+            />
+            <label for="textDirectionLTR">LTR</label>
+          </div>
+
+          <!-- RTL -->
+          <div style="flex-grow: 1">
+            <input
+              type="radio"
+              name="textDirection"
+              id="textDirectionRTL"
+              value="RTL"
+              style="margin-right: 8px"
+            />
+            <label for="textDirectionRTL">RTL</label>
+          </div>
+        </div>
+      </fieldset>
 
       <!-- Target locales -->
-      <fieldset class="targetLocales" style="position: relative">
-        <legend id="targetTitle" style="position: sticky">Targets</legend>
+      <fieldset id="targetLocales">
+        <legend id="targetLocalesTitle">Locales</legend>
 
         <div class="column">
           <div class="row" style="padding: 4px 8px 0; box-sizing: border-box">
             <!-- Toggle -->
-            <input id="targetLocaleToggle" type="checkbox" checked />
+            <input
+              id="targetLocaleToggle"
+              type="checkbox"
+              checked
+              style="margin: 9px 8px 8px 4px"
+            />
             <!-- Search -->
             <div class="targetSearchContainer">
               <input
@@ -28,6 +65,7 @@
               <button id="targetSearchClearButton">×</button>
             </div>
           </div>
+
           <hr style="margin: 8px 0 0 0" />
 
           <!-- Target locales -->

@@ -4,6 +4,7 @@ import "./index.css";
 import CreateTemplatesButton from "./js/create_templates_button.js";
 import TargetLocales from "./js/target_locales.js";
 import Templates from "./js/templates.js";
+import TextDirection from "./js/text_direction.js";
 
 window.addEventListener("DOMContentLoaded", () => {
   const channel = new Channel({
@@ -34,9 +35,16 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 class CreateTemplates {
-  state;
   channel;
   widgets;
+  _state;
+  get state() {
+    return this._state;
+  }
+  set state(value) {
+    this._state = value;
+    this.render();
+  }
 
   constructor(
     channel,
@@ -50,23 +58,33 @@ class CreateTemplates {
       platform,
       templates: platformTemplates[platform],
       textDirection,
-      locales: platformLocales[platform].filter(
-        (l) => l.translatorLanguage.textDirection === textDirection
-      ),
+      getLocales: () =>
+        platformLocales[platform].filter(
+          (l) => l.translatorLanguage.textDirection === this.state.textDirection
+        ),
       platformLocales,
       platformTemplates,
     };
-    this.render();
   }
 
   render() {
     this.widgets = {
       templates: new Templates(this.state.templates),
-      targetLocales: new TargetLocales(this.state.locales),
+      textDirection: new TextDirection(
+        this.state.textDirection,
+        (textDirection) => {
+          // On text direction changed
+          this.state = {
+            ...this.state,
+            textDirection,
+          };
+        }
+      ),
+      targetLocales: new TargetLocales(this.state.getLocales()),
       createTemplatesButton: new CreateTemplatesButton(
         this.state.platform,
         () =>
-          // Send createTemplates
+          // On create templates button pressed
           this.channel.sendMessage(this.channel.types.createTemplates, {
             targetLocales: this.widgets.targetLocales.state
               .filter((l) => l.isChecked)

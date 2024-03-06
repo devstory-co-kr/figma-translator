@@ -12,7 +12,8 @@ html, body {
 }
 
 *:focus {
-  outline: inset 1px rgba(var(--primary-color), 0.7);
+  outline: none;
+  box-shadow: 0 0 5px 2px rgba(var(--primary-color), 0.25);
 }
 
 hr {
