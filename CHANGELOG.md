@@ -2,6 +2,10 @@
 
 All notable changes to the "Translator" plugin will be documented in this file.
 
+## [1.2.1] - 24.03.07
+### Updated
+- Update to maintain text style when translating.
+
 ## [1.2.0] - 24.03.06
 ### Added
 - Add `Create Templates` command.
