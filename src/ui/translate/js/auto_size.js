@@ -16,7 +16,7 @@ export default class AutoSize {
           ...this.state,
           autoSize: value,
         };
-        onAutoSizeChanged(value);
+        onAutoSizeChanged(value === "true");
       }
     });
   }

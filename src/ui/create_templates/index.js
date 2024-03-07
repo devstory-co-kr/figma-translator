@@ -118,7 +118,7 @@ class CreateTemplates {
           };
         }
       ),
-      createTemplatesButton: new CreateTemplatesButton(platform, () =>
+      createTemplatesButton: new CreateTemplatesButton(() =>
         // On create templates button pressed
         this.channel.sendMessage(this.channel.types.createTemplates, {
           platform: this.state.platform,

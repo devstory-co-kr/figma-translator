@@ -30,7 +30,7 @@ export class TranslateCmd implements Cmd {
     this.sourceLanguage = sourceLanguage;
     figma.showUI(__uiFiles__.translate, {
       width: 250,
-      height: 500,
+      height: 300,
       title: `Translate`,
     });
   }
@@ -53,6 +53,7 @@ export class TranslateCmd implements Cmd {
         });
         break;
       case MsgType.translate:
+        console.log("translate", message.data);
         break;
     }
   }

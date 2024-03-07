@@ -20,6 +20,13 @@ main {
   flex-grow: 1;
 }
 
+footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 8px;
+}
+
 *:focus {
   outline: none;
   box-shadow: 0 0 5px 2px rgba(var(--primary-color), 0.25);
@@ -52,6 +59,7 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 38px;
 }
 
 select {

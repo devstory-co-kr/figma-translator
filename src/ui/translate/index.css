@@ -1,3 +1,7 @@
 #sourceLanguage {
   padding: 8px;
 }
+
+#translateButton {
+  flex-grow: 1;
+}

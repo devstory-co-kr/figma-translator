@@ -3,6 +3,7 @@ import Channel from "../core/channel.js";
 import "./index.css";
 import AutoSize from "./js/auto_size.js";
 import SourceLanguage from "./js/source_language.js";
+import TranslateButton from "./js/translate_button.js";
 
 window.addEventListener("DOMContentLoaded", () => {
   const channel = new Channel("translate", {
@@ -15,7 +16,7 @@ window.addEventListener("DOMContentLoaded", () => {
   channel.onMessage((type, data) => {
     switch (type) {
       case channel.types.init:
-        translate = new Translate(data);
+        translate = new Translate(channel, data);
         break;
     }
   });
@@ -25,18 +26,12 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 class Translate {
+  channel;
   widgets;
+  state;
 
-  _state;
-  get state() {
-    return this._state;
-  }
-  set state(value) {
-    this._state = value;
-    this.render();
-  }
-
-  constructor(data) {
+  constructor(channel, data) {
+    this.channel = channel;
     const { autoSize, sourceLanguage, supportLanguages } = data;
 
     this.widgets = {
@@ -56,8 +51,15 @@ class Translate {
           autoSize: changedAutoSize,
         };
       }),
+      translateButton: new TranslateButton(() => {
+        channel.sendMessage(channel.types.translate, this.state);
+      }),
     };
 
+    this.emit(autoSize, sourceLanguage, supportLanguages);
+  }
+
+  emit(autoSize, sourceLanguage, supportLanguages) {
     this.state = { autoSize, sourceLanguage, supportLanguages };
   }
 

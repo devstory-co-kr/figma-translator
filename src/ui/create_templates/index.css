@@ -30,13 +30,6 @@
   transition: opacity 0.3s ease;
 }
 
-footer {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 8px;
-}
-
 #templateScale {
   width: 70px;
   height: 38px;
@@ -48,7 +41,6 @@ footer {
 
 #createTemplatesButton {
   flex-grow: 1;
-  height: 38px;
 }
 
 #templates {
