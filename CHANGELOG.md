@@ -2,6 +2,10 @@
 
 All notable changes to the "Translator" plugin will be documented in this file.
 
+## [1.2.2] - 24.03.07
+### Added
+- Add auto size function to reduce font size when translated text becomes long.
+
 ## [1.2.1] - 24.03.07
 ### Updated
 - Update to maintain text style when translating.
