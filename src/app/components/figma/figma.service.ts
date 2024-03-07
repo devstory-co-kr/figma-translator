@@ -1,4 +1,3 @@
-import { TemplateScale } from "../../params/template_scale.param";
 import {
   Box,
   Frame,
@@ -91,32 +90,23 @@ export class FigmaServiceImpl implements FigmaService {
     node: TextNode,
     cb: (textList: string[]) => Promise<string[]>
   ): Promise<void> {
-    const isStyleMixed = node.fontName === figma.mixed;
-    if (!isStyleMixed) {
-      // mono style
-      await this.figmaRepository.loadFonts([node.fontName as FontName]);
-      const targetTextList = await cb([node.characters]);
-      node.characters = targetTextList[0];
-    } else {
-      // mixed style
-      const { segments, textList, jointList } =
-        this.figmaRepository.getStyleMixedTextSegments(node);
-      await this.figmaRepository.loadFonts(
-        segments.map((segment) => segment.fontName)
-      );
+    const { segments, textList, jointList } =
+      this.figmaRepository.getStyleMixedTextSegments(node);
+    await this.figmaRepository.loadFonts(
+      segments.map((segment) => segment.fontName)
+    );
 
-      const targetTextList = await cb(textList);
-      node.characters = targetTextList.reduce((prev, curr, i) => {
-        return prev + (i == 0 ? "" : jointList[i - 1]) + curr;
-      }, "");
+    const targetTextList = await cb(textList);
+    node.characters = targetTextList.reduce((prev, curr, i) => {
+      return prev + (i == 0 ? "" : jointList[i - 1]) + curr;
+    }, "");
 
-      this.figmaRepository.setStyledMixedTextSegments({
-        node,
-        segments,
-        jointList,
-        textList: targetTextList,
-      });
-    }
+    this.figmaRepository.setStyledMixedTextSegments({
+      node,
+      segments,
+      jointList,
+      textList: targetTextList,
+    });
   }
 
   public async search(args: {
