@@ -113,7 +113,7 @@ export class FigmaServiceImpl implements FigmaService {
       node.width > beforeWidth ||
       node.height > beforeHeight
     ) {
-      this.figmaRepository.setStyledMixedTextSegments({
+      await this.figmaRepository.setStyledMixedTextSegments({
         node,
         segments,
         jointList,
@@ -137,17 +137,10 @@ export class FigmaServiceImpl implements FigmaService {
       args.node,
       args.skipInvisibleNode
     );
-    let count = 0;
-    let done = true;
     let res;
     while (!(res = walker.next()).done) {
       const node = res.value;
       await args.cb(node);
-
-      if (++count === 1000) {
-        done = false;
-        break;
-      }
     }
   }
 

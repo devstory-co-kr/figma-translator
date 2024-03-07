@@ -88,7 +88,7 @@ export interface FigmaRepository {
     textList: string[];
     jointList: string[];
     fontSizeDelta: number;
-  }): void;
+  }): Promise<void>;
 
   createFrame({
     name,

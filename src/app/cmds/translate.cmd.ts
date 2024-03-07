@@ -34,6 +34,7 @@ export class TranslateCmd implements Cmd {
         return;
       }
 
+      let nFrame = 0;
       let nTextNode: number = 0;
       for (const frame of frameList) {
         const targetLanguage =
@@ -49,22 +50,31 @@ export class TranslateCmd implements Cmd {
                 text &&
                 !/^[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\/-\s]+$/i.test(text)
               ) {
-                this.figmaService.replaceText(node, autoSize, async (textList) => {
-                  return (
-                    (await this.translatorService.freeTranslate(
-                      textList,
-                      sourceLanguage,
-                      targetLanguage
-                    )) ?? []
-                  );
-                });
+                await this.figmaService.replaceText(
+                  node,
+                  autoSize,
+                  async (textList) => {
+                    return (
+                      (await this.translatorService.freeTranslate(
+                        textList,
+                        sourceLanguage,
+                        targetLanguage
+                      )) ?? []
+                    );
+                  }
+                );
                 nTextNode += 1;
               }
             }
           },
         });
+        nFrame += 1;
+        Notification.i(`${nFrame}/${frameList.length} Translating...`);
       }
-      Notification.i(`${nTextNode} texts translated.`);
+
+      Notification.i(
+        `${frameList.length} frames & ${nTextNode} texts translated.`
+      );
     } catch (e: any) {
       if (e instanceof InvalidFrameNameException) {
         Notification.e(
