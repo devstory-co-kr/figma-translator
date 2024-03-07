@@ -13,18 +13,20 @@ export class FigmaRepositoryImpl implements FigmaRepository {
     segments,
     textList,
     jointList,
+    fontSizeDelta,
   }: {
     node: TextNode;
     segments: StyledTextSegment[];
     textList: string[];
     jointList: string[];
+    fontSizeDelta: number;
   }): void {
     for (let i = 0; i < segments.length; i++) {
       const segment = segments[i];
       const start = textList.slice(0, i).reduce((p, c) => p + c.length, 0);
       const jointSize = jointList.slice(0, i).reduce((p, c) => p + c.length, 0);
       const end = start + jointSize + textList[i].length;
-      node.setRangeFontSize(start, end, segment.fontSize);
+      node.setRangeFontSize(start, end, segment.fontSize + fontSizeDelta);
       node.setRangeFontName(start, end, segment.fontName);
       node.setRangeHyperlink(start, end, segment.hyperlink);
       node.setRangeListOptions(start, end, segment.listOptions);
