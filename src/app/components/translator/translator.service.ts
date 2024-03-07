@@ -37,6 +37,9 @@ export class TranslatorServiceImpl implements TranslatorService {
   ): Promise<string[] | undefined> {
     return await Promise.all(
       query.map(async (q) => {
+        if (!q.trim()) {
+          return q;
+        }
         const cacheKey = new TranslatorCacheKey({
           sourceText: q,
           sourceLanguage: sourceLang,
