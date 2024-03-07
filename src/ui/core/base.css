@@ -9,6 +9,15 @@ html, body {
   font-size: 12px;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  flex-grow: 1;
 }
 
 *:focus {
@@ -69,11 +78,20 @@ input[type="checkbox"] {
   display: flex;
   flex-direction: row;
   align-items: start;
-  width: 100%;
 }
 
 .column {
   display: flex;
   flex-direction: column;
   align-items: start;
+}
+
+.radioOption {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+.radioOption > input {
+  margin: 8px;
 }

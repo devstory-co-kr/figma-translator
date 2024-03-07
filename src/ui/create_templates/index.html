@@ -1,132 +1,123 @@
-<html>
-  <body>
-    <main>
-      <!-- Platform -->
-      <fieldset id="platform">
-        <legend id="platformTitle">Platform</legend>
-        <div
-          class="row"
-          id="platformContainer"
-          style="padding: 8px; align-items: center"
-        >
-          <!-- Android -->
-          <div style="flex-grow: 1; display: flex; align-items: center">
-            <input
-              type="radio"
-              name="platform"
-              id="platformAndroid"
-              value="Android"
-              style="margin: 8px"
-            />
-            <label for="platformAndroid">Android</label>
-          </div>
-
-          <!-- iOS -->
-          <div style="flex-grow: 1; display: flex; align-items: center">
-            <input
-              type="radio"
-              name="platform"
-              id="platformIos"
-              value="iOS"
-              style="margin: 8px"
-            />
-            <label for="platformIos">iOS</label>
-          </div>
+<body>
+  <main>
+    <!-- Platform -->
+    <fieldset id="platform">
+      <legend id="platformTitle">Platform</legend>
+      <div
+        class="row"
+        id="platformContainer"
+        style="padding: 8px; align-items: center"
+      >
+        <!-- Android -->
+        <div style="flex-grow: 1; display: flex; align-items: center">
+          <input
+            type="radio"
+            name="platform"
+            id="platformAndroid"
+            value="Android"
+            style="margin: 8px"
+          />
+          <label for="platformAndroid">Android</label>
         </div>
-      </fieldset>
 
-      <!-- Templates -->
-      <fieldset id="templates">
-        <legend id="templatesTitle">
+        <!-- iOS -->
+        <div style="flex-grow: 1; display: flex; align-items: center">
+          <input
+            type="radio"
+            name="platform"
+            id="platformIos"
+            value="iOS"
+            style="margin: 8px"
+          />
+          <label for="platformIos">iOS</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- Templates -->
+    <fieldset id="templates">
+      <legend id="templatesTitle">Templates</legend>
+      <div class="column" id="templatesContainer"></div>
+    </fieldset>
+
+    <!-- TextDirection -->
+    <fieldset id="textDirection">
+      <legend id="textDirectionTitle">Text Direction</legend>
+      <div
+        class="row"
+        id="textDirectionContainer"
+        style="padding: 8px; align-items: center"
+      >
+        <!-- LTR -->
+        <div style="flex-grow: 1; display: flex; align-items: center">
+          <input
+            type="radio"
+            name="textDirection"
+            id="textDirectionLTR"
+            value="LTR"
+            style="margin: 8px"
+          />
+          <label for="textDirectionLTR">LTR</label>
+        </div>
+
+        <!-- RTL -->
+        <div style="flex-grow: 1; display: flex; align-items: center">
+          <input
+            type="radio"
+            name="textDirection"
+            id="textDirectionRTL"
+            value="RTL"
+            style="margin: 8px"
+          />
+          <label for="textDirectionRTL">RTL</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- Target locales -->
+    <fieldset id="targetLocales">
+      <legend id="targetLocalesTitle">Locales</legend>
+
+      <div class="column">
+        <div class="row" style="padding: 4px 8px 0; box-sizing: border-box">
+          <!-- Toggle -->
           <input
             id="targetLocaleToggle"
             type="checkbox"
             checked
             style="margin: 9px 8px 8px 4px"
-          />Templates
-        </legend>
-        <div class="column" id="templatesContainer"></div>
-      </fieldset>
-
-      <!-- TextDirection -->
-      <fieldset id="textDirection">
-        <legend id="textDirectionTitle">Text Direction</legend>
-        <div
-          class="row"
-          id="textDirectionContainer"
-          style="padding: 8px; align-items: center"
-        >
-          <!-- LTR -->
-          <div style="flex-grow: 1; display: flex; align-items: center">
+          />
+          <!-- Search -->
+          <div class="targetSearchContainer">
             <input
-              type="radio"
-              name="textDirection"
-              id="textDirectionLTR"
-              value="LTR"
-              style="margin: 8px"
+              id="targetLocaleSearch"
+              type="text"
+              style="width: 100%"
+              placeholder="Search"
             />
-            <label for="textDirectionLTR">LTR</label>
-          </div>
-
-          <!-- RTL -->
-          <div style="flex-grow: 1; display: flex; align-items: center">
-            <input
-              type="radio"
-              name="textDirection"
-              id="textDirectionRTL"
-              value="RTL"
-              style="margin: 8px"
-            />
-            <label for="textDirectionRTL">RTL</label>
+            <button id="targetSearchClearButton">×</button>
           </div>
         </div>
-      </fieldset>
 
-      <!-- Target locales -->
-      <fieldset id="targetLocales">
-        <legend id="targetLocalesTitle">Locales</legend>
+        <hr style="margin: 8px 0 0 0" />
 
-        <div class="column">
-          <div class="row" style="padding: 4px 8px 0; box-sizing: border-box">
-            <!-- Toggle -->
-            <input
-              id="targetLocaleToggle"
-              type="checkbox"
-              checked
-              style="margin: 9px 8px 8px 4px"
-            />
-            <!-- Search -->
-            <div class="targetSearchContainer">
-              <input
-                id="targetLocaleSearch"
-                type="text"
-                style="width: 100%"
-                placeholder="Search"
-              />
-              <button id="targetSearchClearButton">×</button>
-            </div>
-          </div>
+        <!-- Target locales -->
+        <div class="column" id="targetLocalesContainer"></div>
+      </div>
+    </fieldset>
+  </main>
 
-          <hr style="margin: 8px 0 0 0" />
+  <hr style="margin: 0" />
 
-          <!-- Target locales -->
-          <div class="column" id="targetLocalesContainer"></div>
-        </div>
-      </fieldset>
-    </main>
-
-    <hr style="margin: 0" />
-
-    <footer>
-      <!-- Template Scale -->
-      <select name="scale" id="templateScale">
-        <option value="1">x1</option>
-        <option value="0.75">x0.75</option>
-        <option value="0.5">x0.5</option>
-        <option value="0.25">x0.25</option>
-      </select>
-      <!-- Create Templates Button -->
-      <button id="createTemplatesButton">Create Templates</button>
-    </footer>
-  </body>
-</html>
+  <footer>
+    <!-- Template Scale -->
+    <select name="scale" id="templateScale">
+      <option value="1">x1</option>
+      <option value="0.75">x0.75</option>
+      <option value="0.5">x0.5</option>
+      <option value="0.25">x0.25</option>
+    </select>
+    <!-- Create Templates Button -->
+    <button id="createTemplatesButton">Create Templates</button>
+  </footer>
+</body>

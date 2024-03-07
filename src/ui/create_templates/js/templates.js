@@ -39,7 +39,7 @@ export default class Templates {
       if (checked) nChecked++;
       const item = `<div class="row" style="align-items: center; margin-top: 6px; font-size: 12px;">
         <input type="checkbox" value="${name}" name="${name}" id="${name}" ${checked}/>
-        <div class="row">
+        <div class="row" style="width: 100%;">
           <label for="${name}" style="display: flex; flex-direction:column; flex-basis:1000%; width: 100%; padding: 4px">
             <span style="">${name}</span>
             <span style="color: grey; font-size: 11px;">${size}</span>

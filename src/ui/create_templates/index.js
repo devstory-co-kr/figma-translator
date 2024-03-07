@@ -9,7 +9,7 @@ import Templates from "./js/templates.js";
 import TextDirection from "./js/text_direction.js";
 
 window.addEventListener("DOMContentLoaded", () => {
-  const channel = new Channel({
+  const channel = new Channel("createTemplates", {
     init: "init",
     createTemplates: "createTemplates",
   });

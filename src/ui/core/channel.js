@@ -1,7 +1,9 @@
 export default class Channel {
+  html;
   types;
 
-  constructor(types) {
+  constructor(html, types) {
+    this.html = html;
     this.types = types;
   }
 
@@ -15,7 +17,7 @@ export default class Channel {
 
   sendMessage(type, data) {
     parent.postMessage(
-      { pluginMessage: { html: "createTemplates", type, data } },
+      { pluginMessage: { html: this.html, type, data } },
       "*"
     );
   }
