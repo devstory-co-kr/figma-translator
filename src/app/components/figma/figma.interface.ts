@@ -26,6 +26,7 @@ export interface FigmaService {
 
   replaceText(
     node: SceneNode,
+    autoSize: boolean,
     cb: (textList: string[]) => Promise<string[]>
   ): Promise<void>;
 
@@ -80,11 +81,13 @@ export interface FigmaRepository {
     segments,
     textList,
     jointList,
+    fontSizeDelta,
   }: {
     node: TextNode;
     segments: StyledTextSegment[];
     textList: string[];
     jointList: string[];
+    fontSizeDelta: number;
   }): void;
 
   createFrame({

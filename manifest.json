@@ -29,6 +29,11 @@
           "name": "Source Language",
           "key": "sourceLanguage",
           "description": "Select the source language to translate."
+        },
+        {
+          "name": "Auto Size",
+          "key": "autoSize",
+          "description": "Whether to reduce the font size when the text becomes long."
         }
       ]
     },

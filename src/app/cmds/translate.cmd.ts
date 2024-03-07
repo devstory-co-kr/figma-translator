@@ -17,8 +17,10 @@ export class TranslateCmd implements Cmd {
 
   public async onRun({
     sourceLanguage,
+    autoSize,
   }: {
     sourceLanguage: TranslatorLanguage;
+    autoSize: boolean;
   }): Promise<void> {
     try {
       // The first word in the frame name must be the ISO639 code.
@@ -47,7 +49,7 @@ export class TranslateCmd implements Cmd {
                 text &&
                 !/^[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\/-\s]+$/i.test(text)
               ) {
-                this.figmaService.replaceText(node, async (textList) => {
+                this.figmaService.replaceText(node, autoSize, async (textList) => {
                   return (
                     (await this.translatorService.freeTranslate(
                       textList,

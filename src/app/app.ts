@@ -17,6 +17,7 @@ import { TranslatorRepositoryImpl } from "./components/translator/translator.rep
 import { TranslatorServiceImpl } from "./components/translator/translator.service";
 import { TranslatorLanguageRepositoryImpl } from "./components/translator_language/translator_language.repository";
 import { TranslatorLanguageServiceImpl } from "./components/translator_language/translator_language.service";
+import { AutoSizeParam } from "./params/auto_size.param";
 import { Param, Params } from "./params/param";
 import { PlatformParam } from "./params/platform.param";
 import { SourceLanguageParam } from "./params/source_language.param";
@@ -66,6 +67,7 @@ export class FigmaTranslator implements App {
     ),
     [Params.textDirection]: new TextDirectionParam(),
     [Params.templateScale]: new TemplateScaleParam(),
+    [Params.autoSize]: new AutoSizeParam(),
   };
 
   /**

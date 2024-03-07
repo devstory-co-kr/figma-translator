@@ -3,6 +3,7 @@ export enum Params {
   sourceLanguage = "sourceLanguage",
   textDirection = "textDirection",
   templateScale = "templateScale",
+  autoSize = "autoSize",
 }
 
 export interface Param {

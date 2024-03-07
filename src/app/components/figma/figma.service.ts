@@ -88,8 +88,12 @@ export class FigmaServiceImpl implements FigmaService {
 
   public async replaceText(
     node: TextNode,
+    autoSize: boolean,
     cb: (textList: string[]) => Promise<string[]>
   ): Promise<void> {
+    const beforeWidth = node.width;
+    const beforeHeight = node.height;
+
     const { segments, textList, jointList } =
       this.figmaRepository.getStyleMixedTextSegments(node);
     await this.figmaRepository.loadFonts(
@@ -101,12 +105,27 @@ export class FigmaServiceImpl implements FigmaService {
       return prev + (i == 0 ? "" : jointList[i - 1]) + curr;
     }, "");
 
-    this.figmaRepository.setStyledMixedTextSegments({
-      node,
-      segments,
-      jointList,
-      textList: targetTextList,
-    });
+    // Reduce the font size until width and height are less then or equal to the previous values.
+    let nTry = 0;
+    let fontSizeDelta = 0;
+    while (
+      nTry === 0 ||
+      node.width > beforeWidth ||
+      node.height > beforeHeight
+    ) {
+      this.figmaRepository.setStyledMixedTextSegments({
+        node,
+        segments,
+        jointList,
+        textList: targetTextList,
+        fontSizeDelta,
+      });
+      nTry++;
+      fontSizeDelta--;
+      if (nTry >= 100 || !autoSize) {
+        break;
+      }
+    }
   }
 
   public async search(args: {
