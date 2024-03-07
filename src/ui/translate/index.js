@@ -1,6 +1,7 @@
 import "../core/base.css";
 import Channel from "../core/channel.js";
 import "./index.css";
+import AutoSize from "./js/auto_size.js";
 import SourceLanguage from "./js/source_language.js";
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -49,6 +50,12 @@ class Translate {
           };
         }
       ),
+      autoSize: new AutoSize(autoSize, (changedAutoSize) => {
+        this.state = {
+          ...this.state,
+          autoSize: changedAutoSize,
+        };
+      }),
     };
 
     this.state = { autoSize, sourceLanguage, supportLanguages };

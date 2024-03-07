@@ -15,11 +15,11 @@ export default class Templates {
 
   onStateChanged;
   constructor(templates, onStateChanged) {
-    this.initState(templates);
+    this.emit(templates);
     this.onStateChanged = onStateChanged;
   }
 
-  initState(templates) {
+  emit(templates) {
     this.state = templates;
   }
 

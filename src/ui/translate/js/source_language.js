@@ -3,17 +3,10 @@ export default class SourceLanguage {
     select: document.querySelector("#sourceLanguage > select"),
   };
 
-  _state;
-  get state() {
-    return this._state;
-  }
-  set state(value) {
-    this._state = value;
-    this.render();
-  }
+  state;
 
   constructor(supportLanguages, sourceLanguage, onSourceLanguageChanged) {
-    this.initState(supportLanguages, sourceLanguage);
+    this.emit(supportLanguages, sourceLanguage);
 
     // On select change
     this.html.select.addEventListener("change", (event) => {
@@ -27,11 +20,12 @@ export default class SourceLanguage {
     });
   }
 
-  initState(supportLanguages, sourceLanguage) {
+  emit(supportLanguages, sourceLanguage) {
     this.state = {
       supportLanguages,
       sourceLanguage: sourceLanguage || supportLanguages[0],
     };
+    this.render();
   }
 
   render() {

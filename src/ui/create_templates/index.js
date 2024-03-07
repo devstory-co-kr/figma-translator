@@ -169,8 +169,8 @@ class CreateTemplates {
   }
 
   render() {
-    this.widgets.templates.initState(this.state.templates[this.state.platform]);
-    this.widgets.targetLocales.initState(
+    this.widgets.templates.emit(this.state.templates[this.state.platform]);
+    this.widgets.targetLocales.emit(
       this.state.targetLocales[this.state.textDirection]
     );
   }

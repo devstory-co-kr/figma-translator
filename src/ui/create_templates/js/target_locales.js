@@ -16,14 +16,14 @@ export default class TargetLocales {
     this.render();
   }
 
-  initState(locales) {
+  emit(locales) {
     this.state = locales;
   }
 
   onTargetLocalesChanged;
   constructor(locales, onTargetLocalesChanged) {
     this.onTargetLocalesChanged = onTargetLocalesChanged;
-    this.initState(locales);
+    this.emit(locales);
 
     // Clear
     this.html.searchClearButton.addEventListener("click", (event) => {
