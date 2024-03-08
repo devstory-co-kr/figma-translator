@@ -1,13 +1,16 @@
+import { TranslateState } from "../../cmds/translate/translate.state";
+
 export interface Config {
-  googleAPIKey: string;
+  translateState: TranslateState;
 }
 
 export interface ConfigService {
-  get(): Promise<Config>;
+  getTranslateState(): Promise<TranslateState | undefined>;
+  setTranslateState(translateState: TranslateState): Promise<void>;
 }
 
 export interface ConfigRepository {
-  get(): Promise<Config | undefined>;
+  get(): Promise<Partial<Config>>;
   set(config: Config): Promise<void>;
   clear(): Promise<void>;
 }

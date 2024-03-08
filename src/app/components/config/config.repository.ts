@@ -3,8 +3,8 @@ import { Config, ConfigRepository } from "./config.interface";
 export class ConfigRepositoryImpl implements ConfigRepository {
   private key = "config";
 
-  public get(): Promise<Config | undefined> {
-    return figma.clientStorage.getAsync(this.key);
+  public async get(): Promise<Partial<Config>> {
+    return (await figma.clientStorage.getAsync(this.key)) ?? {};
   }
 
   public set(config: Config): Promise<void> {

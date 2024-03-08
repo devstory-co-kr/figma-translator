@@ -2,7 +2,7 @@ import { App } from "./app.interface";
 import { Cmd, Cmds } from "./cmds/cmd";
 import { CreateTemplatesCmd } from "./cmds/create_templates.cmd";
 import { DeleteTranslationCacheCmd } from "./cmds/delete_translation_cache.cmd";
-import { TranslateCmd } from "./cmds/translate.cmd";
+import { TranslateCmd } from "./cmds/translate/translate.cmd";
 import { ConfigRepositoryImpl } from "./components/config/config.repository";
 import { ConfigServiceImpl } from "./components/config/config.service";
 import { FigmaRepositoryImpl } from "./components/figma/figma.repository";
@@ -76,6 +76,7 @@ export class FigmaTranslator implements App {
   public cmds: Record<Cmds, Cmd> = {
     [Cmds.translate]: new TranslateCmd(
       this.figmaService,
+      this.configService,
       this.translatorService,
       this.translatorLanguageService
     ),

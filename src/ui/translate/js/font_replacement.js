@@ -14,6 +14,9 @@ export default class FontReplacement {
   constructor(fontReplacementState, onChanged) {
     this.onChanged = onChanged;
     this.emit(fontReplacementState);
+    this.html.checkbox.checked = this.state.find((item) => item.isChecked)
+      ? true
+      : false;
 
     // Clear
     this.html.searchClearButton.addEventListener("click", (event) => {

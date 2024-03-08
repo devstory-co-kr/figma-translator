@@ -12,13 +12,13 @@ export default class AutoSize {
       autoSize,
     });
     this.html.container.addEventListener("click", (event) => {
-      if (event.target.type === "radio" && event.target.checked) {
-        const value = event.target.value;
+      if (event.target.type === "radio") {
+        const value = event.target.value === "true";
         this.emit({
           ...this.state,
           autoSize: value,
         });
-        onAutoSizeChanged(value === "true");
+        onAutoSizeChanged(this.state.autoSize);
       }
     });
   }
