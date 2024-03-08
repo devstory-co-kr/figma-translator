@@ -8,21 +8,24 @@ export default class AutoSize {
   state;
 
   constructor(autoSize, onAutoSizeChanged) {
-    this.emit(autoSize);
+    this.emit({
+      autoSize,
+    });
     this.html.container.addEventListener("click", (event) => {
       if (event.target.type === "radio" && event.target.checked) {
         const value = event.target.value;
-        this.state = {
+        this.emit({
           ...this.state,
           autoSize: value,
-        };
+        });
         onAutoSizeChanged(value === "true");
       }
     });
   }
 
-  emit(autoSize) {
-    this.state = { autoSize };
+  emit(state) {
+    if (this.state === state) return;
+    this.state = state;
     this.render();
   }
 

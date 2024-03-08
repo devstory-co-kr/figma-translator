@@ -149,6 +149,7 @@ export default class FontReplacement {
   }
 
   emit(state) {
+    if (this.state === state) return;
     this.state = state;
     this.render();
   }

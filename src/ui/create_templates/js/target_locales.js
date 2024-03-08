@@ -10,13 +10,14 @@ export default class TargetLocales {
   };
 
   state;
+  onTargetLocalesChanged;
 
   emit(state) {
+    if (this.state === state) return;
     this.state = state;
     this.render();
   }
 
-  onTargetLocalesChanged;
   constructor(locales, onTargetLocalesChanged) {
     this.onTargetLocalesChanged = onTargetLocalesChanged;
     this.emit(locales);
@@ -58,6 +59,7 @@ export default class TargetLocales {
           return s;
         })
       );
+      this.onTargetLocalesChanged(this.state);
     });
   }
 
@@ -86,8 +88,8 @@ export default class TargetLocales {
       itemWrapper.addEventListener("click", (event) => {
         if (event.target.type === "checkbox") {
           s.isChecked = event.target.checked;
+          this.emit([...this.state]);
           this.onTargetLocalesChanged(this.state);
-          this.render();
         }
       });
       this.html.container.appendChild(itemWrapper);

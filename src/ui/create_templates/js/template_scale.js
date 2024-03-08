@@ -3,24 +3,22 @@ export default class TemplateScale {
     select: document.getElementById("templateScale"),
   };
 
-  _state;
-  get state() {
-    return this._state;
-  }
-  set state(value) {
-    this._state = value;
+  state;
+  emit(state) {
+    if (this.state === state) return;
+    this.state = state;
     this.render();
   }
 
   constructor(templateScale, onTemplateScaleChanged) {
-    this.state = {
+    this.emit({
       templateScale,
-    };
+    });
 
     this.html.select.addEventListener("change", () => {
-      this.state = {
+      this.emit({
         templateScale: this.html.select.value,
-      };
+      });
       onTemplateScaleChanged(this.state.templateScale);
     });
   }

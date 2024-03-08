@@ -6,25 +6,26 @@ export default class SourceLanguage {
   state;
 
   constructor(supportLanguages, sourceLanguage, onSourceLanguageChanged) {
-    this.emit(supportLanguages, sourceLanguage);
+    this.emit({
+      supportLanguages,
+      sourceLanguage: sourceLanguage || supportLanguages[0],
+    });
 
     // On select change
     this.html.select.addEventListener("change", (event) => {
-      this.state = {
+      this.emit({
         ...this.state,
         sourceLanguage: supportLanguages.find(
           (l) => l.locale === event.target.value
         ),
-      };
+      });
       onSourceLanguageChanged(this.state.sourceLanguage);
     });
   }
 
-  emit(supportLanguages, sourceLanguage) {
-    this.state = {
-      supportLanguages,
-      sourceLanguage: sourceLanguage || supportLanguages[0],
-    };
+  emit(state) {
+    if (this.state === state) return;
+    this.state = state;
     this.render();
   }
 

@@ -45,12 +45,10 @@ window.addEventListener("DOMContentLoaded", () => {
 class CreateTemplates {
   channel;
   widgets;
-  _state;
-  get state() {
-    return this._state;
-  }
-  set state(value) {
-    this._state = value;
+  state;
+  emit(state) {
+    if (this.state === state) return;
+    this.state = state;
     this.render();
   }
 
@@ -67,55 +65,55 @@ class CreateTemplates {
     this.widgets = {
       platform: new Platform(platform, (changedPlatform) => {
         // On platform changed
-        this.state = {
+        this.emit({
           ...this.state,
           platform: changedPlatform,
-        };
+        });
       }),
       templates: new Templates(
         this.getTemplates(platformTemplates, platform),
         (changedTemplates) => {
           // On templates changed
-          this.state = {
+          this.emit({
             ...this.state,
             templates: {
               ...this.state.templates,
               [this.state.platform]: changedTemplates,
             },
-          };
+          });
         }
       ),
       textDirection: new TextDirection(
         textDirection,
         (changedTextDirection) => {
           // On text direction changed
-          this.state = {
+          this.emit({
             ...this.state,
             textDirection: changedTextDirection,
-          };
+          });
         }
       ),
       targetLocales: new TargetLocales(
         this.getTargetLocales(platformLocales, platform, textDirection),
         (changedTargetLocales) => {
           // On target locales changed
-          this.state = {
+          this.emit({
             ...this.state,
             targetLocales: {
               ...this.state.targetLocales,
               [this.state.textDirection]: changedTargetLocales,
             },
-          };
+          });
         }
       ),
       templateScale: new TemplateScale(
         templateScale,
         (changedTemplateScale) => {
           // on template scale changed
-          this.state = {
+          this.emit({
             ...this.state,
             templateScale: changedTemplateScale,
-          };
+          });
         }
       ),
       createTemplatesButton: new CreateTemplatesButton(() =>

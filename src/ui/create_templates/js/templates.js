@@ -4,14 +4,7 @@ export default class Templates {
     container: document.getElementById("templatesContainer"),
   };
 
-  _state;
-  get state() {
-    return this._state;
-  }
-  set state(value) {
-    this._state = value;
-    this.render();
-  }
+  state;
 
   onStateChanged;
   constructor(templates, onStateChanged) {
@@ -19,8 +12,10 @@ export default class Templates {
     this.onStateChanged = onStateChanged;
   }
 
-  emit(templates) {
-    this.state = templates;
+  emit(state) {
+    if (this.state === state) return;
+    this.state = state;
+    this.render();
   }
 
   render() {
