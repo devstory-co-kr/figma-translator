@@ -8,108 +8,12 @@ export default class FontReplacement {
       "#fontReplacement .inputClearButton"
     ),
   };
-  languageMap = {};
-  fontMap = {};
   state;
+  onChanged;
 
-  fontName = {
-    NotoSansMyanmar: "Noto Sans Myanmar",
-    NotoSansArmenian: "Noto Sans Armenian",
-    NotoSansEthiopic: "Noto Sans Ethiopic",
-    NotoSansGeorgian: "Noto Sans Georgian",
-    NotoSansKhmer: "Noto Sans Khmer",
-    NotoSansLao: "Noto Sans Lao",
-    NotoSansGurmukhi: "Noto Sans Gurmukhi",
-    NotoSansSinhala: "Noto Sans Sinhala",
-    NotoSansDevanagari: "Noto Sans Devanagari",
-  };
-
-  languageName = {
-    Myanmar: "Myanmar",
-    Amharic: "Amharic",
-    Armenian: "Armenian",
-    Georgian: "Georgian",
-    Khmer: "Khmer",
-    Lao: "Lao",
-    Punjabi: "Punjabi",
-    Sinhala: "Sinhala",
-    Marathi: "Marathi",
-    Hindi: "Hindi",
-    Nepali: "Nepali",
-  };
-
-  constructor(supportLanguages, availableFonts) {
-    for (const language of supportLanguages) {
-      this.languageMap[language.name] = language;
-    }
-
-    for (const font of availableFonts) {
-      this.fontMap[font.fontName.family] = font.fontName;
-    }
-
-    this.emit(
-      [
-        {
-          language: this.languageMap[this.languageName.Myanmar],
-          fontName: this.fontName.NotoSansMyanmar,
-          font: this.fontMap[this.fontName.NotoSansMyanmar],
-        },
-        {
-          language: this.languageMap[this.languageName.Amharic],
-          fontName: this.fontName.NotoSansEthiopic,
-          font: this.fontMap[this.fontName.NotoSansEthiopic],
-        },
-        {
-          language: this.languageMap[this.languageName.Armenian],
-          fontName: this.fontName.NotoSansArmenian,
-          font: this.fontMap[this.fontName.NotoSansArmenian],
-        },
-        {
-          language: this.languageMap[this.languageName.Georgian],
-          fontName: this.fontName.NotoSansGeorgian,
-          font: this.fontMap[this.fontName.NotoSansGeorgian],
-        },
-        {
-          language: this.languageMap[this.languageName.Khmer],
-          fontName: this.fontName.NotoSansKhmer,
-          font: this.fontMap[this.fontName.NotoSansKhmer],
-        },
-        {
-          language: this.languageMap[this.languageName.Lao],
-          fontName: this.fontName.NotoSansLao,
-          font: this.fontMap[this.fontName.NotoSansLao],
-        },
-        {
-          language: this.languageMap[this.languageName.Punjabi],
-          fontName: this.fontName.NotoSansGurmukhi,
-          font: this.fontMap[this.fontName.NotoSansGurmukhi],
-        },
-        {
-          language: this.languageMap[this.languageName.Sinhala],
-          fontName: this.fontName.NotoSansSinhala,
-          font: this.fontMap[this.fontName.NotoSansSinhala],
-        },
-        {
-          language: this.languageMap[this.languageName.Marathi],
-          fontName: this.fontName.NotoSansDevanagari,
-          font: this.fontMap[this.fontName.NotoSansDevanagari],
-        },
-        {
-          language: this.languageMap[this.languageName.Hindi],
-          fontName: this.fontName.NotoSansDevanagari,
-          font: this.fontMap[this.fontName.NotoSansDevanagari],
-        },
-        {
-          language: this.languageMap[this.languageName.Nepali],
-          fontName: this.fontName.NotoSansDevanagari,
-          font: this.fontMap[this.fontName.NotoSansDevanagari],
-        },
-      ].map((item) => ({
-        ...item,
-        isChecked: true,
-        isVisible: true,
-      }))
-    );
+  constructor(fontReplacementState, onChanged) {
+    this.onChanged = onChanged;
+    this.emit(fontReplacementState);
 
     // Clear
     this.html.searchClearButton.addEventListener("click", (event) => {
@@ -129,6 +33,7 @@ export default class FontReplacement {
           return s;
         })
       );
+      this.onChanged(this.state);
     });
 
     // Search
@@ -169,9 +74,11 @@ export default class FontReplacement {
           <span style="flex-grow: 1;">
             ${languageName} (${item.language.locale})
           </span>
-          <span style="color: grey;">
-            ${item.font ? item.fontName : "not installed"}
-          </span>
+          ${
+            item.font
+              ? `<span style="color: grey;">${item.fontName}</span>`
+              : `<a href="https://fonts.google.com/?query=${item.fontName}" target="_blank">Download</a>`
+          }
         </label>
       </div>`;
       this.html.container.insertAdjacentHTML("beforeend", template);
