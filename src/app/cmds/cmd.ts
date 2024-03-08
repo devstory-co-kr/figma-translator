@@ -6,5 +6,5 @@ export enum Cmds {
 
 export interface Cmd {
   onRun(args: any): Promise<void>;
-  onMessage(message: any, props: OnMessageProperties): void;
+  onMessage(message: any, props: OnMessageProperties): Promise<void>;
 }

@@ -20,6 +20,7 @@ export class TranslateCmd implements Cmd {
     private translatorLanguageService: TranslatorLanguageService
   ) {}
 
+  availableFonts?: Font[];
   sourceLanguage?: TranslatorLanguage;
 
   public async onRun({
@@ -28,15 +29,19 @@ export class TranslateCmd implements Cmd {
     sourceLanguage: TranslatorLanguage;
   }): Promise<void> {
     this.sourceLanguage = sourceLanguage;
+    this.availableFonts = await figma.listAvailableFontsAsync();
     figma.showUI(__uiFiles__.translate, {
-      width: 250,
-      height: 300,
+      width: 300,
+      height: 400,
       title: `Translate`,
     });
   }
 
-  public onMessage(message: any, props: OnMessageProperties): void {
-    if (!this.sourceLanguage) {
+  public async onMessage(
+    message: any,
+    props: OnMessageProperties
+  ): Promise<void> {
+    if (!this.sourceLanguage || !this.availableFonts) {
       return;
     }
 
@@ -47,13 +52,15 @@ export class TranslateCmd implements Cmd {
           type: MsgType.init,
           data: {
             autoSize: true,
+            availableFonts: this.availableFonts,
             sourceLanguage: this.sourceLanguage,
             supportLanguages: this.translatorLanguageService.supportLanguages,
           },
         });
         break;
       case MsgType.translate:
-        console.log("translate", message.data);
+        const { sourceLanguage, autoSize } = message.data;
+        await this.translate(sourceLanguage, autoSize);
         break;
     }
   }
@@ -62,6 +69,7 @@ export class TranslateCmd implements Cmd {
     sourceLanguage: TranslatorLanguage,
     autoSize: boolean
   ): Promise<void> {
+    console.log("come", sourceLanguage, autoSize);
     try {
       // The first word in the frame name must be the ISO639 code.
       const frameList: SceneNode[] = this.figmaService.getNodesByType(

@@ -33,13 +33,16 @@ export class CreateTemplatesCmd implements Cmd {
   public async onRun({ platform }: { platform: Platform }): Promise<void> {
     this.platform = platform;
     figma.showUI(__uiFiles__.createTemplates, {
-      width: 250,
-      height: 500,
+      width: 300,
+      height: 400,
       title: `Create Templates`,
     });
   }
 
-  public onMessage(message: any, props: OnMessageProperties): void {
+  public async onMessage(
+    message: any,
+    props: OnMessageProperties
+  ): Promise<void> {
     if (!this.platform) {
       return;
     }

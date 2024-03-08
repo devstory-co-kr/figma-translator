@@ -2,6 +2,7 @@ import "../core/base.css";
 import Channel from "../core/channel.js";
 import "./index.css";
 import AutoSize from "./js/auto_size.js";
+import FontReplacement from "./js/font_replacement.js";
 import SourceLanguage from "./js/source_language.js";
 import TranslateButton from "./js/translate_button.js";
 
@@ -32,7 +33,7 @@ class Translate {
 
   constructor(channel, data) {
     this.channel = channel;
-    const { autoSize, sourceLanguage, supportLanguages } = data;
+    const { autoSize, sourceLanguage, supportLanguages, availableFonts } = data;
 
     this.widgets = {
       sourceLanguage: new SourceLanguage(
@@ -51,16 +52,17 @@ class Translate {
           autoSize: changedAutoSize,
         };
       }),
+      fonts: new FontReplacement(supportLanguages, availableFonts),
       translateButton: new TranslateButton(() => {
         channel.sendMessage(channel.types.translate, this.state);
       }),
     };
 
-    this.emit(autoSize, sourceLanguage, supportLanguages);
+    this.emit(autoSize, sourceLanguage, supportLanguages, availableFonts);
   }
 
-  emit(autoSize, sourceLanguage, supportLanguages) {
-    this.state = { autoSize, sourceLanguage, supportLanguages };
+  emit(autoSize, sourceLanguage, supportLanguages, availableFonts) {
+    this.state = { autoSize, sourceLanguage, supportLanguages, availableFonts };
   }
 
   render() {}

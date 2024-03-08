@@ -1,36 +1,60 @@
 <body>
   <main>
-    <!-- - 오토 줄정렬 
-    - 번역 예외 : 등록 수정 삭제 
-    - 번역 캐시 관리 
-    - 언어별 폰트 -->
     <!-- Source Language -->
     <fieldset id="sourceLanguage">
       <legend class="title">Source Language</legend>
+      <div class="description">Select the source language to translate.</div>
       <select name="sourceLanguage"></select>
     </fieldset>
 
     <!-- Auto Size -->
-    <fieldset class="row" id="autoSize">
+    <fieldset class="column" id="autoSize">
       <legend class="title">Auto Size</legend>
-      <div class="radioOption">
-        <input type="radio" name="autoSize" id="autoSizeOn" value="true" />
-        <label for="autoSizeOn">On</label>
-      </div>
-      <div class="radioOption">
-        <input type="radio" name="autoSize" id="autoSizeOff" value="false" />
-        <label for="autoSizeOff">Off</label>
+      <div class="description">Reduce font size when text becomes long.</div>
+      <div class="row" style="width: 100%">
+        <div class="radioOption" style="flex-grow: 1; width: 100%">
+          <input type="radio" name="autoSize" id="autoSizeOn" value="true" />
+          <label for="autoSizeOn">On</label>
+        </div>
+        <div class="radioOption" style="flex-grow: 1; width: 100%">
+          <input type="radio" name="autoSize" id="autoSizeOff" value="false" />
+          <label for="autoSizeOff">Off</label>
+        </div>
       </div>
     </fieldset>
 
-    <!-- Fonts -->
-    <fieldset id="fonts">
-      <legend class="title">Fonts</legend>
-    </fieldset>
+    <!-- Font Replacement -->
+    <fieldset id="fontReplacement">
+      <legend class="title">Font Replacement</legend>
+      <div class="description">Changes the font for a specific language.</div>
+      <div class="column">
+        <div
+          class="row w100"
+          style="padding: 4px 8px 4px 4px; box-sizing: border-box"
+        >
+          <!-- Checkbox -->
+          <input
+            id="fontReplacementCheckbox"
+            type="checkbox"
+            checked
+            style="margin: 9px 8px 8px 4px"
+          />
+          <!-- Search -->
+          <div class="searchContainer w100">
+            <input
+              class="w100"
+              id="fontReplacementSearchInput"
+              type="text"
+              placeholder="Search"
+            />
+            <button class="inputClearButton">×</button>
+          </div>
+        </div>
 
-    <!-- Cache -->
-    <fieldset id="cache">
-      <legend class="title">Cache</legend>
+        <hr />
+        <!-- Fonts -->
+        <div class="container w100"></div>
+      </div>
     </fieldset>
   </main>
   <hr style="margin: 0" />

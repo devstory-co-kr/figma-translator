@@ -13,6 +13,10 @@ html, body {
   flex-direction: column;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 main {
   display: flex;
   flex-direction: column;
@@ -24,7 +28,7 @@ footer {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 8px;
+  margin: 8px 16px;
 }
 
 *:focus {
@@ -42,7 +46,7 @@ fieldset {
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   padding: 0;
-  margin: 8px;
+  margin: 8px 16px;
 }
 
 fieldset legend {
@@ -55,7 +59,6 @@ button {
   border-radius: 4px;
   color: rgb(var(--primary-color));
   padding: 4px;
-  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -76,6 +79,10 @@ input {
   padding: 6px;
   border: var(--input-border);
   font-size: 1rem;
+}
+
+input[type="text"] {
+  padding: 6px 24px 6px 6px;
 }
 
 input[type="checkbox"] {
@@ -102,4 +109,38 @@ input[type="checkbox"] {
 
 .radioOption > input {
   margin: 8px;
+}
+
+fieldset .description {
+  font-size: 11px;
+  color: rgba(0, 0, 0, 0.5);
+  padding: 4px 8px;
+}
+
+.searchContainer {
+  width: 100%;
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
+.inputClearButton {
+  position: absolute;
+  right: 3px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: black;
+  height: 30px;
+  width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.w100 {
+  width: 100%
 }

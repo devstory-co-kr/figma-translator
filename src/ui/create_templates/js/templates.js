@@ -25,9 +25,7 @@ export default class Templates {
 
   render() {
     // Clear
-    while (this.html.container.firstChild) {
-      this.html.container.removeChild(this.html.container.firstChild);
-    }
+    this.html.container.innerHTML = "";
 
     // Add templates
     let nChecked = 0;

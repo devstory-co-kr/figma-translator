@@ -3,31 +3,10 @@
   height: 195px;
   overflow: scroll;
   padding: 8px;
-  box-sizing: border-box;
 }
 
-.targetSearchContainer {
+#targetLocaleSearchInput {
   width: 100%;
-  display: flex;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-}
-
-#targetSearchClearButton {
-  position: absolute;
-  right: 3px;
-  border: none;
-  border-radius: 4px;
-  color: black;
-  cursor: pointer;
-  top: 4px;
-  bottom: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
 }
 
 #templateScale {
