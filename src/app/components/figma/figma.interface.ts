@@ -12,6 +12,10 @@ export type FrameInfo = {
   node: FrameNode;
 };
 
+export type FontReplacement = {
+  [targetLanguageLocale: string]: FontName[];
+};
+
 export interface FigmaService {
   search(args: {
     node: SceneNode;
@@ -24,11 +28,17 @@ export interface FigmaService {
     typeList: string[]
   ): SceneNode[];
 
-  replaceText(
-    node: SceneNode,
-    autoSize: boolean,
-    cb: (textList: string[]) => Promise<string[]>
-  ): Promise<void>;
+  replaceText({
+    node,
+    autoSize,
+    fonts,
+    cb,
+  }: {
+    node: TextNode;
+    autoSize: boolean;
+    fonts?: FontName[];
+    cb: (textList: string[]) => Promise<string[]>;
+  }): Promise<void>;
 
   createFrames({
     templates,
@@ -82,12 +92,14 @@ export interface FigmaRepository {
     textList,
     jointList,
     fontSizeDelta,
+    fonts,
   }: {
     node: TextNode;
     segments: StyledTextSegment[];
     textList: string[];
     jointList: string[];
     fontSizeDelta: number;
+    fonts?: FontName[];
   }): Promise<void>;
 
   createFrame({

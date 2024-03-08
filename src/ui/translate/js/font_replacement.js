@@ -19,10 +19,12 @@ export default class FontReplacement {
     this.html.searchClearButton.addEventListener("click", (event) => {
       this.html.searchClearButton.style.opacity = 0;
       this.html.searchInput.value = "";
-      this.state = this.state.map((s) => {
-        s.isVisible = true;
-        return s;
-      });
+      this.emit(
+        this.state.map((s) => {
+          s.isVisible = true;
+          return s;
+        })
+      );
     });
 
     // Toggle
@@ -81,7 +83,17 @@ export default class FontReplacement {
           }
         </label>
       </div>`;
-      this.html.container.insertAdjacentHTML("beforeend", template);
+      const itemWrapper = document.createElement("div");
+      itemWrapper.style.width = "100%";
+      itemWrapper.insertAdjacentHTML("beforeend", template);
+      itemWrapper.addEventListener("click", (event) => {
+        if (event.target.type === "checkbox") {
+          item.isChecked = event.target.checked;
+          this.emit([...this.state]);
+          this.onChanged(this.state);
+        }
+      });
+      this.html.container.appendChild(itemWrapper);
     }
   }
 }

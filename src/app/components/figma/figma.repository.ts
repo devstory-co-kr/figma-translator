@@ -14,20 +14,29 @@ export class FigmaRepositoryImpl implements FigmaRepository {
     textList,
     jointList,
     fontSizeDelta,
+    fonts,
   }: {
     node: TextNode;
     segments: StyledTextSegment[];
     textList: string[];
     jointList: string[];
     fontSizeDelta: number;
+    fonts?: FontName[];
   }): Promise<void> {
     for (let i = 0; i < segments.length; i++) {
       const segment = segments[i];
       const start = textList.slice(0, i).reduce((p, c) => p + c.length, 0);
       const jointSize = jointList.slice(0, i).reduce((p, c) => p + c.length, 0);
       const end = start + jointSize + textList[i].length;
+
+      // If there are fonts received, use the font with the same style.
+      const sameStyleFonts =
+        fonts?.filter((f) => f.style === segment.fontName.style) ?? [];
+      const fontName =
+        sameStyleFonts.length > 0 ? sameStyleFonts[0] : segment.fontName;
+
       node.setRangeFontSize(start, end, segment.fontSize + fontSizeDelta);
-      node.setRangeFontName(start, end, segment.fontName);
+      node.setRangeFontName(start, end, fontName);
       node.setRangeHyperlink(start, end, segment.hyperlink);
       node.setRangeListOptions(start, end, segment.listOptions);
       node.setRangeIndentation(start, end, segment.indentation);

@@ -140,6 +140,7 @@ class Translate {
         supportLanguages,
         sourceLanguage,
         (changedSourceLanguage) => {
+          // On source language changed
           this.emit({
             ...this.state,
             sourceLanguage: changedSourceLanguage,
@@ -147,6 +148,7 @@ class Translate {
         }
       ),
       autoSize: new AutoSize(autoSize, (changedAutoSize) => {
+        // On auto size changed
         this.emit({
           ...this.state,
           autoSize: changedAutoSize,
@@ -155,6 +157,7 @@ class Translate {
       fonts: new FontReplacement(
         fontReplacementState,
         (changedFontReplacementState) => {
+          // On font replacement changed
           this.emit({
             ...this.state,
             fontReplacementState: changedFontReplacementState,
@@ -162,6 +165,7 @@ class Translate {
         }
       ),
       translateButton: new TranslateButton(() => {
+        // On translate button pressed
         channel.sendMessage(channel.types.translate, this.state);
       }),
     };
