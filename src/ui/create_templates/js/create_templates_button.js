@@ -1,26 +1,16 @@
 export default class CreateTemplatesButton {
-  button = document.getElementById("createTemplatesButton");
+  html = {
+    button: document.getElementById("createTemplatesButton"),
+  };
 
-  _state;
-  get state() {
-    return this._state;
-  }
-  set state(value) {
-    this._state = value;
-    this.render();
-  }
-  constructor(platform, onPressed) {
-    this.state = {
-      platform,
-    };
-
+  constructor(onPressed) {
     // On pressed
-    this.button.addEventListener("click", () => {
+    this.html.button.addEventListener("click", () => {
       onPressed();
     });
   }
 
   render() {
-    this.button.innerText = `Create Templates`;
+    this.html.button.innerText = `Create Templates`;
   }
 }

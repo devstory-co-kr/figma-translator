@@ -1,13 +1,25 @@
+import { CreateTemplatesState } from "../../cmds/create_templates/create_templates.state";
+import { TranslateState } from "../../cmds/translate/translate.state";
+
 export interface Config {
-  googleAPIKey: string;
+  translateState: TranslateState;
+  createTemplatesState: CreateTemplatesState;
 }
 
 export interface ConfigService {
-  get(): Promise<Config>;
+  getTranslateState(): Promise<TranslateState | undefined>;
+  setTranslateState(translateState: TranslateState): Promise<void>;
+
+  getCreateTemplatesState(): Promise<CreateTemplatesState | undefined>;
+  setCreateTemplatesState(
+    createTemplatesState: CreateTemplatesState
+  ): Promise<void>;
+
+  clear(): Promise<void>;
 }
 
 export interface ConfigRepository {
-  get(): Promise<Config | undefined>;
-  set(config: Config): Promise<void>;
-  clear(): Promise<void>;
+  key:string;
+  get(): Promise<Partial<Config>>;
+  set(config: Partial<Config>): Promise<void>;
 }

@@ -4,30 +4,23 @@ export default class Templates {
     container: document.getElementById("templatesContainer"),
   };
 
-  _state;
-  get state() {
-    return this._state;
-  }
-  set state(value) {
-    this._state = value;
-    this.render();
-  }
+  state;
 
   onStateChanged;
   constructor(templates, onStateChanged) {
-    this.initState(templates);
+    this.emit(templates);
     this.onStateChanged = onStateChanged;
   }
 
-  initState(templates) {
-    this.state = templates;
+  emit(state) {
+    if (this.state === state) return;
+    this.state = state;
+    this.render();
   }
 
   render() {
     // Clear
-    while (this.html.container.firstChild) {
-      this.html.container.removeChild(this.html.container.firstChild);
-    }
+    this.html.container.innerHTML = "";
 
     // Add templates
     let nChecked = 0;
@@ -39,7 +32,7 @@ export default class Templates {
       if (checked) nChecked++;
       const item = `<div class="row" style="align-items: center; margin-top: 6px; font-size: 12px;">
         <input type="checkbox" value="${name}" name="${name}" id="${name}" ${checked}/>
-        <div class="row">
+        <div class="row" style="width: 100%;">
           <label for="${name}" style="display: flex; flex-direction:column; flex-basis:1000%; width: 100%; padding: 4px">
             <span style="">${name}</span>
             <span style="color: grey; font-size: 11px;">${size}</span>

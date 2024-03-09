@@ -1,7 +1,7 @@
 {
   "name": "translator",
-  "version": "1.2.2",
-  "description": "Easily translate into multiple languages.",
+  "version": "1.3.0",
+  "description": "Creates and translates Android and iOS store templates.",
   "main": "code.js",
   "scripts": {
     "build": "webpack",

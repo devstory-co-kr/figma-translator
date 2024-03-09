@@ -8,26 +8,35 @@ export class FigmaRepositoryImpl implements FigmaRepository {
     ]);
   }
 
-  public setStyledMixedTextSegments({
+  public async setStyledMixedTextSegments({
     node,
     segments,
     textList,
     jointList,
     fontSizeDelta,
+    fonts,
   }: {
     node: TextNode;
     segments: StyledTextSegment[];
     textList: string[];
     jointList: string[];
     fontSizeDelta: number;
-  }): void {
+    fonts?: FontName[];
+  }): Promise<void> {
     for (let i = 0; i < segments.length; i++) {
       const segment = segments[i];
       const start = textList.slice(0, i).reduce((p, c) => p + c.length, 0);
       const jointSize = jointList.slice(0, i).reduce((p, c) => p + c.length, 0);
       const end = start + jointSize + textList[i].length;
+
+      // If there are fonts received, use the font with the same style.
+      const sameStyleFonts =
+        fonts?.filter((f) => f.style === segment.fontName.style) ?? [];
+      const fontName =
+        sameStyleFonts.length > 0 ? sameStyleFonts[0] : segment.fontName;
+
       node.setRangeFontSize(start, end, segment.fontSize + fontSizeDelta);
-      node.setRangeFontName(start, end, segment.fontName);
+      node.setRangeFontName(start, end, fontName);
       node.setRangeHyperlink(start, end, segment.hyperlink);
       node.setRangeListOptions(start, end, segment.listOptions);
       node.setRangeIndentation(start, end, segment.indentation);
@@ -42,7 +51,7 @@ export class FigmaRepositoryImpl implements FigmaRepository {
       }
 
       segment.fillStyleId
-        ? node.setRangeFillStyleId(start, end, segment.fillStyleId)
+        ? await node.setRangeFillStyleIdAsync(start, end, segment.fillStyleId)
         : node.setRangeFills(start, end, segment.fills);
     }
   }

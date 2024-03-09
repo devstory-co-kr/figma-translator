@@ -8,27 +8,26 @@ export default class Platform {
   android = "Android";
   ios = "iOS";
 
-  _state;
-  get state() {
-    return this._state;
-  }
-  set state(value) {
-    this._state = value;
+  state;
+  emit(state) {
+    if (this.state === state) return;
+    this.state = state;
     this.render();
   }
 
   constructor(platform, onPlatformChanged) {
-    this.state = {
+    this.emit({
       platform,
-    };
+    });
 
     this.html.container.addEventListener("click", (event) => {
-      if (event.target.type === "radio" && event.target.checked)
-        this.state = {
+      if (event.target.type === "radio") {
+        this.emit({
           ...this.state,
           platform: event.target.value,
-        };
-      onPlatformChanged(this.state.platform);
+        });
+        onPlatformChanged(this.state.platform);
+      }
     });
   }
 

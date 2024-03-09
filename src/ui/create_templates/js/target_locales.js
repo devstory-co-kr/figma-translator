@@ -1,47 +1,49 @@
 export default class TargetLocales {
   html = {
     title: document.getElementById("targetLocalesTitle"),
-    searchInput: document.getElementById("targetLocaleSearch"),
-    toggleCheckbox: document.getElementById("targetLocaleToggle"),
+    searchInput: document.getElementById("targetLocaleSearchInput"),
+    toggleCheckbox: document.getElementById("targetLocaleToggleCheckbox"),
     container: document.getElementById("targetLocalesContainer"),
-    searchClearButton: document.getElementById("targetSearchClearButton"),
+    searchClearButton: document.querySelector(
+      "#targetLocales .inputClearButton"
+    ),
   };
 
-  _state;
-  get state() {
-    return this._state;
-  }
-  set state(value) {
-    this._state = value;
+  state;
+  onTargetLocalesChanged;
+
+  emit(state) {
+    if (this.state === state) return;
+    this.state = state;
     this.render();
   }
 
-  initState(locales) {
-    this.state = locales;
-  }
-
-  onTargetLocalesChanged;
   constructor(locales, onTargetLocalesChanged) {
     this.onTargetLocalesChanged = onTargetLocalesChanged;
-    this.initState(locales);
+    this.emit(locales);
 
     // Clear
-    this.html.searchClearButton.addEventListener("click", (event) => {
+    this.html.searchClearButton.addEventListener("click", () => {
       this.html.searchClearButton.style.opacity = 0;
       this.html.searchInput.value = "";
-      this.state = this.state.map((s) => {
-        s.isVisible = true;
-        return s;
-      });
+      this.emit(
+        this.state.map((s) => {
+          s.isVisible = true;
+          return s;
+        })
+      );
     });
 
     // Toggle
     this.html.toggleCheckbox.addEventListener("click", (event) => {
       const isChecked = event.target.checked;
-      this.state = this.state.map((s) => {
-        s.isChecked = isChecked;
-        return s;
-      });
+      this.emit(
+        this.state.map((s) => {
+          s.isChecked = isChecked;
+          return s;
+        })
+      );
+      this.onTargetLocalesChanged(this.state);
     });
 
     // Search
@@ -50,20 +52,21 @@ export default class TargetLocales {
     this.html.searchInput.addEventListener("input", (event) => {
       const value = event.target.value;
       this.html.searchClearButton.style.opacity = value ? 1 : 0;
-      this.state = this.state.map((s) => {
-        s.isVisible = `${s.targetLocale.name} ${s.targetLocale.locale}`
-          .toLocaleLowerCase()
-          .includes(value.toLocaleLowerCase());
-        return s;
-      });
+      this.emit(
+        this.state.map((s) => {
+          s.isVisible = `${s.targetLocale.name} ${s.targetLocale.locale}`
+            .toLocaleLowerCase()
+            .includes(value.toLocaleLowerCase());
+          return s;
+        })
+      );
+      this.onTargetLocalesChanged(this.state);
     });
   }
 
   render() {
     // Clear
-    while (this.html.container.firstChild) {
-      this.html.container.removeChild(this.html.container.firstChild);
-    }
+    this.html.container.innerHTML = "";
 
     // Add locales
     let nChecked = 0;
@@ -86,8 +89,8 @@ export default class TargetLocales {
       itemWrapper.addEventListener("click", (event) => {
         if (event.target.type === "checkbox") {
           s.isChecked = event.target.checked;
+          this.emit([...this.state]);
           this.onTargetLocalesChanged(this.state);
-          this.render();
         }
       });
       this.html.container.appendChild(itemWrapper);

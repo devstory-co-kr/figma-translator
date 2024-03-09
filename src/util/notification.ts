@@ -1,11 +1,13 @@
 export class Notification {
-  static i(
+  private static handler: NotificationHandler | undefined;
+  public static i(
     text: string,
     optional?: {
       button?: { text: string; action: () => boolean | void };
     }
   ) {
-    figma.notify(text, { button: optional?.button });
+    Notification.handler?.cancel();
+    Notification.handler = figma.notify(text, { button: optional?.button });
   }
 
   static e(
@@ -14,6 +16,10 @@ export class Notification {
       button?: { text: string; action: () => boolean | void };
     }
   ) {
-    figma.notify(text, { error: true, button: optional?.button });
+    Notification.handler?.cancel();
+    Notification.handler = figma.notify(text, {
+      error: true,
+      button: optional?.button,
+    });
   }
 }

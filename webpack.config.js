@@ -6,10 +6,10 @@ const HtmlInlineScriptPlugin = require("html-inline-script-webpack-plugin");
 module.exports = (env, argv) => ({
   mode: argv.mode === "production" ? "production" : "development",
 
-  // This is necessary because Figma's 'eval' works differently than normal eval
   devtool: argv.mode === "production" ? false : "inline-source-map",
   entry: {
-    code: "./src/code.ts", // This is the entry point for our plugin code.
+    code: "./src/code.ts",
+    translate: "./src/ui/translate/index.js",
     createTemplates: "./src/ui/create_templates/index.js",
   },
   module: {
@@ -44,6 +44,11 @@ module.exports = (env, argv) => ({
   plugins: [
     new webpack.DefinePlugin({
       global: {}, // Fix missing symbol error when running in developer VM
+    }),
+    new HtmlWebpackPlugin({
+      template: "./src/ui/translate/index.html",
+      filename: "ui/translate.html",
+      chunks: ["translate"],
     }),
     new HtmlWebpackPlugin({
       template: "./src/ui/create_templates/index.html",

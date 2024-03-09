@@ -10,6 +10,7 @@
     "figma"
   ],
   "ui": {
+    "translate": "dist/ui/translate.html",
     "createTemplates": "dist/ui/create_templates.html"
   },
   "networkAccess": {
@@ -29,28 +30,20 @@
           "name": "Source Language",
           "key": "sourceLanguage",
           "description": "Select the source language to translate."
-        },
-        {
-          "name": "Auto Size",
-          "key": "autoSize",
-          "description": "Whether to reduce the font size when the text becomes long."
         }
       ]
     },
     {
       "name": "Create Templates",
-      "command": "createTemplates",
-      "parameters": [
-        {
-          "name": "Platform",
-          "key": "platform",
-          "description": "Select the platform on which to create the template."
-        }
-      ]
+      "command": "createTemplates"
     },
     {
       "name": "Delete Translation Cache",
       "command": "deleteTranslationCache"
+    },
+    {
+      "name": "Reset Configuration",
+      "command": "resetConfiguration"
     }
   ]
 }

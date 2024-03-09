@@ -10,7 +10,8 @@ export class DeleteTranslationCacheCmd implements Cmd {
     Notification.i(`${nDeleted} translation cache deleted.`);
   }
 
-  public onMessage(message: any, props: OnMessageProperties): void {
-    throw new Error("Method not implemented.");
-  }
+  public async onMessage(
+    message: any,
+    props: OnMessageProperties
+  ): Promise<void> {}
 }
