@@ -7,14 +7,16 @@ This is a plugin that creates translation and store templates.
 
 ## Commands
 ### Translate
-https://github.com/devstory-co-kr/figma-translator/assets/26322627/e2015e61-c7f0-4309-8003-5464b3d2ef3e
+https://github.com/devstory-co-kr/figma-translator/assets/26322627/2121299b-6e3d-4dc1-822f-4df025559b34
 - To be translated, the frame name must contain a [language code](https://gist.github.com/nero-angela/89d61a06e3089076f2e85b189dfe393a).
 - It uses Google Translator and has an internal caching function implemented.
 - Free translators have hourly limitations.
 - Figma plugin provides up to 1MB of storage space, so if the cache is full, empty the cache using the `Delete Translate Cache` command.
+- Some languages have a feature that changes the font when translating.
+- If you use the `Auto Size` function, the font size is automatically reduced even if the characters become longer after translation, so you can keep the number of lines constant.
 
 ### Create templates
-https://github.com/devstory-co-kr/figma-translator/assets/26322627/04b662b6-9caa-4e06-8d98-34d7746d7aff
+https://github.com/devstory-co-kr/figma-translator/assets/26322627/124b5082-1a28-44ac-845c-dad4286b5a56
 - The frame name is created according to the folder structure supported by fastlane.
 - After exporting the template, you can easily place it in the fastlane folder using the [`rsync`](https://www.geeksforgeeks.org/rsync-command-in-linux-with-examples/) command.
 - Support Templates

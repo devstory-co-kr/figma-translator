@@ -2,6 +2,13 @@
 
 All notable changes to the "Translator" plugin will be documented in this file.
 
+## [1.3.0] - 24.03.10
+### Added
+- Add font replacement.
+- Add translate command UI.
+- Add `Reset Configuration` command.
+- Added plugin configuration saving function.
+
 ## [1.2.2] - 24.03.07
 ### Added
 - Add auto size function to reduce font size when translated text becomes long.
