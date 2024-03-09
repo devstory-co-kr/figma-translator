@@ -1,3 +1,4 @@
+import { CreateTemplatesState } from "../../cmds/create_templates/create_templates.state";
 import { TranslateState } from "../../cmds/translate/translate.state";
 import { ConfigRepository, ConfigService } from "./config.interface";
 
@@ -16,6 +17,23 @@ export class ConfigServiceImpl implements ConfigService {
     this.configRepository.set({
       ...config,
       translateState,
+    });
+  }
+
+  public async getCreateTemplatesState(): Promise<
+    CreateTemplatesState | undefined
+  > {
+    const config = await this.configRepository.get();
+    return config?.createTemplatesState;
+  }
+
+  public async setCreateTemplatesState(
+    createTemplatesState: CreateTemplatesState
+  ): Promise<void> {
+    const config = await this.configRepository.get();
+    this.configRepository.set({
+      ...config,
+      createTemplatesState,
     });
   }
 }

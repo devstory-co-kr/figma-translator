@@ -12,6 +12,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const channel = new Channel("createTemplates", {
     init: "init",
     createTemplates: "createTemplates",
+    createTemplatesStateChanged: "createTemplatesStateChanged",
   });
 
   // On message
@@ -20,17 +21,23 @@ window.addEventListener("DOMContentLoaded", () => {
     switch (type) {
       case channel.types.init:
         const {
+          // State
           platform,
-          platformTemplates,
-          templateScale,
           textDirection,
+          templateScale,
+          targetLocales,
+          templates,
+          // Locales & Templates
           platformLocales,
+          platformTemplates,
         } = data;
         createTemplates = new CreateTemplates(
           channel,
           platform,
           textDirection,
           templateScale,
+          targetLocales,
+          templates,
           platformLocales,
           platformTemplates
         );
@@ -46,9 +53,14 @@ class CreateTemplates {
   channel;
   widgets;
   state;
+
   emit(state) {
     if (this.state === state) return;
     this.state = state;
+    this.channel.sendMessage(
+      this.channel.types.createTemplatesStateChanged,
+      this.state
+    );
     this.render();
   }
 
@@ -57,6 +69,8 @@ class CreateTemplates {
     platform,
     textDirection,
     templateScale,
+    targetLocales,
+    templates,
     platformLocales,
     platformTemplates
   ) {
@@ -70,19 +84,16 @@ class CreateTemplates {
           platform: changedPlatform,
         });
       }),
-      templates: new Templates(
-        this.getTemplates(platformTemplates, platform),
-        (changedTemplates) => {
-          // On templates changed
-          this.emit({
-            ...this.state,
-            templates: {
-              ...this.state.templates,
-              [this.state.platform]: changedTemplates,
-            },
-          });
-        }
-      ),
+      templates: new Templates(templates[platform], (changedTemplates) => {
+        // On templates changed
+        this.emit({
+          ...this.state,
+          templates: {
+            ...this.state.templates,
+            [this.state.platform]: changedTemplates,
+          },
+        });
+      }),
       textDirection: new TextDirection(
         textDirection,
         (changedTextDirection) => {
@@ -94,7 +105,7 @@ class CreateTemplates {
         }
       ),
       targetLocales: new TargetLocales(
-        this.getTargetLocales(platformLocales, platform, textDirection),
+        targetLocales[textDirection],
         (changedTargetLocales) => {
           // On target locales changed
           this.emit({
@@ -118,49 +129,16 @@ class CreateTemplates {
       ),
       createTemplatesButton: new CreateTemplatesButton(() =>
         // On create templates button pressed
-        this.channel.sendMessage(this.channel.types.createTemplates, {
-          platform: this.state.platform,
-          textDirection: this.state.textDirection,
-          templateScale: this.state.templateScale,
-          targetLocales: this.state.targetLocales[this.state.textDirection]
-            .filter((l) => l.isChecked)
-            .map((l) => l.targetLocale),
-          templates: this.state.templates[this.state.platform]
-            .filter((d) => d.isChecked)
-            .map((d) => ({
-              template: d.template,
-              count: d.count,
-            })),
-        })
+        this.channel.sendMessage(this.channel.types.createTemplates, this.state)
       ),
     };
 
     this.state = {
       platform,
-      templates: {
-        [this.widgets.platform.android]: this.getTemplates(
-          platformTemplates,
-          this.widgets.platform.android
-        ),
-        [this.widgets.platform.ios]: this.getTemplates(
-          platformTemplates,
-          this.widgets.platform.ios
-        ),
-      },
+      templates,
       textDirection,
       templateScale,
-      targetLocales: {
-        [this.widgets.textDirection.LTR]: this.getTargetLocales(
-          platformLocales,
-          platform,
-          this.widgets.textDirection.LTR
-        ),
-        [this.widgets.textDirection.RTL]: this.getTargetLocales(
-          platformLocales,
-          platform,
-          this.widgets.textDirection.RTL
-        ),
-      },
+      targetLocales,
       platformLocales,
       platformTemplates,
     };

@@ -23,7 +23,7 @@ export default class TargetLocales {
     this.emit(locales);
 
     // Clear
-    this.html.searchClearButton.addEventListener("click", (event) => {
+    this.html.searchClearButton.addEventListener("click", () => {
       this.html.searchClearButton.style.opacity = 0;
       this.html.searchInput.value = "";
       this.emit(
@@ -43,6 +43,7 @@ export default class TargetLocales {
           return s;
         })
       );
+      this.onTargetLocalesChanged(this.state);
     });
 
     // Search

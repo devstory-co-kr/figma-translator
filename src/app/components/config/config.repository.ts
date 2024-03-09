@@ -7,7 +7,7 @@ export class ConfigRepositoryImpl implements ConfigRepository {
     return (await figma.clientStorage.getAsync(this.key)) ?? {};
   }
 
-  public set(config: Config): Promise<void> {
+  public set(config: Partial<Config>): Promise<void> {
     return figma.clientStorage.setAsync(this.key, config);
   }
 

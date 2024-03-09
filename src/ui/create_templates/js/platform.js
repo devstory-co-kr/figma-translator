@@ -21,12 +21,13 @@ export default class Platform {
     });
 
     this.html.container.addEventListener("click", (event) => {
-      if (event.target.type === "radio" && event.target.checked)
+      if (event.target.type === "radio") {
         this.emit({
           ...this.state,
           platform: event.target.value,
         });
-      onPlatformChanged(this.state.platform);
+        onPlatformChanged(this.state.platform);
+      }
     });
   }
 

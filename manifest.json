@@ -35,14 +35,7 @@
     },
     {
       "name": "Create Templates",
-      "command": "createTemplates",
-      "parameters": [
-        {
-          "name": "Platform",
-          "key": "platform",
-          "description": "Select the platform on which to create the template."
-        }
-      ]
+      "command": "createTemplates"
     },
     {
       "name": "Delete Translation Cache",

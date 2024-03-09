@@ -184,8 +184,8 @@ export class TranslateCmd implements Cmd {
     });
   }
 
-  private async onTranslateStateChanged(translateState: TranslateState) {
-    await this.configService.setTranslateState(translateState);
+  private onTranslateStateChanged(translateState: TranslateState): void {
+    this.configService.setTranslateState(translateState);
   }
 
   private async onTranslate(translateState: TranslateState) {
