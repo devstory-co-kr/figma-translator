@@ -36,4 +36,8 @@ export class ConfigServiceImpl implements ConfigService {
       createTemplatesState,
     });
   }
+
+  public async clear(): Promise<void> {
+    await figma.clientStorage.deleteAsync(this.configRepository.key);
+  }
 }

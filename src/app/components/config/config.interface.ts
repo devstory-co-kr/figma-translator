@@ -14,10 +14,12 @@ export interface ConfigService {
   setCreateTemplatesState(
     createTemplatesState: CreateTemplatesState
   ): Promise<void>;
+
+  clear(): Promise<void>;
 }
 
 export interface ConfigRepository {
+  key:string;
   get(): Promise<Partial<Config>>;
   set(config: Partial<Config>): Promise<void>;
-  clear(): Promise<void>;
 }

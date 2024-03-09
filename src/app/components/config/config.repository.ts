@@ -1,7 +1,7 @@
 import { Config, ConfigRepository } from "./config.interface";
 
 export class ConfigRepositoryImpl implements ConfigRepository {
-  private key = "config";
+  public key = "config";
 
   public async get(): Promise<Partial<Config>> {
     return (await figma.clientStorage.getAsync(this.key)) ?? {};
@@ -9,9 +9,5 @@ export class ConfigRepositoryImpl implements ConfigRepository {
 
   public set(config: Partial<Config>): Promise<void> {
     return figma.clientStorage.setAsync(this.key, config);
-  }
-
-  public clear(): Promise<void> {
-    return figma.clientStorage.deleteAsync(this.key);
   }
 }
