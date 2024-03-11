@@ -29,11 +29,22 @@ export class FigmaRepositoryImpl implements FigmaRepository {
       const jointSize = jointList.slice(0, i).reduce((p, c) => p + c.length, 0);
       const end = start + jointSize + textList[i].length;
 
-      // If there are fonts received, use the font with the same style.
-      const sameStyleFonts =
-        fonts?.filter((f) => f.style === segment.fontName.style) ?? [];
-      const fontName =
-        sameStyleFonts.length > 0 ? sameStyleFonts[0] : segment.fontName;
+      // When replacing fonts, if there is no same style, Regular is applied.
+      let sameStyleFont: FontName | undefined;
+      let regularStyleFont: FontName | undefined;
+      for (const font of fonts ?? []) {
+        if (font.style.toLocaleLowerCase() === "regular") {
+          regularStyleFont = font;
+        }
+        if (
+          font.style.toLocaleLowerCase() ===
+          segment.fontName.style.toLocaleLowerCase()
+        ) {
+          sameStyleFont = font;
+          break;
+        }
+      }
+      const fontName = sameStyleFont ?? regularStyleFont ?? segment.fontName;
 
       node.setRangeFontSize(start, end, segment.fontSize + fontSizeDelta);
       node.setRangeFontName(start, end, fontName);
