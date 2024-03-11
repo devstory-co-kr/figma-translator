@@ -2,6 +2,7 @@ import "../core/base.css";
 import Channel from "../core/channel.js";
 import "./index.css";
 import AutoSize from "./js/auto_size.js";
+import ExclusionKeywords from "./js/exclusion_keywords.js";
 import FontReplacement from "./js/font_replacement.js";
 import SourceLanguage from "./js/source_language.js";
 import TranslateButton from "./js/translate_button.js";
@@ -39,6 +40,7 @@ class Translate {
       autoSize,
       sourceLanguage,
       fontReplacementState,
+      exclusionKeywords,
 
       // Languages & fonts
       supportLanguages,
@@ -49,38 +51,47 @@ class Translate {
       sourceLanguage: new SourceLanguage(
         supportLanguages,
         sourceLanguage,
-        (changedSourceLanguage) => {
+        (value) => {
           // On source language changed
           this.emit({
             ...this.state,
-            sourceLanguage: changedSourceLanguage,
+            sourceLanguage: value,
           });
         }
       ),
-      autoSize: new AutoSize(autoSize, (changedAutoSize) => {
+      autoSize: new AutoSize(autoSize, (value) => {
         // On auto size changed
         this.emit({
           ...this.state,
-          autoSize: changedAutoSize,
+          autoSize: value,
         });
       }),
-      fonts: new FontReplacement(
-        fontReplacementState,
-        (changedFontReplacementState) => {
-          // On font replacement changed
-          this.emit({
-            ...this.state,
-            fontReplacementState: changedFontReplacementState,
-          });
-        }
-      ),
+      exclusionKeywords: new ExclusionKeywords(exclusionKeywords, (value) => {
+        // On exclusion keywords changed
+        this.emit({
+          ...this.state,
+          exclusionKeywords: value,
+        });
+      }),
+      fonts: new FontReplacement(fontReplacementState, (value) => {
+        // On font replacement changed
+        this.emit({
+          ...this.state,
+          fontReplacementState: value,
+        });
+      }),
       translateButton: new TranslateButton(() => {
         // On translate button pressed
         this.channel.sendMessage(this.channel.types.translate, this.state);
       }),
     };
 
-    this.emit({ autoSize, sourceLanguage, fontReplacementState });
+    this.emit({
+      autoSize,
+      sourceLanguage,
+      fontReplacementState,
+      exclusionKeywords,
+    });
   }
 
   emit(state) {

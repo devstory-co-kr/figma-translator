@@ -110,6 +110,7 @@ export class TranslateCmd implements Cmd {
       translateState = <TranslateState>{
         autoSize: true,
         sourceLanguage: this.sourceLanguage,
+        exclusionKeywords: [],
         fontReplacementState: [
           {
             language: languageMap[this.languageName.Myanmar],
@@ -189,7 +190,7 @@ export class TranslateCmd implements Cmd {
   }
 
   private async onTranslate(translateState: TranslateState) {
-    const { sourceLanguage, autoSize, fontReplacementState } = translateState;
+    const { sourceLanguage, autoSize, exclusionKeywords, fontReplacementState } = translateState;
     const fontReplacement: FontReplacement = {};
     for (const { isChecked, language, font } of fontReplacementState) {
       if (!isChecked) continue;
@@ -201,12 +202,13 @@ export class TranslateCmd implements Cmd {
     }
 
     // Translate
-    await this.translate(sourceLanguage, autoSize, fontReplacement);
+    await this.translate(sourceLanguage, autoSize, exclusionKeywords, fontReplacement);
   }
 
   private async translate(
     sourceLanguage: TranslatorLanguage,
     autoSize: boolean,
+    exclusionKeywords: string[],
     fontReplacement: FontReplacement
   ): Promise<void> {
     try {

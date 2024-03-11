@@ -1,6 +1,7 @@
 :root {
   --primary-color: 0, 111, 249;
   --input-border: 1px solid rgba(0, 0, 0, 0.4);
+  --button-height: 38px;
 }
 
 html, body {
@@ -67,7 +68,6 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 38px;
 }
 
 select {
