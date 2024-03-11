@@ -3,6 +3,7 @@ import Channel from "../core/channel.js";
 import "./index.css";
 import AutoSize from "./js/auto_size.js";
 import Cache from "./js/cache.js";
+import ClearCacheButton from "./js/clear_cache_button.js";
 import ExclusionKeywords from "./js/exclusion_keywords.js";
 import FontReplacement from "./js/font_replacement.js";
 import SourceLanguage from "./js/source_language.js";
@@ -13,6 +14,7 @@ window.addEventListener("DOMContentLoaded", () => {
     init: "init",
     translate: "translate",
     translateStateChanged: "translateStateChanged",
+    clearCache: "clearCache",
   });
 
   // On message
@@ -88,6 +90,10 @@ class Translate {
           ...this.state,
           fontReplacementState: value,
         });
+      }),
+      clearCacheButton: new ClearCacheButton(() => {
+        // On clear cache button pressed
+        this.channel.sendMessage(this.channel.types.clearCache);
       }),
       translateButton: new TranslateButton(() => {
         // On translate button pressed

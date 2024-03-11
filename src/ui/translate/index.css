@@ -8,6 +8,14 @@
   height: var(--button-height);
 }
 
+#clearCacheButton {
+  height: var(--button-height);
+  margin-right: 4px;
+  font-size:11px;
+  width: 70px;
+  padding: 8px;
+}
+
 #fontReplacement .container {
   width: 100%;
   min-height: 195px;

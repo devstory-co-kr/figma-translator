@@ -79,6 +79,7 @@ export class FigmaTranslator implements App {
       this.figmaService,
       this.configService,
       this.translatorService,
+      this.translatorCacheService,
       this.translatorLanguageService
     ),
     [Cmds.createTemplates]: new CreateTemplatesCmd(

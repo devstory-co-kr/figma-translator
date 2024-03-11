@@ -5,6 +5,7 @@ import {
   FigmaService,
   FontReplacement,
 } from "../../components/figma/figma.interface";
+import { TranslatorCacheService } from "../../components/translator/cache/translator_cache.interface";
 import { TranslatorService } from "../../components/translator/translator.interface";
 import {
   TranslatorLanguage,
@@ -17,6 +18,7 @@ enum MsgType {
   init = "init",
   translate = "translate",
   translateStateChanged = "translateStateChanged",
+  clearCache = "clearCache",
 }
 
 export class TranslateCmd implements Cmd {
@@ -24,6 +26,7 @@ export class TranslateCmd implements Cmd {
     private figmaService: FigmaService,
     private configService: ConfigService,
     private translatorService: TranslatorService,
+    private translatorCacheService: TranslatorCacheService,
     private translatorLanguageService: TranslatorLanguageService
   ) {}
 
@@ -83,6 +86,9 @@ export class TranslateCmd implements Cmd {
         break;
       case MsgType.translate:
         this.onTranslate(message.data as TranslateState);
+        break;
+      case MsgType.clearCache:
+        this.onClearCache();
         break;
     }
   }
@@ -216,6 +222,11 @@ export class TranslateCmd implements Cmd {
       exclusionKeywords.map((keyword) => keyword.toLocaleLowerCase()),
       fontReplacement
     );
+  }
+
+  private async onClearCache() {
+    const nDeleted = await this.translatorCacheService.clear();
+    Notification.i(`${nDeleted} translation cache deleted.`);
   }
 
   private async translate(
