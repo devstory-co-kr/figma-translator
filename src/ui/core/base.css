@@ -2,6 +2,7 @@
   --primary-color: 0, 111, 249;
   --input-border: 1px solid rgba(0, 0, 0, 0.4);
   --button-height: 38px;
+  --slider-width: 42px;
 }
 
 html, body {
@@ -44,12 +45,12 @@ footer {
 
 hr {
   width: 100%;
-  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  border: 0.5px solid rgba(0, 0, 0, 0.05);
   margin: 4px 0px;
 }
 
 fieldset {
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
   border-radius: 8px;
   padding: 0;
   margin: 8px 16px;
@@ -118,7 +119,7 @@ input[type="checkbox"] {
 
 fieldset .description {
   font-size: 11px;
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(0, 0, 0, 0.35);
   padding: 4px 8px;
 }
 
@@ -148,4 +149,67 @@ fieldset .description {
 
 .w100 {
   width: 100%
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: var(--slider-width);
+  height: calc(var(--slider-width) / 2);
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: calc(var(--slider-width) / 3);
+  width: calc(var(--slider-width) / 3);
+  left: calc(var(--slider-width) / 12);
+  bottom: calc(var(--slider-width) / 12);
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: rgba(var(--primary-color), 1);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px rgba(var(--primary-color), 1);
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(calc(var(--slider-width) / 3));
+  -ms-transform: translateX(calc(var(--slider-width) / 3));
+  transform: translateX(calc(var(--slider-width) / 3));
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: var(--slider-width);
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }

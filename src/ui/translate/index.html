@@ -7,19 +7,24 @@
       <select name="sourceLanguage"></select>
     </fieldset>
 
-    <!-- Auto Size -->
-    <fieldset class="column" id="autoSize">
-      <legend class="title">Auto Size</legend>
-      <div class="description">Reduce font size when text becomes long.</div>
-      <div class="row" style="width: 100%">
-        <div class="radioOption" style="flex-grow: 1; width: 100%">
-          <input type="radio" name="autoSize" id="autoSizeOn" value="true" />
-          <label for="autoSizeOn">On</label>
+    <!-- Options -->
+    <fieldset class="column" id="options">
+      <legend style="flex-grow: 1">Options</legend>
+      <div
+        id="autoSize"
+        class="row w100"
+        style="align-items: start; padding: 8px"
+      >
+        <div class="column w100" style="padding-right: 8px">
+          <legend style="flex-grow: 1; font-weight: normal;">Auth Size</legend>
+          <div class="description" style="padding: 0; margin-left: 2px">
+            Reduce font size when text becomes long.
+          </div>
         </div>
-        <div class="radioOption" style="flex-grow: 1; width: 100%">
-          <input type="radio" name="autoSize" id="autoSizeOff" value="false" />
-          <label for="autoSizeOff">Off</label>
-        </div>
+        <label class="switch switchContainer">
+          <input type="checkbox" />
+          <span class="slider round"></span>
+        </label>
       </div>
     </fieldset>
 
@@ -31,7 +36,10 @@
         insensitive)
       </div>
       <div class="column">
-        <div class="row w100" style="padding: 4px 8px; box-sizing: border-box">
+        <div
+          class="row w100"
+          style="padding: 4px 8px; box-sizing: border-box"
+        >
           <!-- Search -->
           <div class="searchContainer w100">
             <input
@@ -54,7 +62,6 @@
         <hr />
         <!-- Keywords -->
         <div class="container w100"></div>
-      </div>
     </fieldset>
 
     <!-- Font Replacement -->
