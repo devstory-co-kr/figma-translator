@@ -40,7 +40,6 @@ export class TranslatorServiceImpl implements TranslatorService {
           // Check cache
           const cachedText = await this.translatorCacheService.get(cacheKey);
           if (cachedText) {
-            console.log("return cache");
             return cachedText;
           }
         }

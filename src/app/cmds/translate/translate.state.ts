@@ -1,3 +1,4 @@
+import { Fonts } from "../../components/figma/figma.interface";
 import { TranslatorLanguage } from "../../components/translator_language/translator_language.interface";
 
 export type TranslateState = {
@@ -12,4 +13,5 @@ export type TranslateState = {
     isChecked: boolean;
     isVisible: boolean;
   }[];
+  fonts: Fonts;
 };

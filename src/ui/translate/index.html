@@ -82,39 +82,43 @@
         <!-- Keywords -->
         <div class="container w100"></div>
     </fieldset>
+  
+  <!-- Font Replacement -->
+  <fieldset id="fontReplacement">
+    <legend class="title">Font Replacement</legend>
+    <div class="description">Change the font when translating.</div>
+    
+    <!-- Selected Fonts -->
+    <div class="fontsContainer column w100"></div>
 
-    <!-- Font Replacement -->
-    <fieldset id="fontReplacement">
-      <legend class="title">Font Replacement</legend>
-      <div class="description">Change the font when translating.</div>
-      <div class="column">
-        <div
-          class="row w100"
-          style="padding: 4px 8px 4px 4px; box-sizing: border-box"
-        >
-          <!-- Checkbox -->
+    <div class="column">
+      <div
+        class="row w100"
+        style="padding: 4px 8px 4px 4px; box-sizing: border-box"
+      >
+        <!-- Checkbox -->
+        <input
+          id="fontReplacementCheckbox"
+          type="checkbox"
+          style="margin: 9px 8px 8px 4px"
+        />
+        <!-- Search -->
+        <div class="searchContainer w100">
           <input
-            id="fontReplacementCheckbox"
-            type="checkbox"
-            style="margin: 9px 8px 8px 4px"
+            class="w100"
+            id="fontReplacementSearchInput"
+            type="text"
+            placeholder="Search"
           />
-          <!-- Search -->
-          <div class="searchContainer w100">
-            <input
-              class="w100"
-              id="fontReplacementSearchInput"
-              type="text"
-              placeholder="Search"
-            />
-            <button class="inputClearButton">×</button>
-          </div>
+          <button class="inputClearButton">×</button>
         </div>
-
-        <hr />
-        <!-- Fonts -->
-        <div class="container w100"></div>
       </div>
-    </fieldset>
+
+      <hr />
+      <!-- Fonts -->
+      <div class="container w100"></div>
+    </div>
+  </fieldset>
   </main>
   <hr style="margin: 0" />
   <footer>

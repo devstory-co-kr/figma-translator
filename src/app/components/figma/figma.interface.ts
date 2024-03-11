@@ -16,12 +16,20 @@ export type FontReplacement = {
   [targetLanguageLocale: string]: FontName[];
 };
 
+export type Fonts = {
+  [fontFamily: string]: {
+    [style: string]: TextNode[];
+  };
+};
+
 export interface FigmaService {
   search(args: {
     node: SceneNode;
     skipInvisibleNode: boolean;
     cb: (node: SceneNode) => Promise<void>;
   }): Promise<void>;
+
+  getFontsFromSelection(): Promise<Fonts>;
 
   getNodesByType(
     nodeList: readonly SceneNode[],

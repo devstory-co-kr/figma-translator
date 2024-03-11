@@ -22,3 +22,25 @@
   padding-right: 8px;
   overflow: scroll;
 }
+
+#fontReplacement .fontsContainer .fontFamily {
+  white-space: nowrap;
+  padding: 4px;
+  margin: 2px;
+  font-weight: bold;
+}
+
+#fontReplacement .fontsContainer .fontStyleWrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#fontReplacement .fontsContainer .fontStyle {
+  border: 1px solid rgba(var(--primary-color), 1);
+  color: rgba(var(--primary-color), 1);
+  border-radius: 8px;
+  padding: 4px;
+  cursor: pointer;
+  margin: 2px;
+}
