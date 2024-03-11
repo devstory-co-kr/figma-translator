@@ -190,7 +190,12 @@ export class TranslateCmd implements Cmd {
   }
 
   private async onTranslate(translateState: TranslateState) {
-    const { sourceLanguage, autoSize, exclusionKeywords, fontReplacementState } = translateState;
+    const {
+      sourceLanguage,
+      autoSize,
+      exclusionKeywords,
+      fontReplacementState,
+    } = translateState;
     const fontReplacement: FontReplacement = {};
     for (const { isChecked, language, font } of fontReplacementState) {
       if (!isChecked) continue;
@@ -202,7 +207,12 @@ export class TranslateCmd implements Cmd {
     }
 
     // Translate
-    await this.translate(sourceLanguage, autoSize, exclusionKeywords, fontReplacement);
+    await this.translate(
+      sourceLanguage,
+      autoSize,
+      exclusionKeywords.map((keyword) => keyword.toLocaleLowerCase()),
+      fontReplacement
+    );
   }
 
   private async translate(
@@ -250,6 +260,7 @@ export class TranslateCmd implements Cmd {
                     return (
                       (await this.translatorService.freeTranslate(
                         textList,
+                        exclusionKeywords,
                         sourceLanguage,
                         targetLanguage
                       )) ?? []

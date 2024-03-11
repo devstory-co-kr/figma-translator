@@ -3,6 +3,7 @@ import { TranslatorLanguage } from "../translator_language/translator_language.i
 export interface TranslatorService {
   freeTranslate(
     query: string[],
+    exclusionKeywords: string[],
     sourceLang: TranslatorLanguage,
     targetLang: TranslatorLanguage
   ): Promise<string[] | undefined>;

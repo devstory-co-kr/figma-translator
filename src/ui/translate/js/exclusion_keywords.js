@@ -59,7 +59,6 @@ export default class ExclusionKeywords {
 
   render() {
     this.html.keywordContainer.innerHTML = "";
-    console.log(this.state);
     if (this.state.exclusionKeywords.length === 0) {
       const template =
         "<div style='display:flex; justify-content:center; align-items:center; padding: 8px; color: rgba(0,0,0,0.3)'>No Keywords</div>";
