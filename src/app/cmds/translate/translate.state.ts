@@ -2,6 +2,7 @@ import { TranslatorLanguage } from "../../components/translator_language/transla
 
 export type TranslateState = {
   autoSize: boolean;
+  useCache: boolean;
   sourceLanguage: TranslatorLanguage;
   exclusionKeywords: string[];
   fontReplacementState: {

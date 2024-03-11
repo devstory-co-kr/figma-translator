@@ -10,6 +10,7 @@
     <!-- Options -->
     <fieldset class="column" id="options">
       <legend style="flex-grow: 1">Options</legend>
+      <!-- Auto Size -->
       <div
         id="autoSize"
         class="row w100"
@@ -19,6 +20,24 @@
           <legend style="flex-grow: 1; font-weight: normal;">Auth Size</legend>
           <div class="description" style="padding: 0; margin-left: 2px">
             Reduce font size when text becomes long.
+          </div>
+        </div>
+        <label class="switch switchContainer">
+          <input type="checkbox" />
+          <span class="slider round"></span>
+        </label>
+      </div>
+      
+      <!-- Cache -->
+      <div
+        id="cache"
+        class="row w100"
+        style="align-items: start; padding: 8px"
+      >
+        <div class="column w100" style="padding-right: 8px">
+          <legend style="flex-grow: 1; font-weight: normal;">Cache</legend>
+          <div class="description" style="padding: 0; margin-left: 2px">
+            Whether to use cached translations.
           </div>
         </div>
         <label class="switch switchContainer">

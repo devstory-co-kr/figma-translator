@@ -2,6 +2,7 @@ import "../core/base.css";
 import Channel from "../core/channel.js";
 import "./index.css";
 import AutoSize from "./js/auto_size.js";
+import Cache from "./js/cache.js";
 import ExclusionKeywords from "./js/exclusion_keywords.js";
 import FontReplacement from "./js/font_replacement.js";
 import SourceLanguage from "./js/source_language.js";
@@ -38,6 +39,7 @@ class Translate {
     const {
       // Spread translate state
       autoSize,
+      useCache,
       sourceLanguage,
       fontReplacementState,
       exclusionKeywords,
@@ -66,6 +68,13 @@ class Translate {
           autoSize: value,
         });
       }),
+      cache: new Cache(useCache, (value) => {
+        // On use cache changed
+        this.emit({
+          ...this.state,
+          useCache: value,
+        });
+      }),
       exclusionKeywords: new ExclusionKeywords(exclusionKeywords, (value) => {
         // On exclusion keywords changed
         this.emit({
@@ -88,6 +97,7 @@ class Translate {
 
     this.emit({
       autoSize,
+      useCache,
       sourceLanguage,
       fontReplacementState,
       exclusionKeywords,

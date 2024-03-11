@@ -18,26 +18,9 @@ export class TranslatorServiceImpl implements TranslatorService {
     private translatorCacheService: TranslatorCacheService
   ) {}
 
-  public async paidTranslate(
-    apiKey: string,
-    query: string[],
-    sourceLang: TranslatorLanguage,
-    targetLang: TranslatorLanguage
-  ): Promise<string[] | undefined> {
-    return await Promise.all(
-      query.map((q) =>
-        this.translatorRepository.paidTranslate(
-          apiKey,
-          q,
-          sourceLang,
-          targetLang
-        )
-      )
-    );
-  }
-
   public async freeTranslate(
     query: string[],
+    useCache: boolean,
     exclusionKeywords: string[],
     sourceLang: TranslatorLanguage,
     targetLang: TranslatorLanguage
@@ -53,10 +36,13 @@ export class TranslatorServiceImpl implements TranslatorService {
           targetLanguage: targetLang,
         });
 
-        // Check cache
-        const cachedText = await this.translatorCacheService.get(cacheKey);
-        if (cachedText) {
-          return cachedText;
+        if (useCache) {
+          // Check cache
+          const cachedText = await this.translatorCacheService.get(cacheKey);
+          if (cachedText) {
+            console.log("return cache");
+            return cachedText;
+          }
         }
 
         // Translate

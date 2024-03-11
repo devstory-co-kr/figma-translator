@@ -10,7 +10,6 @@ export default class AutoSize {
   constructor(autoSize, onAutoSizeChanged) {
     this.html.switchContainer.addEventListener("click", (event) => {
       this.emit({
-        ...this.state,
         autoSize: this.html.switch.checked,
       });
       onAutoSizeChanged(this.state.autoSize);

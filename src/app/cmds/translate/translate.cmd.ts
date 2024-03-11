@@ -109,6 +109,7 @@ export class TranslateCmd implements Cmd {
       // Create default state
       translateState = <TranslateState>{
         autoSize: true,
+        useCache: true,
         sourceLanguage: this.sourceLanguage,
         exclusionKeywords: [],
         fontReplacementState: [
@@ -193,6 +194,7 @@ export class TranslateCmd implements Cmd {
     const {
       sourceLanguage,
       autoSize,
+      useCache,
       exclusionKeywords,
       fontReplacementState,
     } = translateState;
@@ -210,6 +212,7 @@ export class TranslateCmd implements Cmd {
     await this.translate(
       sourceLanguage,
       autoSize,
+      useCache,
       exclusionKeywords.map((keyword) => keyword.toLocaleLowerCase()),
       fontReplacement
     );
@@ -218,6 +221,7 @@ export class TranslateCmd implements Cmd {
   private async translate(
     sourceLanguage: TranslatorLanguage,
     autoSize: boolean,
+    useCache: boolean,
     exclusionKeywords: string[],
     fontReplacement: FontReplacement
   ): Promise<void> {
@@ -260,6 +264,7 @@ export class TranslateCmd implements Cmd {
                     return (
                       (await this.translatorService.freeTranslate(
                         textList,
+                        useCache,
                         exclusionKeywords,
                         sourceLanguage,
                         targetLanguage

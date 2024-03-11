@@ -3,14 +3,8 @@ import { TranslatorLanguage } from "../translator_language/translator_language.i
 export interface TranslatorService {
   freeTranslate(
     query: string[],
+    useCache: boolean,
     exclusionKeywords: string[],
-    sourceLang: TranslatorLanguage,
-    targetLang: TranslatorLanguage
-  ): Promise<string[] | undefined>;
-
-  paidTranslate(
-    apiKey: string,
-    query: string[],
     sourceLang: TranslatorLanguage,
     targetLang: TranslatorLanguage
   ): Promise<string[] | undefined>;
