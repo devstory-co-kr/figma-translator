@@ -1,7 +1,6 @@
 export enum Cmds {
   translate = "translate",
   createTemplates = "createTemplates",
-  deleteTranslationCache = "deleteTranslationCache",
   resetConfiguration = "resetConfiguration",
 }
 

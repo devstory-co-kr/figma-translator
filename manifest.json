@@ -38,10 +38,6 @@
       "command": "createTemplates"
     },
     {
-      "name": "Delete Translation Cache",
-      "command": "deleteTranslationCache"
-    },
-    {
       "name": "Reset Configuration",
       "command": "resetConfiguration"
     }
