@@ -1,6 +1,8 @@
 import "../core/base.css";
 import Channel from "../core/channel";
 import "./index.css";
+import ChangeButton from "./js/change_button";
+import FocusButton from "./js/focus_button";
 import ReplaceFont from "./js/replace_font";
 import TargetFont from "./js/target_font";
 
@@ -60,6 +62,12 @@ class ChangeFonts {
           });
         }
       ),
+      focusButton: new FocusButton(() => {
+        this.channel.sendMessage(this.channel.types.focus, {
+          targets: this.state.targets,
+        });
+      }),
+      changeButton: new ChangeButton(() => {}),
     };
     this.emit({
       targets,

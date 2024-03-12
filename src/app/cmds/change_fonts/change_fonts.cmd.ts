@@ -1,7 +1,11 @@
 import { Notification } from "../../../util/notification";
 import { FigmaService } from "../../components/figma/figma.interface";
 import { Cmd } from "../cmd";
-import { ChangeFontsInitState, ChangeFontsTargets } from "./change_fonts.state";
+import {
+  ChangeFontsFocusState,
+  ChangeFontsInitState,
+  ChangeFontsTargets,
+} from "./change_fonts.state";
 
 enum MsgType {
   init = "init",
@@ -33,8 +37,8 @@ export default class ChangeFontsCmd implements Cmd {
         this.addSelectionChangeListener();
         break;
       case MsgType.focus:
-        const { nodes } = message.data as { nodes: TextNode[] };
-        this.onFocusNodes(nodes);
+        const { targets } = message.data as ChangeFontsFocusState;
+        this.onFocusNodes(targets);
         break;
       case MsgType.change:
         break;
@@ -70,8 +74,20 @@ export default class ChangeFontsCmd implements Cmd {
     });
   }
 
-  private onFocusNodes(nodes: TextNode[]): void {
-    figma.currentPage.selection = nodes;
+  private onFocusNodes(targets: ChangeFontsTargets): void {
+    const textNodes: TextNode[] = [];
+    for (const family of Object.keys(targets)) {
+      for (const { nodes, isChecked } of Object.values(targets[family])) {
+        if (isChecked) {
+          textNodes.push(...nodes);
+        }
+      }
+    }
+    if (textNodes.length === 0) {
+      Notification.i("Please select the target font you want to focus on.");
+      return;
+    }
+    figma.currentPage.selection = textNodes;
   }
 
   private onChange(): void {

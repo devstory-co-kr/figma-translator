@@ -17,12 +17,5 @@ export type ChangeFontsInitState = {
 };
 
 export type ChangeFontsFocusState = {
-  targets: {
-    [family: string]: {
-      [style: string]: {
-        nodes: TextNode[];
-        isChecked: boolean;
-      };
-    };
-  };
+  targets: ChangeFontsTargets;
 };
