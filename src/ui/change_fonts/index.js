@@ -67,7 +67,12 @@ class ChangeFonts {
           targets: this.state.targets,
         });
       }),
-      changeButton: new ChangeButton(() => {}),
+      changeButton: new ChangeButton(() => {
+        this.channel.sendMessage(this.channel.types.change, {
+          targets: this.state.targets,
+          replaceFont: this.state.replaceFont,
+        });
+      }),
     };
     this.emit({
       targets,

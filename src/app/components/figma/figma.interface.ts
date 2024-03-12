@@ -45,7 +45,7 @@ export interface FigmaService {
     node: TextNode;
     autoSize: boolean;
     fonts?: FontName[];
-    cb: (textList: string[]) => Promise<string[]>;
+    cb: (textList: string[]) => Promise<string[]> | string[];
   }): Promise<void>;
 
   createFrames({

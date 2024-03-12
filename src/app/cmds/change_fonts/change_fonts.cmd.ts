@@ -2,6 +2,7 @@ import { Notification } from "../../../util/notification";
 import { FigmaService } from "../../components/figma/figma.interface";
 import { Cmd } from "../cmd";
 import {
+  ChangeFontsChangeState,
   ChangeFontsFocusState,
   ChangeFontsInitState,
   ChangeFontsTargets,
@@ -32,28 +33,28 @@ export default class ChangeFontsCmd implements Cmd {
     switch (<MsgType>message.type) {
       case MsgType.init:
         await this.onInit();
-
         // add selection change listener
-        this.addSelectionChangeListener();
+        figma.on("selectionchange", async () => {
+          await this.sendSelectionChanged();
+        });
         break;
       case MsgType.focus:
-        const { targets } = message.data as ChangeFontsFocusState;
-        this.onFocusNodes(targets);
+        this.onFocus(message.data as ChangeFontsFocusState);
         break;
       case MsgType.change:
+        await this.onChange(message.data as ChangeFontsChangeState);
+        await this.sendSelectionChanged();
         break;
     }
   }
 
-  private addSelectionChangeListener(): void {
-    figma.on("selectionchange", async () => {
-      const targets = await this.getSelectedTargetFonts();
-      figma.ui.postMessage({
-        type: MsgType.selectionChanged,
-        data: {
-          targets,
-        },
-      });
+  private async sendSelectionChanged(): Promise<void> {
+    const targets = await this.getSelectedTargetFonts();
+    figma.ui.postMessage({
+      type: MsgType.selectionChanged,
+      data: {
+        targets,
+      },
     });
   }
 
@@ -74,7 +75,40 @@ export default class ChangeFontsCmd implements Cmd {
     });
   }
 
-  private onFocusNodes(targets: ChangeFontsTargets): void {
+  private onFocus({ targets }: ChangeFontsFocusState): void {
+    const nodes = this.getCheckedTargetNodes(targets);
+    if (nodes.length === 0) {
+      Notification.i("Please select the target font you want to focus.");
+      return;
+    }
+    figma.currentPage.selection = nodes;
+  }
+
+  private async onChange({
+    targets,
+    replaceFont,
+  }: ChangeFontsChangeState): Promise<void> {
+    const nodes = this.getCheckedTargetNodes(targets);
+    if (nodes.length === 0) {
+      Notification.i("Please select the target font you want to change.");
+      return;
+    }
+
+    for (const node of nodes) {
+      const textNode = await figma.getNodeByIdAsync(node.id);
+      if (!textNode) {
+        continue;
+      }
+      await this.figmaService.replaceText({
+        node: textNode as TextNode,
+        autoSize: false,
+        fonts: [replaceFont],
+        cb: (textList) => textList,
+      });
+    }
+  }
+
+  private getCheckedTargetNodes(targets: ChangeFontsTargets): TextNode[] {
     const textNodes: TextNode[] = [];
     for (const family of Object.keys(targets)) {
       for (const { nodes, isChecked } of Object.values(targets[family])) {
@@ -83,15 +117,7 @@ export default class ChangeFontsCmd implements Cmd {
         }
       }
     }
-    if (textNodes.length === 0) {
-      Notification.i("Please select the target font you want to focus on.");
-      return;
-    }
-    figma.currentPage.selection = textNodes;
-  }
-
-  private onChange(): void {
-    Notification.i("on change!");
+    return textNodes;
   }
 
   private async getSelectedTargetFonts(): Promise<ChangeFontsTargets> {

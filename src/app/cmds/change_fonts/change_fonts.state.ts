@@ -19,3 +19,11 @@ export type ChangeFontsInitState = {
 export type ChangeFontsFocusState = {
   targets: ChangeFontsTargets;
 };
+
+export type ChangeFontsChangeState = {
+  targets: ChangeFontsTargets;
+  replaceFont: {
+    family: string;
+    style: string;
+  };
+};

@@ -29,22 +29,32 @@ export class FigmaRepositoryImpl implements FigmaRepository {
       const jointSize = jointList.slice(0, i).reduce((p, c) => p + c.length, 0);
       const end = start + jointSize + textList[i].length;
 
-      // When replacing fonts, if there is no same style, Regular is applied.
-      let sameStyleFont: FontName | undefined;
-      let regularStyleFont: FontName | undefined;
-      for (const font of fonts ?? []) {
-        if (font.style.toLocaleLowerCase() === "regular") {
-          regularStyleFont = font;
+      let fontName: FontName;
+      const replaceFonts = fonts ?? [];
+      if (replaceFonts.length === 1) {
+        // If there is only one font you want to change
+        fontName = replaceFonts[0];
+      } else if (replaceFonts.length > 1) {
+        // If there are multiple fonts you want to change
+        let sameStyleFont: FontName | undefined;
+        let regularStyleFont: FontName | undefined;
+        for (const replaceFont of replaceFonts) {
+          if (replaceFont.style.toLocaleLowerCase() === "regular") {
+            regularStyleFont = replaceFont;
+          }
+          if (
+            replaceFont.style.toLocaleLowerCase() ===
+            segment.fontName.style.toLocaleLowerCase()
+          ) {
+            sameStyleFont = replaceFont;
+            break;
+          }
         }
-        if (
-          font.style.toLocaleLowerCase() ===
-          segment.fontName.style.toLocaleLowerCase()
-        ) {
-          sameStyleFont = font;
-          break;
-        }
+        fontName = sameStyleFont ?? regularStyleFont ?? segment.fontName;
+      } else {
+        // Default
+        fontName = segment.fontName;
       }
-      const fontName = sameStyleFont ?? regularStyleFont ?? segment.fontName;
 
       node.setRangeFontSize(start, end, segment.fontSize + fontSizeDelta);
       node.setRangeFontName(start, end, fontName);
