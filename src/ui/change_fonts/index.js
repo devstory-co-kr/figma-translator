@@ -7,8 +7,8 @@ import TargetFont from "./js/target_font";
 window.addEventListener("DOMContentLoaded", () => {
   const channel = new Channel("changeFonts", {
     init: "init",
+    focus: "focus",
     change: "change",
-    focusNodes: "focusNodes",
     selectionChanged: "selectionChanged",
   });
 
@@ -26,7 +26,7 @@ window.addEventListener("DOMContentLoaded", () => {
       case channel.types.selectionChanged:
         changeFonts.emit({
           ...changeFonts.state,
-          selectedFonts: data.selectedFonts,
+          targets: data.targets,
         });
         break;
     }
@@ -41,16 +41,30 @@ class ChangeFonts {
   html;
   state;
 
-  constructor(channel, { selectedFonts, availableFonts }) {
-    console.log("init!");
+  constructor(channel, { targets, availableFonts, replaceFont }) {
     this.channel = channel;
     this.html = {
-      targetFont: new TargetFont(selectedFonts),
-      replaceFont: new ReplaceFont(),
+      targetFont: new TargetFont(targets, ({ targets }) => {
+        this.emit({
+          ...this.state,
+          targets,
+        });
+      }),
+      replaceFont: new ReplaceFont(
+        availableFonts,
+        replaceFont,
+        ({ replaceFont }) => {
+          this.emit({
+            ...this.state,
+            replaceFont,
+          });
+        }
+      ),
     };
     this.emit({
-      selectedFonts,
+      targets,
       availableFonts,
+      replaceFont,
     });
   }
 
@@ -61,6 +75,6 @@ class ChangeFonts {
   }
 
   render() {
-    this.html.targetFont.init(this.state.selectedFonts);
+    this.html.targetFont.init(this.state.targets);
   }
 }

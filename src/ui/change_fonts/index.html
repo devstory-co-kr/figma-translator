@@ -1,23 +1,24 @@
 <html>
   <body>
     <main>
-      <!-- Target Fonts -->
+      <!-- Target Font -->
       <fieldset id="targetFont">
-        <legend>Target Font</legend>
-        <!-- <div class="description">
-          Please select the object you would like to change the font for
-        </div> -->
+        <legend>Target</legend>
         <div class="container"></div>
       </fieldset>
 
-      <!-- Replace Fonts -->
-      <fieldset id="replaceFonts">
-        <legend>Replace Font</legend>
-        <div class="description"></div>
-        <hr />
-        <div class="container"></div>
+      <!-- Replace Font -->
+      <fieldset id="replaceFont">
+        <legend>To</legend>
+        <div class="container row">
+          <select name="fontFamily" id="fontFamilySelect"></select>
+          <select name="fontStyle" id="fontStyleSelect"></select>
+        </div>
       </fieldset>
     </main>
-    <footer></footer>
+    <footer>
+      <button id="focusButton">Focus</button>
+      <button id="changeButton">Change</button>
+    </footer>
   </body>
 </html>

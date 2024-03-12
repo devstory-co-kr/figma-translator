@@ -33,3 +33,20 @@
   background-color: rgba(var(--primary-color), 1);
   color: white;
 }
+
+#replaceFont .container{
+  padding: 4px;
+}
+
+#replaceFont select {
+  margin: 4px;
+}
+
+footer button {
+  flex-grow: 1;
+  height: var(--button-height);
+}
+
+footer button:nth-child(1) {
+  margin-right: 8px;
+}

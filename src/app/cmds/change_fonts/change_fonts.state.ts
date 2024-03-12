@@ -1,6 +1,28 @@
-import { Fonts } from "../../components/figma/figma.interface";
+export type ChangeFontsTargets = {
+  [fontFamily: string]: {
+    [style: string]: {
+      nodes: TextNode[];
+      isChecked: boolean;
+    };
+  };
+};
 
 export type ChangeFontsInitState = {
-  selectedFonts: Fonts;
+  targets: ChangeFontsTargets;
   availableFonts: Font[];
+  replaceFont: {
+    family: string;
+    style: string;
+  };
+};
+
+export type ChangeFontsFocusState = {
+  targets: {
+    [family: string]: {
+      [style: string]: {
+        nodes: TextNode[];
+        isChecked: boolean;
+      };
+    };
+  };
 };

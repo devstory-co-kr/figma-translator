@@ -3,23 +3,14 @@ export default class TargetFont {
     container: document.querySelector("#targetFont .container"),
   };
   state = {};
+  onChanged;
 
-  constructor(selectedFonts) {
-    this.init(selectedFonts);
+  constructor(targets, onChanged) {
+    this.onChanged = onChanged;
+    this.init(targets);
   }
 
-  init(selectedFonts) {
-    const targets = {};
-    for (const family of Object.keys(selectedFonts ?? {})) {
-      for (const [style, nodes] of Object.entries(selectedFonts[family])) {
-        if (!targets[family]) targets[family] = {};
-        if (!targets[family][style]) targets[family][style] = {};
-        targets[family][style] = {
-          nodes,
-          isChecked: false,
-        };
-      }
-    }
+  init(targets) {
     this.emit({
       targets,
     });
@@ -69,6 +60,7 @@ export default class TargetFont {
           this.emit({
             ...this.state,
           });
+          this.onChanged(this.state);
         });
         divStyleContainer.appendChild(divFontStyle);
       }

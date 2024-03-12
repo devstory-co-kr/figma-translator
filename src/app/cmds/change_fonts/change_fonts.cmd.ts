@@ -1,12 +1,12 @@
 import { Notification } from "../../../util/notification";
 import { FigmaService } from "../../components/figma/figma.interface";
 import { Cmd } from "../cmd";
-import { ChangeFontsInitState } from "./change_fonts.state";
+import { ChangeFontsInitState, ChangeFontsTargets } from "./change_fonts.state";
 
 enum MsgType {
   init = "init",
+  focus = "focus",
   change = "change",
-  focusNodes = "focusNodes",
   selectionChanged = "selectionChanged",
 }
 
@@ -32,7 +32,7 @@ export default class ChangeFontsCmd implements Cmd {
         // add selection change listener
         this.addSelectionChangeListener();
         break;
-      case MsgType.focusNodes:
+      case MsgType.focus:
         const { nodes } = message.data as { nodes: TextNode[] };
         this.onFocusNodes(nodes);
         break;
@@ -43,11 +43,11 @@ export default class ChangeFontsCmd implements Cmd {
 
   private addSelectionChangeListener(): void {
     figma.on("selectionchange", async () => {
-      const selectedFonts = await this.figmaService.getFontsFromSelection();
+      const targets = await this.getSelectedTargetFonts();
       figma.ui.postMessage({
         type: MsgType.selectionChanged,
         data: {
-          selectedFonts,
+          targets,
         },
       });
     });
@@ -55,12 +55,17 @@ export default class ChangeFontsCmd implements Cmd {
 
   private async onInit(): Promise<void> {
     const availableFonts = await figma.listAvailableFontsAsync();
-    const selectedFonts = await this.figmaService.getFontsFromSelection();
+    const targets = await this.getSelectedTargetFonts();
+
     figma.ui.postMessage({
       type: MsgType.init,
       data: <ChangeFontsInitState>{
-        selectedFonts,
+        targets,
         availableFonts,
+        replaceFont: {
+          family: availableFonts[0].fontName.family,
+          style: availableFonts[0].fontName.style,
+        },
       },
     });
   }
@@ -71,5 +76,20 @@ export default class ChangeFontsCmd implements Cmd {
 
   private onChange(): void {
     Notification.i("on change!");
+  }
+
+  private async getSelectedTargetFonts(): Promise<ChangeFontsTargets> {
+    const selectedFonts = await this.figmaService.getFontsFromSelection();
+    const targets = <ChangeFontsTargets>{};
+    for (const family of Object.keys(selectedFonts ?? {})) {
+      for (const [style, nodes] of Object.entries(selectedFonts[family])) {
+        if (!targets[family]) targets[family] = {};
+        targets[family][style] = {
+          nodes,
+          isChecked: false,
+        };
+      }
+    }
+    return targets;
   }
 }
