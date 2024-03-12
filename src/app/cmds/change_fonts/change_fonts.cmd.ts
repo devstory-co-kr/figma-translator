@@ -137,7 +137,7 @@ export default class ChangeFontsCmd implements Cmd {
   }
 
   private onFocus({ targets }: ChangeFontsFocusState): void {
-    const nodes = this.getCheckedTargetNodes(targets);
+    const { nodes } = this.getCheckedTargetNodes(targets);
     if (nodes.length === 0) {
       Notification.i("Please select the target font you want to focus.");
       return;
@@ -149,7 +149,7 @@ export default class ChangeFontsCmd implements Cmd {
     targets,
     replaceFont,
   }: ChangeFontsChangeState): Promise<void> {
-    const nodes = this.getCheckedTargetNodes(targets);
+    const { targetFonts, nodes } = this.getCheckedTargetNodes(targets);
     if (nodes.length === 0) {
       Notification.i("Please select the target font you want to change.");
       return;
@@ -161,11 +161,10 @@ export default class ChangeFontsCmd implements Cmd {
       if (!textNode) {
         continue;
       }
-      await this.figmaService.replaceText({
+      await this.figmaService.replaceFont({
         node: textNode as TextNode,
-        autoSize: false,
-        fonts: [replaceFont],
-        cb: (textList) => textList,
+        targetFonts,
+        replaceFont,
       });
       nNode++;
       Notification.i(`${nNode}/${nodes.length} changing...`);
@@ -176,16 +175,23 @@ export default class ChangeFontsCmd implements Cmd {
     await this.saveReplaceFontHistoryChanged(replaceFont);
   }
 
-  private getCheckedTargetNodes(targets: ChangeFontsTargets): TextNode[] {
-    const textNodes: TextNode[] = [];
+  private getCheckedTargetNodes(targets: ChangeFontsTargets): {
+    nodes: TextNode[];
+    targetFonts: FontName[];
+  } {
+    const targetFonts: FontName[] = [];
+    const nodes: TextNode[] = [];
     for (const family of Object.keys(targets)) {
-      for (const { nodes, isChecked } of Object.values(targets[family])) {
+      for (const [style, { nodes: textNode, isChecked }] of Object.entries(
+        targets[family]
+      )) {
         if (isChecked) {
-          textNodes.push(...nodes);
+          nodes.push(...textNode);
+          targetFonts.push(<FontName>{ family, style });
         }
       }
     }
-    return textNodes;
+    return { targetFonts, nodes };
   }
 
   private async getSelectedTargetFonts(): Promise<ChangeFontsTargets> {

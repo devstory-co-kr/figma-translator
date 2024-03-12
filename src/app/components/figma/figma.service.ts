@@ -118,6 +118,26 @@ export class FigmaServiceImpl implements FigmaService {
     return instance;
   }
 
+  public async replaceFont({
+    node,
+    targetFonts,
+    replaceFont,
+  }: {
+    node: TextNode;
+    targetFonts: FontName[];
+    replaceFont: FontName;
+  }): Promise<void> {
+    const { segments, textList, jointList } =
+      this.figmaRepository.getStyleMixedTextSegments(node);
+    await this.figmaRepository.loadFonts([...targetFonts, replaceFont]);
+    await this.figmaRepository.replaceFonts({
+      node,
+      segments,
+      targetFonts,
+      replaceFont,
+    });
+  }
+
   public async replaceText({
     node,
     autoSize,

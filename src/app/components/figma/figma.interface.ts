@@ -36,6 +36,16 @@ export interface FigmaService {
     typeList: string[]
   ): SceneNode[];
 
+  replaceFont({
+    node,
+    targetFonts,
+    replaceFont,
+  }: {
+    node: TextNode;
+    targetFonts: FontName[];
+    replaceFont: FontName;
+  }): Promise<void>;
+
   replaceText({
     node,
     autoSize,
@@ -108,6 +118,18 @@ export interface FigmaRepository {
     jointList: string[];
     fontSizeDelta: number;
     fonts?: FontName[];
+  }): Promise<void>;
+
+  replaceFonts({
+    node,
+    segments,
+    targetFonts,
+    replaceFont,
+  }: {
+    node: TextNode;
+    segments: StyledTextSegment[];
+    targetFonts: FontName[];
+    replaceFont: FontName;
   }): Promise<void>;
 
   createFrame({

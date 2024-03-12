@@ -8,6 +8,31 @@ export class FigmaRepositoryImpl implements FigmaRepository {
     ]);
   }
 
+  public async replaceFonts({
+    node,
+    segments,
+    targetFonts,
+    replaceFont,
+  }: {
+    node: TextNode;
+    segments: StyledTextSegment[];
+    targetFonts: FontName[];
+    replaceFont: FontName;
+  }): Promise<void> {
+    for (const segment of segments) {
+      const { family, style } = segment.fontName;
+      const index = targetFonts.findIndex((targetFont) => {
+        return targetFont.family === family && targetFont.style === style;
+      });
+      const isTarget = index !== -1;
+      if (!isTarget) {
+        continue;
+      }
+
+      node.setRangeFontName(segment.start, segment.end, replaceFont);
+    }
+  }
+
   public async setStyledMixedTextSegments({
     node,
     segments,
