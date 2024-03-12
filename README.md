@@ -4,6 +4,7 @@ This is a plugin that creates translation and store templates.
 ## Features
 - `Translate` : Translates all strings in the selected frame using Google Translator.
 - `Create Templates` : Create android and ios store templates.
+- `Change Fonts` : You can change the font of a specific object.
 
 ## Commands
 ### Translate
@@ -14,7 +15,7 @@ https://github.com/devstory-co-kr/figma-translator/assets/26322627/a18f7465-4296
 - `Exclusion Keywords` : Exclude specific words from translation.
 - `Font Replacement` : Changes the font for a specific language when translating.
 
-### Create templates
+### Create Templates
 https://github.com/devstory-co-kr/figma-translator/assets/26322627/f50a4ㅁa93-c07f-4d4b-9ce8-f6d85d1eae87
 - The frame name is created according to the folder structure supported by fastlane.
 - After exporting the template, you can easily place it in the fastlane folder using the [`rsync`](https://www.geeksforgeeks.org/rsync-command-in-linux-with-examples/) command.
@@ -29,3 +30,6 @@ https://github.com/devstory-co-kr/figma-translator/assets/26322627/f50a4ㅁa93-c
     - Phone : `1242 x 2208`
     - Tablet 7inch : `2048 x 2732`
     - Tablet 10inch : `2048 x 2732`
+
+### Change Fonts
+- Even if a different font is used within one text node, you can only change the font you want.
