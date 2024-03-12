@@ -1,0 +1,35 @@
+#targetFont .container {
+  height: 150px;
+  overflow: scroll;
+}
+
+#targetFont .container .font {
+  padding: 4px;
+}
+
+#targetFont .container .font .fontFamily {
+  white-space: nowrap;
+  padding: 0 4px;
+  margin: 2px;
+  font-weight: bold;
+}
+
+#targetFont .container .font .fontStyleContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#targetFont .container .font .fontStyleContainer .fontStyle {
+  border: 1px solid rgba(var(--primary-color), 1);
+  color: rgba(var(--primary-color), 1);
+  border-radius: 8px;
+  padding: 4px;
+  cursor: pointer;
+  margin: 2px;
+}
+
+#targetFont .container .font .fontStyleContainer .fontStyle.checked {
+  background-color: rgba(var(--primary-color), 1);
+  color: white;
+}

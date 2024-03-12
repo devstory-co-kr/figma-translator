@@ -10,13 +10,10 @@ export default class FontReplacement {
   };
   state;
   onChanged;
-  onFontStyleSelected;
 
-  constructor(fonts, fontReplacementState, onChanged, onFontStyleSelected) {
+  constructor(fontReplacementState, onChanged) {
     this.onChanged = onChanged;
-    this.onFontStyleSelected = onFontStyleSelected;
     this.emit({
-      fonts,
       fontReplacementState,
     });
     this.html.checkbox.checked = this.state.fontReplacementState.find(
@@ -30,7 +27,6 @@ export default class FontReplacement {
       this.html.searchClearButton.style.opacity = 0;
       this.html.searchInput.value = "";
       this.emit({
-        fonts: this.state.fonts,
         fontReplacementState: this.state.fontReplacementState.map((s) => {
           s.isVisible = true;
           return s;
@@ -41,7 +37,6 @@ export default class FontReplacement {
     // Toggle
     this.html.checkbox.addEventListener("click", (event) => {
       this.emit({
-        fonts: this.state.fonts,
         fontReplacementState: this.state.fontReplacementState.map((s) => {
           s.isChecked = event.target.checked;
           return s;
@@ -57,7 +52,6 @@ export default class FontReplacement {
       const value = event.target.value;
       this.html.searchClearButton.style.opacity = value ? 1 : 0;
       this.emit({
-        fonts: this.state.fonts,
         fontReplacementState: this.state.fontReplacementState.map((s) => {
           s.isVisible = `${s.language.name} ${s.language.locale}`
             .toLocaleLowerCase()
@@ -77,7 +71,6 @@ export default class FontReplacement {
   render() {
     // Clear
     this.html.container.innerHTML = "";
-    this.html.fontsContainer.innerHTML = "";
 
     // Add template
     for (const item of this.state.fontReplacementState) {
@@ -110,35 +103,6 @@ export default class FontReplacement {
         }
       });
       this.html.container.appendChild(itemWrapper);
-    }
-
-    // Add fonts
-    for (const fontFamily of Object.keys(this.state.fonts ?? {})) {
-      const familyWrapper = document.createElement("div");
-      familyWrapper.classList.add("column");
-      familyWrapper.classList.add("w100");
-
-      // FontFamily
-      const familyItem = document.createElement("span");
-      familyItem.classList.add("fontFamily");
-      familyItem.textContent = fontFamily;
-      familyWrapper.appendChild(familyItem);
-
-      // FontStyle
-      const styleWrapper = document.createElement("div");
-      styleWrapper.classList.add("fontStyleWrapper");
-      familyWrapper.appendChild(styleWrapper);
-      for (const style of Object.keys(this.state.fonts[fontFamily] ?? {})) {
-        const styleItem = document.createElement("span");
-        styleItem.classList.add("fontStyle");
-        styleItem.textContent = style;
-        styleItem.addEventListener("click", () => {
-          this.onFontStyleSelected(this.state.fonts[fontFamily][style]);
-        });
-        styleWrapper.appendChild(styleItem);
-      }
-      this.html.fontsContainer.style.padding = "0 8px";
-      this.html.fontsContainer.appendChild(familyWrapper);
     }
   }
 }

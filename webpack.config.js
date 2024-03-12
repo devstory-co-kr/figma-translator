@@ -10,6 +10,7 @@ module.exports = (env, argv) => ({
   entry: {
     code: "./src/code.ts",
     translate: "./src/ui/translate/index.js",
+    changeFonts: "./src/ui/change_fonts/index.js",
     createTemplates: "./src/ui/create_templates/index.js",
   },
   module: {
@@ -49,6 +50,11 @@ module.exports = (env, argv) => ({
       template: "./src/ui/translate/index.html",
       filename: "ui/translate.html",
       chunks: ["translate"],
+    }),
+    new HtmlWebpackPlugin({
+      template: "./src/ui/change_fonts/index.html",
+      filename: "ui/change_fonts.html",
+      chunks: ["changeFonts"],
     }),
     new HtmlWebpackPlugin({
       template: "./src/ui/create_templates/index.html",

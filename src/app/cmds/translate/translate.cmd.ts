@@ -19,8 +19,6 @@ enum MsgType {
   translate = "translate",
   translateStateChanged = "translateStateChanged",
   clearCache = "clearCache",
-  selectedFonts = "selectedFonts",
-  focusNodes = "focusNodes",
 }
 
 export class TranslateCmd implements Cmd {
@@ -73,16 +71,6 @@ export class TranslateCmd implements Cmd {
       height: 400,
       title: `Translate`,
     });
-
-    figma.on("selectionchange", async () => {
-      const fonts = await this.figmaService.getFontsFromSelection();
-      figma.ui.postMessage({
-        type: MsgType.selectedFonts,
-        data: {
-          fonts,
-        },
-      });
-    });
   }
 
   public async onMessage(
@@ -101,10 +89,6 @@ export class TranslateCmd implements Cmd {
         break;
       case MsgType.clearCache:
         this.onClearCache();
-        break;
-      case MsgType.focusNodes:
-        const { nodes } = message.data as { nodes: TextNode[] };
-        figma.currentPage.selection = nodes;
         break;
     }
   }
@@ -134,7 +118,6 @@ export class TranslateCmd implements Cmd {
         useCache: true,
         sourceLanguage: this.sourceLanguage,
         exclusionKeywords: [],
-        fonts: {},
         fontReplacementState: [
           {
             language: languageMap[this.languageName.Myanmar],
@@ -203,7 +186,6 @@ export class TranslateCmd implements Cmd {
       type: MsgType.init,
       data: {
         ...translateState,
-        fonts: await this.figmaService.getFontsFromSelection(),
         availableFonts,
         supportLanguages,
       },
@@ -211,10 +193,7 @@ export class TranslateCmd implements Cmd {
   }
 
   private onTranslateStateChanged(translateState: TranslateState): void {
-    this.configService.setTranslateState({
-      ...translateState,
-      fonts: {},
-    });
+    this.configService.setTranslateState(translateState);
   }
 
   private async onTranslate(translateState: TranslateState) {

@@ -15,8 +15,6 @@ window.addEventListener("DOMContentLoaded", () => {
     translate: "translate",
     translateStateChanged: "translateStateChanged",
     clearCache: "clearCache",
-    selectedFonts: "selectedFonts",
-    focusNodes: "focusNodes",
   });
 
   // On message
@@ -42,7 +40,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 class Translate {
   channel;
-  widgets;
+  html;
   state;
 
   constructor(channel, data) {
@@ -61,7 +59,7 @@ class Translate {
       availableFonts,
     } = data;
 
-    this.widgets = {
+    this.html = {
       sourceLanguage: new SourceLanguage(
         supportLanguages,
         sourceLanguage,
@@ -95,7 +93,6 @@ class Translate {
         });
       }),
       fontReplacement: new FontReplacement(
-        fonts,
         fontReplacementState,
         (value) => {
           // On font replacement changed
@@ -104,9 +101,6 @@ class Translate {
             fontReplacementState: value.fontReplacementState,
           });
         },
-        (nodes) => {
-          this.channel.sendMessage(this.channel.types.focusNodes, { nodes });
-        }
       ),
       clearCacheButton: new ClearCacheButton(() => {
         // On clear cache button pressed
@@ -138,7 +132,7 @@ class Translate {
   }
 
   render() {
-    this.widgets.fontReplacement.emit({
+    this.html.fontReplacement.emit({
       fonts: this.state.fonts,
       fontReplacementState: this.state.fontReplacementState,
     });
