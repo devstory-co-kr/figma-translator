@@ -89,6 +89,9 @@ export class FigmaTranslator implements App {
       this.templateService
     ),
     [Cmds.resetConfiguration]: new ResetConfigurationCmd(this.configService),
-    [Cmds.changeFonts]: new ChangeFontsCmd(this.figmaService),
+    [Cmds.changeFonts]: new ChangeFontsCmd(
+      this.figmaService,
+      this.configService
+    ),
   };
 }

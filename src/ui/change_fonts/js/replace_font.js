@@ -2,21 +2,37 @@ export default class ReplaceFont {
   html = {
     fontFamilySelect: document.querySelector("#fontFamilySelect"),
     fontStyleSelect: document.querySelector("#fontStyleSelect"),
+    historyContainer: document.querySelector("#replaceFont .historyContainer"),
   };
   state = {};
 
-  constructor(availableFonts, replaceFont, onChanged) {
-    this.init(availableFonts, replaceFont);
+  onStateChanged;
+  onHistoryDeleteButtonPressed;
+  constructor(
+    availableFonts,
+    replaceFont,
+    replaceFontHistory,
+    onStateChanged,
+    onHistoryDeleteButtonPressed
+  ) {
+    this.onStateChanged = onStateChanged;
+    this.onHistoryDeleteButtonPressed = onHistoryDeleteButtonPressed;
+    this.init(availableFonts, replaceFont, replaceFontHistory);
 
     this.html.fontFamilySelect.addEventListener("change", (event) => {
+      const family = event.target.value;
+      const styles = this.state.fonts[family];
+      const regular = "Regular";
+      const style = styles.includes(regular) ? regular : styles[0];
       this.emit({
         ...this.state,
-        selectedFont: {
+        replaceFont: {
           ...this.state.replaceFont,
-          family: event.target.value,
+          family,
+          style,
         },
       });
-      this.onChanged(this.state);
+      this.onStateChanged(this.state);
     });
 
     this.html.fontStyleSelect.addEventListener("change", (event) => {
@@ -27,11 +43,11 @@ export default class ReplaceFont {
           style: event.target.value,
         },
       });
-      this.onChanged(this.state);
+      this.onStateChanged(this.state);
     });
   }
 
-  init(availableFonts, replaceFont) {
+  init(availableFonts, replaceFont, replaceFontHistory) {
     const fonts = {};
     for (const font of availableFonts) {
       const { family, style } = font.fontName;
@@ -41,6 +57,7 @@ export default class ReplaceFont {
     this.emit({
       fonts,
       replaceFont,
+      replaceFontHistory,
     });
   }
 
@@ -59,6 +76,7 @@ export default class ReplaceFont {
       familyOption.innerText = family;
       this.html.fontFamilySelect.appendChild(familyOption);
     }
+    this.html.fontFamilySelect.value = this.state.replaceFont.family;
 
     // FontStyle
     this.html.fontStyleSelect.innerHTML = "";
@@ -68,8 +86,49 @@ export default class ReplaceFont {
       styleOption.innerText = style;
       this.html.fontStyleSelect.appendChild(styleOption);
     }
-
-    this.html.fontFamilySelect.value = this.state.replaceFont.family;
     this.html.fontStyleSelect.value = this.state.replaceFont.style;
+
+    // History
+    this.html.historyContainer.innerHTML = "";
+    for (const replaceFont of this.state.replaceFontHistory) {
+      const historyDiv = document.createElement("div");
+      const fontDiv = document.createElement("div");
+      const familySpan = document.createElement("span");
+      const styleSpan = document.createElement("span");
+      const deleteButton = document.createElement("button");
+
+      historyDiv.appendChild(fontDiv);
+      historyDiv.appendChild(deleteButton);
+      fontDiv.appendChild(familySpan);
+      fontDiv.appendChild(styleSpan);
+
+      historyDiv.classList.add("history");
+      fontDiv.classList.add("font");
+      familySpan.classList.add("family");
+      styleSpan.classList.add("style");
+      deleteButton.classList.add("deleteButton");
+
+      const { family, style } = replaceFont;
+      familySpan.textContent = family;
+      styleSpan.textContent = ` - ${style}`;
+      deleteButton.textContent = "×";
+
+      fontDiv.addEventListener("click", () => {
+        this.emit({
+          ...this.state,
+          replaceFont: {
+            family,
+            style,
+          },
+        });
+        this.onStateChanged(this.state);
+      });
+
+      deleteButton.addEventListener("click", () => {
+        this.onHistoryDeleteButtonPressed(replaceFont);
+      });
+
+      this.html.historyContainer.appendChild(historyDiv);
+    }
   }
 }

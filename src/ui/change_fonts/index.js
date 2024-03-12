@@ -11,7 +11,9 @@ window.addEventListener("DOMContentLoaded", () => {
     init: "init",
     focus: "focus",
     change: "change",
+    deleteReplaceFontHistory: "deleteReplaceFontHistory",
     selectionChanged: "selectionChanged",
+    replaceFontHistoryChanged: "replaceFontHistoryChanged",
   });
 
   // On message
@@ -31,6 +33,12 @@ window.addEventListener("DOMContentLoaded", () => {
           targets: data.targets,
         });
         break;
+      case channel.types.replaceFontHistoryChanged:
+        changeFonts.emit({
+          ...changeFonts.state,
+          replaceFontHistory: data.replaceFontHistory,
+        });
+        break;
     }
   });
 
@@ -43,7 +51,10 @@ class ChangeFonts {
   html;
   state;
 
-  constructor(channel, { targets, availableFonts, replaceFont }) {
+  constructor(
+    channel,
+    { targets, availableFonts, replaceFontHistory, replaceFont }
+  ) {
     this.channel = channel;
     this.html = {
       targetFont: new TargetFont(targets, ({ targets }) => {
@@ -55,11 +66,22 @@ class ChangeFonts {
       replaceFont: new ReplaceFont(
         availableFonts,
         replaceFont,
+        replaceFontHistory,
+        // onChanged
         ({ replaceFont }) => {
           this.emit({
             ...this.state,
             replaceFont,
           });
+        },
+        // onHistoryDeleteButtonPressed
+        (replaceFont) => {
+          this.channel.sendMessage(
+            this.channel.types.deleteReplaceFontHistory,
+            {
+              replaceFont,
+            }
+          );
         }
       ),
       focusButton: new FocusButton(() => {
@@ -77,6 +99,7 @@ class ChangeFonts {
     this.emit({
       targets,
       availableFonts,
+      replaceFontHistory,
       replaceFont,
     });
   }
@@ -89,5 +112,10 @@ class ChangeFonts {
 
   render() {
     this.html.targetFont.init(this.state.targets);
+    this.html.replaceFont.init(
+      this.state.availableFonts,
+      this.state.replaceFont,
+      this.state.replaceFontHistory
+    );
   }
 }

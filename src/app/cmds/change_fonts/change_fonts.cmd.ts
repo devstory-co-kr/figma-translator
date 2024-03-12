@@ -1,8 +1,10 @@
 import { Notification } from "../../../util/notification";
+import { ConfigService } from "../../components/config/config.interface";
 import { FigmaService } from "../../components/figma/figma.interface";
 import { Cmd } from "../cmd";
 import {
   ChangeFontsChangeState,
+  ChangeFontsDeleteReplaceFontHistoryState,
   ChangeFontsFocusState,
   ChangeFontsInitState,
   ChangeFontsTargets,
@@ -12,16 +14,21 @@ enum MsgType {
   init = "init",
   focus = "focus",
   change = "change",
+  deleteReplaceFontHistory = "deleteReplaceFontHistory",
   selectionChanged = "selectionChanged",
+  replaceFontHistoryChanged = "replaceFontHistoryChanged",
 }
 
 export default class ChangeFontsCmd implements Cmd {
-  constructor(private figmaService: FigmaService) {}
+  constructor(
+    private figmaService: FigmaService,
+    private configService: ConfigService
+  ) {}
 
   public async onRun(args: any): Promise<void> {
     figma.showUI(__uiFiles__.changeFonts, {
       width: 300,
-      height: 400,
+      height: 330,
       title: `Change Fonts`,
     });
   }
@@ -43,9 +50,60 @@ export default class ChangeFontsCmd implements Cmd {
         break;
       case MsgType.change:
         await this.onChange(message.data as ChangeFontsChangeState);
-        await this.sendSelectionChanged();
+        break;
+      case MsgType.deleteReplaceFontHistory:
+        await this.onDeleteReplaceFontHistory(
+          message.data as ChangeFontsDeleteReplaceFontHistoryState
+        );
         break;
     }
+  }
+
+  private async onDeleteReplaceFontHistory({
+    replaceFont,
+  }: ChangeFontsDeleteReplaceFontHistoryState): Promise<void> {
+    // Delete replace font history
+    const previousHistory =
+      (await this.configService.getReplaceFontHistory()) ?? [];
+    const replaceFontHistory = previousHistory.filter(
+      (history) =>
+        history.family !== replaceFont.family ||
+        history.style !== replaceFont.style
+    );
+    this.configService.setReplaceFontHistory(replaceFontHistory);
+
+    // Send replace font history changed
+    figma.ui.postMessage({
+      type: MsgType.replaceFontHistoryChanged,
+      data: {
+        replaceFontHistory,
+      },
+    });
+  }
+
+  private async saveReplaceFontHistoryChanged(
+    replaceFont: FontName
+  ): Promise<void> {
+    // Save replace font history
+    const previousHistory =
+      (await this.configService.getReplaceFontHistory()) ?? [];
+    const history = previousHistory.find(
+      (history) =>
+        history.family === replaceFont.family &&
+        history.style === replaceFont.style
+    );
+    const replaceFontHistory = history
+      ? previousHistory
+      : [...previousHistory, replaceFont];
+    this.configService.setReplaceFontHistory(replaceFontHistory);
+
+    // Send replace font history changed
+    figma.ui.postMessage({
+      type: MsgType.replaceFontHistoryChanged,
+      data: {
+        replaceFontHistory,
+      },
+    });
   }
 
   private async sendSelectionChanged(): Promise<void> {
@@ -61,12 +119,15 @@ export default class ChangeFontsCmd implements Cmd {
   private async onInit(): Promise<void> {
     const availableFonts = await figma.listAvailableFontsAsync();
     const targets = await this.getSelectedTargetFonts();
+    const replaceFontHistory =
+      (await this.configService.getReplaceFontHistory()) ?? [];
 
     figma.ui.postMessage({
       type: MsgType.init,
       data: <ChangeFontsInitState>{
         targets,
         availableFonts,
+        replaceFontHistory,
         replaceFont: {
           family: availableFonts[0].fontName.family,
           style: availableFonts[0].fontName.style,
@@ -94,6 +155,7 @@ export default class ChangeFontsCmd implements Cmd {
       return;
     }
 
+    let nNode = 0;
     for (const node of nodes) {
       const textNode = await figma.getNodeByIdAsync(node.id);
       if (!textNode) {
@@ -105,7 +167,13 @@ export default class ChangeFontsCmd implements Cmd {
         fonts: [replaceFont],
         cb: (textList) => textList,
       });
+      nNode++;
+      Notification.i(`${nNode}/${nodes.length} changing...`);
     }
+
+    Notification.i(`${nNode} fonts changed.`);
+    await this.sendSelectionChanged();
+    await this.saveReplaceFontHistoryChanged(replaceFont);
   }
 
   private getCheckedTargetNodes(targets: ChangeFontsTargets): TextNode[] {

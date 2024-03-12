@@ -10,10 +10,8 @@ export type ChangeFontsTargets = {
 export type ChangeFontsInitState = {
   targets: ChangeFontsTargets;
   availableFonts: Font[];
-  replaceFont: {
-    family: string;
-    style: string;
-  };
+  replaceFontHistory: FontName[];
+  replaceFont: FontName;
 };
 
 export type ChangeFontsFocusState = {
@@ -22,8 +20,9 @@ export type ChangeFontsFocusState = {
 
 export type ChangeFontsChangeState = {
   targets: ChangeFontsTargets;
-  replaceFont: {
-    family: string;
-    style: string;
-  };
+  replaceFont: FontName;
+};
+
+export type ChangeFontsDeleteReplaceFontHistoryState = {
+  replaceFont: FontName;
 };

@@ -42,6 +42,22 @@
   margin: 4px;
 }
 
+#replaceFont .historyContainer .history{
+  display: flex;
+  align-items: center;
+}
+
+#replaceFont .historyContainer .history .font{
+  flex-grow: 1;
+  padding: 8px;
+  cursor: pointer;
+}
+
+#replaceFont .historyContainer .history .deleteButton{
+  border: none;
+  width: 42px;
+}
+
 footer button {
   flex-grow: 1;
   height: var(--button-height);

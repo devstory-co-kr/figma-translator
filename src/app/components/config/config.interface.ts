@@ -4,6 +4,7 @@ import { TranslateState } from "../../cmds/translate/translate.state";
 export interface Config {
   translateState: TranslateState;
   createTemplatesState: CreateTemplatesState;
+  changeFontsHistory: FontName[];
 }
 
 export interface ConfigService {
@@ -15,11 +16,14 @@ export interface ConfigService {
     createTemplatesState: CreateTemplatesState
   ): Promise<void>;
 
+  getReplaceFontHistory(): Promise<FontName[] | undefined>;
+  setReplaceFontHistory(replaceFontHistory: FontName[]): Promise<void>;
+
   clear(): Promise<void>;
 }
 
 export interface ConfigRepository {
-  key:string;
+  key: string;
   get(): Promise<Partial<Config>>;
   set(config: Partial<Config>): Promise<void>;
 }
