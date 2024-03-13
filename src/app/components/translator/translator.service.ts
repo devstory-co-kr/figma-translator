@@ -1,4 +1,5 @@
 import * as he from "he";
+import Constants from "../../../util/constants";
 import { TranslatorLanguage } from "../translator_language/translator_language.interface";
 import { TranslatorCacheService } from "./cache/translator_cache.interface";
 import { TranslatorCacheKey } from "./cache/translator_cache_key";
@@ -63,19 +64,6 @@ export class TranslatorServiceImpl implements TranslatorService {
     );
   }
 
-  private paramReplaceKeys: string[] = [
-    "😀",
-    "😃",
-    "😄",
-    "😁",
-    "🥹",
-    "😅",
-    "😂",
-    "🤣",
-    "🥲",
-    "😊",
-  ];
-
   private encodeText(text: string, exclusionKeywords: string[]): EncodeResult {
     let count = 0;
     const parmKeywordDict: Record<string, string> = {};
@@ -87,15 +75,16 @@ export class TranslatorServiceImpl implements TranslatorService {
           let paramReplaceKey: string;
           if (keywordParmDict[keyword]) {
             paramReplaceKey = keywordParmDict[keyword];
-          } else if (count >= this.paramReplaceKeys.length) {
-            const share = Math.floor(count / this.paramReplaceKeys.length);
-            const remainder = count % this.paramReplaceKeys.length;
+          } else if (count >= Constants.paramReplaceKeys.length) {
+            const share = Math.floor(count / Constants.paramReplaceKeys.length);
+            const remainder = count % Constants.paramReplaceKeys.length;
             paramReplaceKey =
-              this.paramReplaceKeys[share] + this.paramReplaceKeys[remainder];
+              Constants.paramReplaceKeys[share] +
+              Constants.paramReplaceKeys[remainder];
             keywordParmDict[keyword] = paramReplaceKey;
             count++;
           } else {
-            paramReplaceKey = this.paramReplaceKeys[count];
+            paramReplaceKey = Constants.paramReplaceKeys[count];
             keywordParmDict[keyword] = paramReplaceKey;
             count++;
           }
