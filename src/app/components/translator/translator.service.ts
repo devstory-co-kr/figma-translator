@@ -80,29 +80,32 @@ export class TranslatorServiceImpl implements TranslatorService {
     let count = 0;
     const parmKeywordDict: Record<string, string> = {};
     const keywordParmDict: Record<string, string> = {};
-    const encodedText = text.replace(/\b(\w+)\b/g, (match, keyword) => {
-      if (exclusionKeywords.includes(keyword.toLowerCase())) {
-        let paramReplaceKey: string;
-        if (keywordParmDict[keyword]) {
-          paramReplaceKey = keywordParmDict[keyword];
-        } else if (count >= this.paramReplaceKeys.length) {
-          const share = Math.floor(count / this.paramReplaceKeys.length);
-          const remainder = count % this.paramReplaceKeys.length;
-          paramReplaceKey =
-            this.paramReplaceKeys[share] + this.paramReplaceKeys[remainder];
-          keywordParmDict[keyword] = paramReplaceKey;
-          count++;
+    const encodedText = text
+      .split(" ")
+      .map((keyword) => {
+        if (exclusionKeywords.includes(keyword.toLowerCase())) {
+          let paramReplaceKey: string;
+          if (keywordParmDict[keyword]) {
+            paramReplaceKey = keywordParmDict[keyword];
+          } else if (count >= this.paramReplaceKeys.length) {
+            const share = Math.floor(count / this.paramReplaceKeys.length);
+            const remainder = count % this.paramReplaceKeys.length;
+            paramReplaceKey =
+              this.paramReplaceKeys[share] + this.paramReplaceKeys[remainder];
+            keywordParmDict[keyword] = paramReplaceKey;
+            count++;
+          } else {
+            paramReplaceKey = this.paramReplaceKeys[count];
+            keywordParmDict[keyword] = paramReplaceKey;
+            count++;
+          }
+          parmKeywordDict[paramReplaceKey] = keyword;
+          return paramReplaceKey;
         } else {
-          paramReplaceKey = this.paramReplaceKeys[count];
-          keywordParmDict[keyword] = paramReplaceKey;
-          count++;
+          return keyword;
         }
-        parmKeywordDict[paramReplaceKey] = keyword;
-        return paramReplaceKey;
-      } else {
-        return match;
-      }
-    });
+      })
+      .join(" ");
     return {
       dictionary: parmKeywordDict,
       encodedText,

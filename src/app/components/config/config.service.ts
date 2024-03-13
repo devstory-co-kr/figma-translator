@@ -1,4 +1,3 @@
-import { ChangeFontsHistory } from "../../cmds/change_fonts/change_fonts.state";
 import { CreateTemplatesState } from "../../cmds/create_templates/create_templates.state";
 import { TranslateState } from "../../cmds/translate/translate.state";
 import { ConfigRepository, ConfigService } from "./config.interface";
@@ -38,15 +37,13 @@ export class ConfigServiceImpl implements ConfigService {
     });
   }
 
-  public async getReplaceFontHistory(): Promise<
-    ChangeFontsHistory | undefined
-  > {
+  public async getReplaceFontHistory(): Promise<FontName[] | undefined> {
     const config = await this.configRepository.get();
     return config?.changeFontsHistory;
   }
 
   public async setReplaceFontHistory(
-    changeFontsHistory: ChangeFontsHistory
+    changeFontsHistory: FontName[]
   ): Promise<void> {
     const config = await this.configRepository.get();
     this.configRepository.set({
