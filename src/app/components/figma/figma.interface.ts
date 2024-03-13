@@ -16,6 +16,12 @@ export type FontReplacement = {
   [targetLanguageLocale: string]: FontName[];
 };
 
+export type Fonts = {
+  [fontFamily: string]: {
+    [style: string]: TextNode[];
+  };
+};
+
 export interface FigmaService {
   search(args: {
     node: SceneNode;
@@ -23,10 +29,22 @@ export interface FigmaService {
     cb: (node: SceneNode) => Promise<void>;
   }): Promise<void>;
 
+  getFontsFromSelection(): Promise<Fonts>;
+
   getNodesByType(
     nodeList: readonly SceneNode[],
     typeList: string[]
   ): SceneNode[];
+
+  replaceFont({
+    node,
+    targetFonts,
+    replaceFont,
+  }: {
+    node: TextNode;
+    targetFonts: FontName[];
+    replaceFont: FontName;
+  }): Promise<void>;
 
   replaceText({
     node,
@@ -37,7 +55,7 @@ export interface FigmaService {
     node: TextNode;
     autoSize: boolean;
     fonts?: FontName[];
-    cb: (textList: string[]) => Promise<string[]>;
+    cb: (textList: string[]) => Promise<string[]> | string[];
   }): Promise<void>;
 
   createFrames({
@@ -100,6 +118,18 @@ export interface FigmaRepository {
     jointList: string[];
     fontSizeDelta: number;
     fonts?: FontName[];
+  }): Promise<void>;
+
+  replaceFonts({
+    node,
+    segments,
+    targetFonts,
+    replaceFont,
+  }: {
+    node: TextNode;
+    segments: StyledTextSegment[];
+    targetFonts: FontName[];
+    replaceFont: FontName;
   }): Promise<void>;
 
   createFrame({

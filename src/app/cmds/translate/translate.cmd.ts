@@ -5,6 +5,7 @@ import {
   FigmaService,
   FontReplacement,
 } from "../../components/figma/figma.interface";
+import { TranslatorCacheService } from "../../components/translator/cache/translator_cache.interface";
 import { TranslatorService } from "../../components/translator/translator.interface";
 import {
   TranslatorLanguage,
@@ -17,6 +18,7 @@ enum MsgType {
   init = "init",
   translate = "translate",
   translateStateChanged = "translateStateChanged",
+  clearCache = "clearCache",
 }
 
 export class TranslateCmd implements Cmd {
@@ -24,6 +26,7 @@ export class TranslateCmd implements Cmd {
     private figmaService: FigmaService,
     private configService: ConfigService,
     private translatorService: TranslatorService,
+    private translatorCacheService: TranslatorCacheService,
     private translatorLanguageService: TranslatorLanguageService
   ) {}
 
@@ -84,6 +87,9 @@ export class TranslateCmd implements Cmd {
       case MsgType.translate:
         this.onTranslate(message.data as TranslateState);
         break;
+      case MsgType.clearCache:
+        this.onClearCache();
+        break;
     }
   }
 
@@ -109,7 +115,9 @@ export class TranslateCmd implements Cmd {
       // Create default state
       translateState = <TranslateState>{
         autoSize: true,
+        useCache: true,
         sourceLanguage: this.sourceLanguage,
+        exclusionKeywords: [],
         fontReplacementState: [
           {
             language: languageMap[this.languageName.Myanmar],
@@ -189,7 +197,13 @@ export class TranslateCmd implements Cmd {
   }
 
   private async onTranslate(translateState: TranslateState) {
-    const { sourceLanguage, autoSize, fontReplacementState } = translateState;
+    const {
+      sourceLanguage,
+      autoSize,
+      useCache,
+      exclusionKeywords,
+      fontReplacementState,
+    } = translateState;
     const fontReplacement: FontReplacement = {};
     for (const { isChecked, language, font } of fontReplacementState) {
       if (!isChecked) continue;
@@ -201,12 +215,25 @@ export class TranslateCmd implements Cmd {
     }
 
     // Translate
-    await this.translate(sourceLanguage, autoSize, fontReplacement);
+    await this.translate(
+      sourceLanguage,
+      autoSize,
+      useCache,
+      exclusionKeywords.map((keyword) => keyword.toLocaleLowerCase()),
+      fontReplacement
+    );
+  }
+
+  private async onClearCache() {
+    const nDeleted = await this.translatorCacheService.clear();
+    Notification.i(`${nDeleted} translation cache deleted.`);
   }
 
   private async translate(
     sourceLanguage: TranslatorLanguage,
     autoSize: boolean,
+    useCache: boolean,
+    exclusionKeywords: string[],
     fontReplacement: FontReplacement
   ): Promise<void> {
     try {
@@ -248,6 +275,8 @@ export class TranslateCmd implements Cmd {
                     return (
                       (await this.translatorService.freeTranslate(
                         textList,
+                        useCache,
+                        exclusionKeywords,
                         sourceLanguage,
                         targetLanguage
                       )) ?? []

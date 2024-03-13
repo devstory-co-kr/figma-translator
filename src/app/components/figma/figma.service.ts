@@ -5,10 +5,42 @@ import {
   Size,
   Template,
 } from "../template/template.interface";
-import { FigmaRepository, FigmaService, FrameInfo } from "./figma.interface";
+import {
+  FigmaRepository,
+  FigmaService,
+  Fonts,
+  FrameInfo,
+} from "./figma.interface";
 
 export class FigmaServiceImpl implements FigmaService {
   constructor(private figmaRepository: FigmaRepository) {}
+
+  public async getFontsFromSelection(): Promise<Fonts> {
+    const fonts: Fonts = {};
+    for (const selection of figma.currentPage.selection) {
+      await this.search({
+        node: selection,
+        skipInvisibleNode: true,
+        cb: async (node) => {
+          if (node.type === "TEXT") {
+            const { segments } =
+              this.figmaRepository.getStyleMixedTextSegments(node);
+            for (const segment of segments) {
+              const { family, style } = segment.fontName;
+              if (!fonts[family]) {
+                fonts[family] = {};
+              }
+              if (!fonts[family][style]) {
+                fonts[family][style] = [];
+              }
+              fonts[family][style].push(node);
+            }
+          }
+        },
+      });
+    }
+    return fonts;
+  }
 
   public createFrames({
     templates,
@@ -84,6 +116,26 @@ export class FigmaServiceImpl implements FigmaService {
     instance.x = position.x;
     instance.y = position.y;
     return instance;
+  }
+
+  public async replaceFont({
+    node,
+    targetFonts,
+    replaceFont,
+  }: {
+    node: TextNode;
+    targetFonts: FontName[];
+    replaceFont: FontName;
+  }): Promise<void> {
+    const { segments, textList, jointList } =
+      this.figmaRepository.getStyleMixedTextSegments(node);
+    await this.figmaRepository.loadFonts([...targetFonts, replaceFont]);
+    await this.figmaRepository.replaceFonts({
+      node,
+      segments,
+      targetFonts,
+      replaceFont,
+    });
   }
 
   public async replaceText({

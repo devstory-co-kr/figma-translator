@@ -1,20 +1,24 @@
 export default class FontReplacement {
   html = {
-    fonts: document.querySelector("#fontReplacement"),
     container: document.querySelector("#fontReplacement .container"),
     checkbox: document.querySelector("#fontReplacementCheckbox"),
     searchInput: document.querySelector("#fontReplacementSearchInput"),
     searchClearButton: document.querySelector(
       "#fontReplacement .inputClearButton"
     ),
+    fontsContainer: document.querySelector("#fontReplacement .fontsContainer"),
   };
   state;
   onChanged;
 
   constructor(fontReplacementState, onChanged) {
     this.onChanged = onChanged;
-    this.emit(fontReplacementState);
-    this.html.checkbox.checked = this.state.find((item) => item.isChecked)
+    this.emit({
+      fontReplacementState,
+    });
+    this.html.checkbox.checked = this.state.fontReplacementState.find(
+      (item) => item.isChecked
+    )
       ? true
       : false;
 
@@ -22,22 +26,22 @@ export default class FontReplacement {
     this.html.searchClearButton.addEventListener("click", (event) => {
       this.html.searchClearButton.style.opacity = 0;
       this.html.searchInput.value = "";
-      this.emit(
-        this.state.map((s) => {
+      this.emit({
+        fontReplacementState: this.state.fontReplacementState.map((s) => {
           s.isVisible = true;
           return s;
-        })
-      );
+        }),
+      });
     });
 
     // Toggle
     this.html.checkbox.addEventListener("click", (event) => {
-      this.emit(
-        this.state.map((s) => {
+      this.emit({
+        fontReplacementState: this.state.fontReplacementState.map((s) => {
           s.isChecked = event.target.checked;
           return s;
-        })
-      );
+        }),
+      });
       this.onChanged(this.state);
     });
 
@@ -47,14 +51,14 @@ export default class FontReplacement {
     this.html.searchInput.addEventListener("input", (event) => {
       const value = event.target.value;
       this.html.searchClearButton.style.opacity = value ? 1 : 0;
-      this.emit(
-        this.state.map((s) => {
+      this.emit({
+        fontReplacementState: this.state.fontReplacementState.map((s) => {
           s.isVisible = `${s.language.name} ${s.language.locale}`
             .toLocaleLowerCase()
             .includes(value.toLocaleLowerCase());
           return s;
-        })
-      );
+        }),
+      });
     });
   }
 
@@ -69,7 +73,7 @@ export default class FontReplacement {
     this.html.container.innerHTML = "";
 
     // Add template
-    for (const item of this.state) {
+    for (const item of this.state.fontReplacementState) {
       const languageName = item.language.name;
       const display = item.isVisible ? "flex" : "none";
       const checked = item.isChecked ? "checked" : "";
@@ -92,7 +96,9 @@ export default class FontReplacement {
       itemWrapper.addEventListener("click", (event) => {
         if (event.target.type === "checkbox") {
           item.isChecked = event.target.checked;
-          this.emit([...this.state]);
+          this.emit({
+            ...this.state,
+          });
           this.onChanged(this.state);
         }
       });

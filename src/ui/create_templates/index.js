@@ -51,7 +51,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 class CreateTemplates {
   channel;
-  widgets;
+  html;
   state;
 
   emit(state) {
@@ -76,7 +76,7 @@ class CreateTemplates {
   ) {
     this.channel = channel;
 
-    this.widgets = {
+    this.html = {
       platform: new Platform(platform, (changedPlatform) => {
         // On platform changed
         this.emit({
@@ -145,8 +145,8 @@ class CreateTemplates {
   }
 
   render() {
-    this.widgets.templates.emit(this.state.templates[this.state.platform]);
-    this.widgets.targetLocales.emit(
+    this.html.templates.emit(this.state.templates[this.state.platform]);
+    this.html.targetLocales.emit(
       this.state.targetLocales[this.state.textDirection]
     );
   }

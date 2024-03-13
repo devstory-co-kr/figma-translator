@@ -1,8 +1,8 @@
 import { App } from "./app.interface";
+import ChangeFontsCmd from "./cmds/change_fonts/change_fonts.cmd";
 import { Cmd, Cmds } from "./cmds/cmd";
 import { CreateTemplatesCmd } from "./cmds/create_templates/create_templates.cmd";
-import { DeleteTranslationCacheCmd } from "./cmds/delete_translation_cache.cmd";
-import { ResetConfigurationCmd } from "./cmds/reset_configration.cmd";
+import ResetConfigurationCmd from "./cmds/reset_configuration/reset_configuration.cmd";
 import { TranslateCmd } from "./cmds/translate/translate.cmd";
 import { ConfigRepositoryImpl } from "./components/config/config.repository";
 import { ConfigServiceImpl } from "./components/config/config.service";
@@ -79,6 +79,7 @@ export class FigmaTranslator implements App {
       this.figmaService,
       this.configService,
       this.translatorService,
+      this.translatorCacheService,
       this.translatorLanguageService
     ),
     [Cmds.createTemplates]: new CreateTemplatesCmd(
@@ -87,9 +88,10 @@ export class FigmaTranslator implements App {
       this.platformService,
       this.templateService
     ),
-    [Cmds.deleteTranslationCache]: new DeleteTranslationCacheCmd(
-      this.translatorCacheService
-    ),
     [Cmds.resetConfiguration]: new ResetConfigurationCmd(this.configService),
+    [Cmds.changeFonts]: new ChangeFontsCmd(
+      this.figmaService,
+      this.configService
+    ),
   };
 }

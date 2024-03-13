@@ -11,6 +11,7 @@
   ],
   "ui": {
     "translate": "dist/ui/translate.html",
+    "changeFonts": "dist/ui/change_fonts.html",
     "createTemplates": "dist/ui/create_templates.html"
   },
   "networkAccess": {
@@ -38,12 +39,12 @@
       "command": "createTemplates"
     },
     {
-      "name": "Delete Translation Cache",
-      "command": "deleteTranslationCache"
-    },
-    {
       "name": "Reset Configuration",
       "command": "resetConfiguration"
+    },
+    {
+      "name": "Change Fonts",
+      "command": "changeFonts"
     }
   ]
 }

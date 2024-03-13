@@ -1,0 +1,68 @@
+#targetFont .container {
+  height: 150px;
+  overflow: scroll;
+}
+
+#targetFont .container .font {
+  padding: 4px;
+}
+
+#targetFont .container .font .fontFamily {
+  white-space: nowrap;
+  padding: 0 4px;
+  margin: 2px;
+  font-weight: bold;
+}
+
+#targetFont .container .font .fontStyleContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#targetFont .container .font .fontStyleContainer .fontStyle {
+  border: 1px solid rgba(var(--primary-color), 1);
+  color: rgba(var(--primary-color), 1);
+  border-radius: 8px;
+  padding: 4px;
+  cursor: pointer;
+  margin: 2px;
+}
+
+#targetFont .container .font .fontStyleContainer .fontStyle.checked {
+  background-color: rgba(var(--primary-color), 1);
+  color: white;
+}
+
+#replaceFont .container{
+  padding: 4px;
+}
+
+#replaceFont select {
+  margin: 4px;
+}
+
+#replaceFont .historyContainer .history{
+  display: flex;
+  align-items: center;
+}
+
+#replaceFont .historyContainer .history .font{
+  flex-grow: 1;
+  padding: 8px;
+  cursor: pointer;
+}
+
+#replaceFont .historyContainer .history .deleteButton{
+  border: none;
+  width: 42px;
+}
+
+footer button {
+  flex-grow: 1;
+  height: var(--button-height);
+}
+
+footer button:nth-child(1) {
+  margin-right: 8px;
+}

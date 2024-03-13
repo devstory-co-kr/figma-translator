@@ -8,6 +8,31 @@ export class FigmaRepositoryImpl implements FigmaRepository {
     ]);
   }
 
+  public async replaceFonts({
+    node,
+    segments,
+    targetFonts,
+    replaceFont,
+  }: {
+    node: TextNode;
+    segments: StyledTextSegment[];
+    targetFonts: FontName[];
+    replaceFont: FontName;
+  }): Promise<void> {
+    for (const segment of segments) {
+      const { family, style } = segment.fontName;
+      const index = targetFonts.findIndex((targetFont) => {
+        return targetFont.family === family && targetFont.style === style;
+      });
+      const isTarget = index !== -1;
+      if (!isTarget) {
+        continue;
+      }
+
+      node.setRangeFontName(segment.start, segment.end, replaceFont);
+    }
+  }
+
   public async setStyledMixedTextSegments({
     node,
     segments,
@@ -29,11 +54,32 @@ export class FigmaRepositoryImpl implements FigmaRepository {
       const jointSize = jointList.slice(0, i).reduce((p, c) => p + c.length, 0);
       const end = start + jointSize + textList[i].length;
 
-      // If there are fonts received, use the font with the same style.
-      const sameStyleFonts =
-        fonts?.filter((f) => f.style === segment.fontName.style) ?? [];
-      const fontName =
-        sameStyleFonts.length > 0 ? sameStyleFonts[0] : segment.fontName;
+      let fontName: FontName;
+      const replaceFonts = fonts ?? [];
+      if (replaceFonts.length === 1) {
+        // If there is only one font you want to change
+        fontName = replaceFonts[0];
+      } else if (replaceFonts.length > 1) {
+        // If there are multiple fonts you want to change
+        let sameStyleFont: FontName | undefined;
+        let regularStyleFont: FontName | undefined;
+        for (const replaceFont of replaceFonts) {
+          if (replaceFont.style.toLocaleLowerCase() === "regular") {
+            regularStyleFont = replaceFont;
+          }
+          if (
+            replaceFont.style.toLocaleLowerCase() ===
+            segment.fontName.style.toLocaleLowerCase()
+          ) {
+            sameStyleFont = replaceFont;
+            break;
+          }
+        }
+        fontName = sameStyleFont ?? regularStyleFont ?? segment.fontName;
+      } else {
+        // Default
+        fontName = segment.fontName;
+      }
 
       node.setRangeFontSize(start, end, segment.fontSize + fontSizeDelta);
       node.setRangeFontName(start, end, fontName);

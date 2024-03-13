@@ -1,25 +1,22 @@
 export default class AutoSize {
   html = {
     container: document.querySelector("#autoSize"),
-    on: document.querySelector("#autoSizeOn"),
-    off: document.querySelector("#autoSizeOff"),
+    switchContainer: document.querySelector("#autoSize .switchContainer"),
+    switch: document.querySelector("#autoSize .switchContainer input"),
   };
 
   state;
 
   constructor(autoSize, onAutoSizeChanged) {
+    this.html.switchContainer.addEventListener("click", (event) => {
+      this.emit({
+        autoSize: this.html.switch.checked,
+      });
+      onAutoSizeChanged(this.state.autoSize);
+    });
+
     this.emit({
       autoSize,
-    });
-    this.html.container.addEventListener("click", (event) => {
-      if (event.target.type === "radio") {
-        const value = event.target.value === "true";
-        this.emit({
-          ...this.state,
-          autoSize: value,
-        });
-        onAutoSizeChanged(this.state.autoSize);
-      }
     });
   }
 
@@ -30,7 +27,6 @@ export default class AutoSize {
   }
 
   render() {
-    this.html.on.checked = this.state.autoSize;
-    this.html.off.checked = !this.state.autoSize;
+    this.html.switch.checked = this.state.autoSize ? "checked" : "";
   }
 }

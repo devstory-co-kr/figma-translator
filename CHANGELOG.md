@@ -2,6 +2,18 @@
 
 All notable changes to the "Translator" plugin will be documented in this file.
 
+## [1.4.0] - 24.03.12
+### Added
+- Add exclusion keywords.
+- Add cache controll interface.
+- Add `Change Fonts` command.
+
+### Updated
+- When replacing fonts, if there is no same style, `Regular` is applied.
+
+### Deleted
+- Delete `Delete Translation Cache` command.
+
 ## [1.3.0] - 24.03.10
 ### Added
 - Add font replacement.

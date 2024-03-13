@@ -1,8 +1,8 @@
 export enum Cmds {
   translate = "translate",
   createTemplates = "createTemplates",
-  deleteTranslationCache = "deleteTranslationCache",
   resetConfiguration = "resetConfiguration",
+  changeFonts = "changeFonts",
 }
 
 export interface Cmd {

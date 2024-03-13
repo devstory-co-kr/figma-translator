@@ -7,58 +7,119 @@
       <select name="sourceLanguage"></select>
     </fieldset>
 
-    <!-- Auto Size -->
-    <fieldset class="column" id="autoSize">
-      <legend class="title">Auto Size</legend>
-      <div class="description">Reduce font size when text becomes long.</div>
-      <div class="row" style="width: 100%">
-        <div class="radioOption" style="flex-grow: 1; width: 100%">
-          <input type="radio" name="autoSize" id="autoSizeOn" value="true" />
-          <label for="autoSizeOn">On</label>
+    <!-- Options -->
+    <fieldset class="column" id="options">
+      <legend style="flex-grow: 1">Options</legend>
+      <!-- Auto Size -->
+      <div
+        id="autoSize"
+        class="row w100"
+        style="align-items: start; padding: 8px"
+      >
+        <div class="column w100" style="padding-right: 8px">
+          <legend style="flex-grow: 1; font-weight: normal;">Auth Size</legend>
+          <div class="description" style="padding: 0; margin-left: 2px">
+            Reduce font size when text becomes long.
+          </div>
         </div>
-        <div class="radioOption" style="flex-grow: 1; width: 100%">
-          <input type="radio" name="autoSize" id="autoSizeOff" value="false" />
-          <label for="autoSizeOff">Off</label>
+        <label class="switch switchContainer">
+          <input type="checkbox" />
+          <span class="slider round"></span>
+        </label>
+      </div>
+      
+      <!-- Cache -->
+      <div
+        id="cache"
+        class="row w100"
+        style="align-items: start; padding: 8px"
+      >
+        <div class="column w100" style="padding-right: 8px">
+          <legend style="flex-grow: 1; font-weight: normal;">Cache</legend>
+          <div class="description" style="padding: 0; margin-left: 2px">
+            Whether to use cached translations.
+          </div>
         </div>
+        <label class="switch switchContainer">
+          <input type="checkbox" />
+          <span class="slider round"></span>
+        </label>
       </div>
     </fieldset>
 
-    <!-- Font Replacement -->
-    <fieldset id="fontReplacement">
-      <legend class="title">Font Replacement</legend>
-      <div class="description">Change the font when translating.</div>
+    <!-- Exclusion Keywords -->
+    <fieldset id="exclusionKeywords">
+      <legend class="title">Exclusion Keywords</legend>
+      <div class="description">
+        Please enter keywords that you do not want to translate. (Case
+        insensitive)
+      </div>
       <div class="column">
         <div
           class="row w100"
-          style="padding: 4px 8px 4px 4px; box-sizing: border-box"
+          style="padding: 4px 8px; box-sizing: border-box"
         >
-          <!-- Checkbox -->
-          <input
-            id="fontReplacementCheckbox"
-            type="checkbox"
-            style="margin: 9px 8px 8px 4px"
-          />
           <!-- Search -->
           <div class="searchContainer w100">
             <input
               class="w100"
-              id="fontReplacementSearchInput"
+              id="exclusionKeywordsSearchInput"
               type="text"
-              placeholder="Search"
+              placeholder="Keywords"
             />
             <button class="inputClearButton">×</button>
           </div>
+          <!--  Add Button -->
+          <button
+            id="exclusionKeywordsAddButton"
+            style="height: 28px; margin-left: 4px"
+          >
+            Add
+          </button>
         </div>
 
         <hr />
-        <!-- Fonts -->
+        <!-- Keywords -->
         <div class="container w100"></div>
-      </div>
     </fieldset>
+  
+  <!-- Font Replacement -->
+  <fieldset id="fontReplacement">
+    <legend class="title">Font Replacement</legend>
+    <div class="description">Change the font when translating.</div>
+    <div class="column">
+      <div
+        class="row w100"
+        style="padding: 4px 8px 4px 4px; box-sizing: border-box"
+      >
+        <!-- Checkbox -->
+        <input
+          id="fontReplacementCheckbox"
+          type="checkbox"
+          style="margin: 9px 8px 8px 4px"
+        />
+        <!-- Search -->
+        <div class="searchContainer w100">
+          <input
+            class="w100"
+            id="fontReplacementSearchInput"
+            type="text"
+            placeholder="Search"
+          />
+          <button class="inputClearButton">×</button>
+        </div>
+      </div>
+
+      <hr />
+      <!-- Fonts -->
+      <div class="container w100"></div>
+    </div>
+  </fieldset>
   </main>
   <hr style="margin: 0" />
   <footer>
-    <!-- Translate Button -->
-    <button id="translateButton">Translate</button>
+      <button id="clearCacheButton">Clear Cache</button>
+      <!-- Translate Button -->
+      <button id="translateButton">Translate</button>
   </footer>
 </body>
