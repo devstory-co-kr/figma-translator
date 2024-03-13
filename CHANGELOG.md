@@ -2,6 +2,13 @@
 
 All notable changes to the "Translator" plugin will be documented in this file.
 
+## [1.4.2] - 24.03.13
+### Updated
+- Update to encode based on spacing when handling translation exclusions.
+
+### Fixed
+- Fix type error.
+
 ## [1.4.0] - 24.03.12
 ### Added
 - Add exclusion keywords.
