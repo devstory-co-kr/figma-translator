@@ -2,6 +2,10 @@
 
 All notable changes to the "Translator" plugin will be documented in this file.
 
+## [1.4.3] - 24.03.15
+### Fixed
+- Fix iOS template locales incorrect issue.
+
 ## [1.4.2] - 24.03.13
 ### Updated
 - Update to encode based on spacing when handling translation exclusions.

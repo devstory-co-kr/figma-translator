@@ -8,11 +8,13 @@ export type CreateTemplatesState = {
   textDirection: TextDirection;
   templateScale: number;
   targetLocales: {
-    [textDirection in TextDirection]: {
-      targetLocale: PlatformLocale;
-      isChecked: true;
-      isVisible: true;
-    }[];
+    [platform in Platform]: {
+      [textDirection in TextDirection]: {
+        targetLocale: PlatformLocale;
+        isChecked: true;
+        isVisible: true;
+      }[];
+    };
   };
   templates: {
     [platform in Platform]: {

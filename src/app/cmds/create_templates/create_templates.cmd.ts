@@ -71,24 +71,46 @@ export class CreateTemplatesCmd implements Cmd {
         textDirection: TextDirection.LTR,
         templateScale: Number(TemplateScale.x0_25),
         targetLocales: {
-          [TextDirection.LTR]: platformLocales[platform]
-            .filter(
-              (l) => l.translatorLanguage.textDirection === TextDirection.LTR
-            )
-            .map((targetLocale) => ({
-              targetLocale,
-              isChecked: true,
-              isVisible: true,
-            })),
-          [TextDirection.RTL]: platformLocales[platform]
-            .filter(
-              (l) => l.translatorLanguage.textDirection === TextDirection.RTL
-            )
-            .map((targetLocale) => ({
-              targetLocale,
-              isChecked: true,
-              isVisible: true,
-            })),
+          [Platform.Android]: {
+            [TextDirection.LTR]: platformLocales[Platform.Android]
+              .filter(
+                (l) => l.translatorLanguage.textDirection === TextDirection.LTR
+              )
+              .map((targetLocale) => ({
+                targetLocale,
+                isChecked: true,
+                isVisible: true,
+              })),
+            [TextDirection.RTL]: platformLocales[Platform.Android]
+              .filter(
+                (l) => l.translatorLanguage.textDirection === TextDirection.RTL
+              )
+              .map((targetLocale) => ({
+                targetLocale,
+                isChecked: true,
+                isVisible: true,
+              })),
+          },
+          [Platform.iOS]: {
+            [TextDirection.LTR]: platformLocales[Platform.iOS]
+              .filter(
+                (l) => l.translatorLanguage.textDirection === TextDirection.LTR
+              )
+              .map((targetLocale) => ({
+                targetLocale,
+                isChecked: true,
+                isVisible: true,
+              })),
+            [TextDirection.RTL]: platformLocales[Platform.iOS]
+              .filter(
+                (l) => l.translatorLanguage.textDirection === TextDirection.RTL
+              )
+              .map((targetLocale) => ({
+                targetLocale,
+                isChecked: true,
+                isVisible: true,
+              })),
+          },
         },
         templates: {
           [Platform.Android]: platformTemplates[Platform.Android].map(
@@ -125,7 +147,9 @@ export class CreateTemplatesCmd implements Cmd {
   private onCreateTemplates(state: CreateTemplatesState): void {
     this.createFrames({
       ...state,
-      targetLocales: state.targetLocales[state.textDirection].filter((l) => {
+      targetLocales: state.targetLocales[state.platform][
+        state.textDirection
+      ].filter((l) => {
         return l.isChecked;
       }),
       templates: state.templates[state.platform].filter((t) => {

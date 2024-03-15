@@ -1,6 +1,6 @@
 {
   "name": "translator",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Creates and translates Android and iOS store templates.",
   "main": "code.js",
   "scripts": {

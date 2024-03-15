@@ -105,14 +105,16 @@ class CreateTemplates {
         }
       ),
       targetLocales: new TargetLocales(
-        targetLocales[textDirection],
+        targetLocales[platform][textDirection],
         (changedTargetLocales) => {
           // On target locales changed
           this.emit({
             ...this.state,
             targetLocales: {
               ...this.state.targetLocales,
-              [this.state.textDirection]: changedTargetLocales,
+              [this.state.platform]: {
+                [this.state.textDirection]: changedTargetLocales,
+              },
             },
           });
         }
@@ -145,29 +147,10 @@ class CreateTemplates {
   }
 
   render() {
+    console.log(this.state);
     this.html.templates.emit(this.state.templates[this.state.platform]);
     this.html.targetLocales.emit(
-      this.state.targetLocales[this.state.textDirection]
+      this.state.targetLocales[this.state.platform][this.state.textDirection]
     );
-  }
-
-  getTemplates(platformTemplates, platform) {
-    return platformTemplates[platform].map((template) => ({
-      template,
-      isChecked: true,
-      count: template.frame.maxCount,
-    }));
-  }
-
-  getTargetLocales(platformLocales, platform, textDirection) {
-    return platformLocales[platform]
-      .filter((l) => l.translatorLanguage.textDirection === textDirection)
-      .map((locale) => {
-        return {
-          targetLocale: locale,
-          isChecked: true,
-          isVisible: true,
-        };
-      });
   }
 }
