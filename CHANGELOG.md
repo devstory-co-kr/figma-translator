@@ -2,6 +2,10 @@
 
 All notable changes to the "Translator" plugin will be documented in this file.
 
+## [1.4.4] - 24.03.15
+### Changed
+- Change template spacing based on template scale.
+
 ## [1.4.3] - 24.03.15
 ### Fixed
 - Fix iOS template locales incorrect issue.
