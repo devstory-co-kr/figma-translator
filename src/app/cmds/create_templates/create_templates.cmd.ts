@@ -228,8 +228,8 @@ export class CreateTemplatesCmd implements Cmd {
 
     // Create instance
     const instances: InstanceNode[] = [];
-    const instanceXGap = 64;
-    const instanceYGap = 64;
+    const instanceXGap = 500 * templateScale;
+    const instanceYGap = 500 * templateScale;
     const n = Math.ceil(Math.sqrt(targetLocales.length));
     for (let i = 0; i < targetLocales.length; i++) {
       const col = i % n;
