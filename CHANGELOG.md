@@ -2,6 +2,10 @@
 
 All notable changes to the "Translator" plugin will be documented in this file.
 
+## [1.4.5] - 24.03.17
+### Fixed
+- Fix screenshots order sorting issue.
+
 ## [1.4.4] - 24.03.15
 ### Changed
 - Change template spacing based on template scale.
