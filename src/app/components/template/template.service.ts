@@ -27,6 +27,6 @@ export class TemplateServiceImpl implements TemplateService {
     const count = this.templateRepository.count;
     return frame.name
       .replace(new RegExp(locale, "g"), platformLocale.locale)
-      .replace(new RegExp(count, "g"), `${index}`);
+      .replace(new RegExp(count, "g"), `${index}`.padStart(2, "0"));
   }
 }
