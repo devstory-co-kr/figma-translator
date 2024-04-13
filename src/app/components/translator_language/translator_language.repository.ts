@@ -124,12 +124,12 @@ export class TranslatorLanguageRepositoryImpl
     name: "Danish",
   });
   public dhivehi = new TranslatorLanguageEntity({
-    textDirection: TextDirection.LTR,
+    textDirection: TextDirection.RTL,
     locale: "dv",
     name: "Dhivehi",
   });
   public dogri = new TranslatorLanguageEntity({
-    textDirection: TextDirection.LTR,
+    textDirection: TextDirection.RTL,
     locale: "doi",
     name: "Dogri",
   });
@@ -319,7 +319,7 @@ export class TranslatorLanguageRepositoryImpl
     name: "Krio",
   });
   public kurdish = new TranslatorLanguageEntity({
-    textDirection: TextDirection.LTR,
+    textDirection: TextDirection.RTL,
     locale: "ku",
     name: "Kurdish",
   });
@@ -454,7 +454,7 @@ export class TranslatorLanguageRepositoryImpl
     name: "Oromo",
   });
   public pashto = new TranslatorLanguageEntity({
-    textDirection: TextDirection.LTR,
+    textDirection: TextDirection.RTL,
     locale: "ps",
     name: "Pashto",
   });
@@ -529,7 +529,7 @@ export class TranslatorLanguageRepositoryImpl
     name: "Shona",
   });
   public sindhi = new TranslatorLanguageEntity({
-    textDirection: TextDirection.LTR,
+    textDirection: TextDirection.RTL,
     locale: "sd",
     name: "Sindhi",
   });
@@ -639,7 +639,7 @@ export class TranslatorLanguageRepositoryImpl
     name: "Urdu",
   });
   public uyghur = new TranslatorLanguageEntity({
-    textDirection: TextDirection.LTR,
+    textDirection: TextDirection.RTL,
     locale: "ug",
     name: "Uyghur",
   });

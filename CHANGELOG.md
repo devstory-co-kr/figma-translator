@@ -2,6 +2,10 @@
 
 All notable changes to the "Translator" plugin will be documented in this file.
 
+## [1.4.6] - 24.04.13
+### Fixed
+- Fix languages incorrectly declared as LTR to RTL.
+
 ## [1.4.5] - 24.03.17
 ### Fixed
 - Fix screenshots order sorting issue.
