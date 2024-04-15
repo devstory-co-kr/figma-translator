@@ -2,6 +2,10 @@
 
 All notable changes to the "Translator" plugin will be documented in this file.
 
+## [1.4.7] - 24.04.15
+### Fixed
+- Fix Dogri, Kurdish and Kurdish(Sonari) languages text direction.
+
 ## [1.4.6] - 24.04.13
 ### Fixed
 - Fix languages incorrectly declared as LTR to RTL.
