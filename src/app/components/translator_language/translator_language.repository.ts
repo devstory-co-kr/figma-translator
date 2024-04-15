@@ -129,7 +129,7 @@ export class TranslatorLanguageRepositoryImpl
     name: "Dhivehi",
   });
   public dogri = new TranslatorLanguageEntity({
-    textDirection: TextDirection.RTL,
+    textDirection: TextDirection.LTR,
     locale: "doi",
     name: "Dogri",
   });
@@ -319,12 +319,12 @@ export class TranslatorLanguageRepositoryImpl
     name: "Krio",
   });
   public kurdish = new TranslatorLanguageEntity({
-    textDirection: TextDirection.RTL,
+    textDirection: TextDirection.LTR,
     locale: "ku",
     name: "Kurdish",
   });
   public kurdishSorani = new TranslatorLanguageEntity({
-    textDirection: TextDirection.LTR,
+    textDirection: TextDirection.RTL,
     locale: "ckb",
     name: "KurdishSorani",
   });
