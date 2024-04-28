@@ -47,11 +47,16 @@ export class TranslatorServiceImpl implements TranslatorService {
 
         // Translate
         const encodeResult = this.encodeText(q, exclusionKeywords);
-        const translatedText = await this.translatorRepository.freeTranslate(
-          encodeResult.encodedText,
-          sourceLang,
-          targetLang
+        const isOnlyEncodedText = Object.keys(encodeResult.dictionary).includes(
+          encodeResult.encodedText
         );
+        const translatedText = isOnlyEncodedText
+          ? encodeResult.encodedText
+          : await this.translatorRepository.freeTranslate(
+              encodeResult.encodedText,
+              sourceLang,
+              targetLang
+            );
         const decodedText = this.decodeText(
           encodeResult.dictionary,
           translatedText
