@@ -2,6 +2,10 @@
 
 All notable changes to the "Translator" plugin will be documented in this file.
 
+## [1.4.8] - 24.04.28
+### Updated
+- Update to not translate if is only encoded strings.
+
 ## [1.4.7] - 24.04.15
 ### Fixed
 - Fix Dogri, Kurdish and Kurdish(Sonari) languages text direction.
