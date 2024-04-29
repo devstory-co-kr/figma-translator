@@ -1,4 +1,6 @@
 # Figma Translator
+[![Figma](https://img.shields.io/badge/Figma-Plugin-F24E1E?logo=figma&logoColor=fff&style=flat&labelColor=F24E1E)](https://www.figma.com/community/plugin/1318492589926015701)
+<br>
 This is a plugin that creates translation and store templates.
 
 ## Features
