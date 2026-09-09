@@ -2,6 +2,10 @@
 
 All notable changes to the "Translator" plugin will be documented in this file.
 
+## [1.4.9] - 26.09.09
+### Changed
+- Change free translation endpoint to `clients5.google.com` with `dict-chrome-ex` client.
+
 ## [1.4.8] - 24.04.28
 ### Updated
 - Update to not translate if is only encoded strings.
