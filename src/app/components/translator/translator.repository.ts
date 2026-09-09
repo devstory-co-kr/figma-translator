@@ -42,7 +42,7 @@ export class TranslatorRepositoryImpl implements TranslatorRepository {
       const sl = sourceLang.locale;
       const tl = targetLang.locale;
       const res = await fetch(
-        `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sl}&tl=${tl}&dt=t&dt=bd&dj=1&source=icon&hl=${tl}&q=${q}`
+        `https://clients5.google.com/translate_a/single?client=dict-chrome-ex&sl=${sl}&tl=${tl}&dt=t&dt=bd&dt=md&dt=ss&dt=ex&dj=1&q=${q}`
       );
       const json: any = await res.json();
       if (res.status === 200) {

@@ -17,7 +17,7 @@
   "networkAccess": {
     "allowedDomains": [
       "https://translation.googleapis.com",
-      "https://translate.googleapis.com"
+      "https://clients5.google.com"
     ],
     "reasoning": "",
     "devAllowedDomains": []
